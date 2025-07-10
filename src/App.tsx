@@ -1,8 +1,9 @@
 import React from 'react';
+import TopSection from './components/TopSection';
 
 class App extends React.Component {
   render() {
-    return <h1>Hello, class-components!</h1>;
+    return <TopSection></TopSection>;
   }
 }
 
