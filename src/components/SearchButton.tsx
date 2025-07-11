@@ -1,8 +1,12 @@
 import React from 'react';
 
-class SearchButton extends React.Component {
+interface Props {
+  onClick: () => void;
+}
+
+class SearchButton extends React.Component<Props> {
   render() {
-    return <button>Search</button>;
+    return <button onClick={this.props.onClick}>Search</button>;
   }
 }
 

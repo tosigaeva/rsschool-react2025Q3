@@ -2,8 +2,12 @@ import React from 'react';
 import TopSection from './components/TopSection';
 
 class App extends React.Component {
+  handleSearch = (searchTerm: string) => {
+    localStorage.setItem('searchTerm', searchTerm);
+  };
+
   render() {
-    return <TopSection></TopSection>;
+    return <TopSection onSearch={this.handleSearch} />;
   }
 }
 
