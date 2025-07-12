@@ -10,12 +10,14 @@ interface Person {
 interface Props {
   results: Person[];
   hasSearch: boolean;
+  isLoading: boolean;
 }
 
 class BottomSection extends React.Component<Props> {
   render() {
-    const { results, hasSearch } = this.props;
+    const { results, hasSearch, isLoading } = this.props;
 
+    if (isLoading) return <p>Loading...</p>;
     if (hasSearch && !results.length) return <p>No results found.</p>;
 
     return (

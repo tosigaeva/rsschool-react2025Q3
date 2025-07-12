@@ -11,15 +11,19 @@ interface Person {
 interface State {
   results: Person[];
   hasSearch: boolean;
+  isLoading: boolean;
 }
 
 class App extends React.Component<Record<string, never>, State> {
   state = {
     results: [],
     hasSearch: false,
+    isLoading: false,
   };
 
   handleSearch = async (searchTerm: string) => {
+    this.setState({ results: [], isLoading: true });
+
     const url = searchTerm
       ? `https://swapi.py4e.com/api/people/?search=${encodeURIComponent(searchTerm)}`
       : 'https://swapi.py4e.com/api/people/';
@@ -29,13 +33,14 @@ class App extends React.Component<Record<string, never>, State> {
       const data = await response.json();
       const results: Person[] = data.results;
 
-      this.setState({ results, hasSearch: true }, () =>
+      this.setState({ results, hasSearch: true, isLoading: false }, () =>
         console.log(this.state.results)
       );
 
       localStorage.setItem('searchTerm', searchTerm);
     } catch (error) {
       console.error(error);
+      this.setState({ isLoading: false });
     }
   };
 
@@ -46,6 +51,7 @@ class App extends React.Component<Record<string, never>, State> {
         <BottomSection
           results={this.state.results}
           hasSearch={this.state.hasSearch}
+          isLoading={this.state.isLoading}
         />
       </>
     );
