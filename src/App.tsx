@@ -1,6 +1,7 @@
 import React from 'react';
 import TopSection from './components/TopSection';
 import BottomSection from './components/BottomSection';
+import ThrowErrorButton from './components/ThrowErrorButton';
 
 interface Person {
   name: string;
@@ -12,6 +13,7 @@ interface State {
   results: Person[];
   hasSearch: boolean;
   isLoading: boolean;
+  shouldThrow: boolean;
 }
 
 class App extends React.Component<Record<string, never>, State> {
@@ -19,6 +21,7 @@ class App extends React.Component<Record<string, never>, State> {
     results: [],
     hasSearch: false,
     isLoading: false,
+    shouldThrow: false,
   };
 
   handleSearch = async (searchTerm: string) => {
@@ -44,10 +47,19 @@ class App extends React.Component<Record<string, never>, State> {
     }
   };
 
+  handleThrow = () => {
+    this.setState({ shouldThrow: true });
+  };
+
   render() {
+    if (this.state.shouldThrow) {
+      throw new Error('Simulated render error');
+    }
+
     return (
       <>
         <TopSection onSearch={this.handleSearch} />
+        <ThrowErrorButton onClick={this.handleThrow} />
         <BottomSection
           results={this.state.results}
           hasSearch={this.state.hasSearch}
