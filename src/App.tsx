@@ -1,5 +1,6 @@
 import React from 'react';
 import TopSection from './components/TopSection';
+import BottomSection from './components/BottomSection';
 
 interface Person {
   name: string;
@@ -9,11 +10,13 @@ interface Person {
 
 interface State {
   results: Person[];
+  hasSearch: boolean;
 }
 
 class App extends React.Component<Record<string, never>, State> {
   state = {
     results: [],
+    hasSearch: false,
   };
 
   handleSearch = async (searchTerm: string) => {
@@ -26,7 +29,9 @@ class App extends React.Component<Record<string, never>, State> {
       const data = await response.json();
       const results: Person[] = data.results;
 
-      this.setState({ results }, () => console.log(this.state.results));
+      this.setState({ results, hasSearch: true }, () =>
+        console.log(this.state.results)
+      );
 
       localStorage.setItem('searchTerm', searchTerm);
     } catch (error) {
@@ -35,7 +40,15 @@ class App extends React.Component<Record<string, never>, State> {
   };
 
   render() {
-    return <TopSection onSearch={this.handleSearch} />;
+    return (
+      <>
+        <TopSection onSearch={this.handleSearch} />
+        <BottomSection
+          results={this.state.results}
+          hasSearch={this.state.hasSearch}
+        />
+      </>
+    );
   }
 }
 
