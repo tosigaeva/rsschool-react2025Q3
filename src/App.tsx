@@ -2,6 +2,7 @@ import React from 'react';
 import TopSection from './components/TopSection';
 import BottomSection from './components/BottomSection';
 import ThrowErrorButton from './components/ThrowErrorButton';
+import './App.css';
 
 interface Person {
   name: string;
@@ -71,6 +72,7 @@ class App extends React.Component<Record<string, never>, State> {
 
     return (
       <>
+        <h1>Star Wars Character Finder</h1>
         <TopSection onSearch={this.handleSearch} />
         <ThrowErrorButton onClick={this.handleThrow} />
         <BottomSection

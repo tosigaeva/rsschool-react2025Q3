@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from './Card';
+import '../App.css';
 
 interface Person {
   name: string;
@@ -20,10 +21,11 @@ class BottomSection extends React.Component<Props> {
 
     if (isLoading) return <p>Loading...</p>;
     if (errorMessage) return <p>{errorMessage}</p>;
-    if (hasSearch && !results.length) return <p>No results found.</p>;
+    if (hasSearch && !results.length)
+      return <p className="no-results">No results found.</p>;
 
     return (
-      <>
+      <div className="bottom-section">
         {results.map((item, index) => (
           <Card
             key={index}
@@ -32,7 +34,7 @@ class BottomSection extends React.Component<Props> {
             gender={item.gender}
           />
         ))}
-      </>
+      </div>
     );
   }
 }
