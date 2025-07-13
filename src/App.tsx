@@ -14,6 +14,7 @@ interface State {
   hasSearch: boolean;
   isLoading: boolean;
   shouldThrow: boolean;
+  errorMessage: string | null;
 }
 
 class App extends React.Component<Record<string, never>, State> {
@@ -22,10 +23,11 @@ class App extends React.Component<Record<string, never>, State> {
     hasSearch: false,
     isLoading: false,
     shouldThrow: false,
+    errorMessage: null,
   };
 
   handleSearch = async (searchTerm: string) => {
-    this.setState({ results: [], isLoading: true });
+    this.setState({ results: [], isLoading: true, errorMessage: null });
 
     const url = searchTerm
       ? `https://swapi.py4e.com/api/people/?search=${encodeURIComponent(searchTerm)}`
@@ -33,6 +35,13 @@ class App extends React.Component<Record<string, never>, State> {
 
     try {
       const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(
+          `Request failed: ${response.status} ${response.statusText}`
+        );
+      }
+
       const data = await response.json();
       const results: Person[] = data.results;
 
@@ -43,7 +52,11 @@ class App extends React.Component<Record<string, never>, State> {
       localStorage.setItem('searchTerm', searchTerm);
     } catch (error) {
       console.error(error);
-      this.setState({ isLoading: false });
+      this.setState({
+        isLoading: false,
+        errorMessage:
+          error instanceof Error ? error.message : 'Unknown error occurred',
+      });
     }
   };
 
@@ -64,6 +77,7 @@ class App extends React.Component<Record<string, never>, State> {
           results={this.state.results}
           hasSearch={this.state.hasSearch}
           isLoading={this.state.isLoading}
+          errorMessage={this.state.errorMessage}
         />
       </>
     );
