@@ -27,24 +27,28 @@ class App extends React.Component<Record<string, never>, State> {
     errorMessage: null,
   };
 
-  handleSearch = async (searchTerm: string) => {
-    this.setState({ results: [], isLoading: true, errorMessage: null });
-
+  fetchCharacters = async (searchTerm: string): Promise<Person[]> => {
     const url = searchTerm
       ? `https://swapi.py4e.com/api/people/?search=${encodeURIComponent(searchTerm)}`
       : 'https://swapi.py4e.com/api/people/';
 
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(
+        `Request failed: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const data = await response.json();
+    return data.results;
+  };
+
+  handleSearch = async (searchTerm: string) => {
+    this.setState({ results: [], isLoading: true, errorMessage: null });
+
     try {
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error(
-          `Request failed: ${response.status} ${response.statusText}`
-        );
-      }
-
-      const data = await response.json();
-      const results: Person[] = data.results;
+      const results = await this.fetchCharacters(searchTerm);
 
       this.setState({ results, hasSearch: true, isLoading: false }, () =>
         console.log(this.state.results)
@@ -60,6 +64,27 @@ class App extends React.Component<Record<string, never>, State> {
       });
     }
   };
+
+  componentDidMount() {
+    const savedSearchTerm = localStorage.getItem('searchTerm') || '';
+    this.setState({ isLoading: true }, async () => {
+      try {
+        const results = await this.fetchCharacters(savedSearchTerm);
+        this.setState({
+          results,
+          hasSearch: !!savedSearchTerm,
+          isLoading: false,
+        });
+      } catch (error) {
+        console.error(error);
+        this.setState({
+          isLoading: false,
+          errorMessage:
+            error instanceof Error ? error.message : 'Unknown error occurred',
+        });
+      }
+    });
+  }
 
   handleThrow = () => {
     this.setState({ shouldThrow: true });
