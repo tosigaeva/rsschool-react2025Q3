@@ -1,0 +1,112 @@
+#root {
+  padding: 20px;
+  text-align: center;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Orbitron', sans-serif;
+  background: url('accets/stars-bg.jpg');
+  background-repeat: repeat;
+  background-size: auto;
+  background-color: black;
+  color: #ffe81f;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1 {
+  text-shadow: 0 0 10px #ffe81f;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 1.5px;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+}
+
+h1,
+h2,
+p {
+  color: #ffe81f;
+}
+
+button {
+  margin-right: 10px;
+  width: 140px;
+  background-color: #000;
+  border: 2px solid #ffe81f;
+  border-radius: 10px;
+  color: #ffe81f;
+  padding: 8px 0;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  transition: transform 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.1);
+  background-color: #222;
+}
+
+input {
+  margin-right: 10px;
+  width: 300px;
+  padding: 8px;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.bottom-section {
+  width: 700px;
+  margin: 40px auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+
+.no-results {
+  margin-top: 40px;
+}
+
+.card {
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 2px solid #00f0ff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 290px;
+  color: #fff;
+  box-shadow: 0 0 14px #00f0ff;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 25px #00f0ff;
+}
+
+.card h3 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffe81f;
+}
+
+.card p {
+  font-size: 18px;
+  margin: 8px 0;
+  display: flex;
+  justify-content: flex-start;
+  column-gap: 10px;
+}
+
+.label {
+  color: #ffe81f;
+}
+
+.value {
+  color: #ffffff;
+}
