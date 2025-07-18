@@ -1,7 +1,5 @@
-import TopSection from './TopSection';
-import { render, screen } from '@testing-library/react';
 import { mockLocalStorage } from '../__tests__/mockLocalStorage';
-import { vi } from 'vitest';
+import { renderTopSection } from '../__tests__/renderTopSection';
 
 Object.defineProperty(window, 'localStorage', {
   value: mockLocalStorage(),
@@ -9,34 +7,29 @@ Object.defineProperty(window, 'localStorage', {
 });
 
 describe('TopSection', () => {
-  const mockOnSearch = vi.fn();
-
   beforeEach(() => {
     localStorage.clear();
-    mockOnSearch.mockClear();
   });
 
   describe('Rendering Tests', () => {
-    it('Renders search input and search button', () => {
-      render(<TopSection onSearch={mockOnSearch} />);
+    it('renders search input and search button', () => {
+      const { input, button } = renderTopSection();
 
-      expect(screen.getByRole('textbox')).toBeInTheDocument();
-      expect(
-        screen.getByRole('button', { name: /search/i })
-      ).toBeInTheDocument();
+      expect(input).toBeInTheDocument();
+      expect(button).toBeInTheDocument();
     });
 
-    it('Displays previously saved search term from localStorage on mount', () => {
-      localStorage.setItem('searchTerm', 'Luke Skywalker');
-      render(<TopSection onSearch={mockOnSearch} />);
+    it('displays previously saved search term from localStorage on mount', () => {
+      const testTerm = 'Luke Skywalker';
+      const { input } = renderTopSection({ localStorageTerm: testTerm });
 
-      expect(screen.getByRole('textbox')).toHaveValue('Luke Skywalker');
+      expect(input).toHaveValue(testTerm);
     });
 
-    it('Shows empty input when no saved term exists', () => {
-      render(<TopSection onSearch={mockOnSearch} />);
+    it('shows empty input when no saved term exists', () => {
+      const { input } = renderTopSection();
 
-      expect(screen.getByRole('textbox')).toHaveValue('');
+      expect(input).toHaveValue('');
     });
   });
 });
