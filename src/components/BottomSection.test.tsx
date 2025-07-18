@@ -1,5 +1,6 @@
 import { renderBottomSection } from '../__tests__/renderBottomSection.tsx';
 import { screen } from '@testing-library/react';
+import { expect } from 'vitest';
 
 describe('BottomSection', () => {
   const mockResults = [
@@ -69,6 +70,19 @@ describe('BottomSection', () => {
       expect(screen.getByText('Gender:')).toBeInTheDocument();
       const genderValue = screen.getByText('Gender:').nextSibling;
       expect(genderValue?.textContent).toBe('');
+    });
+  });
+
+  describe('Error Handling Tests', () => {
+    it('displays error message when API call fails', () => {
+      const { cards, loadingElement, errorElement } = renderBottomSection({
+        errorMessage: '404 Not Found',
+      });
+
+      expect(errorElement).toBeInTheDocument();
+      expect(errorElement).toHaveTextContent('404 Not Found');
+      expect(cards).toHaveLength(0);
+      expect(loadingElement).toBeNull();
     });
   });
 });
