@@ -1,5 +1,6 @@
 import { mockLocalStorage } from '../__tests__/mockLocalStorage';
 import { renderTopSection } from '../__tests__/renderTopSection';
+import { fireEvent } from '@testing-library/dom';
 
 Object.defineProperty(window, 'localStorage', {
   value: mockLocalStorage(),
@@ -30,6 +31,36 @@ describe('TopSection', () => {
       const { input } = renderTopSection();
 
       expect(input).toHaveValue('');
+    });
+  });
+
+  describe('User Interaction Tests', () => {
+    it('updates input value when user types', () => {
+      const { input } = renderTopSection();
+      const testValue = 'Luck';
+
+      fireEvent.change(input, { target: { value: testValue } });
+      expect(input).toHaveValue(testValue);
+    });
+
+    it('trims whitespace from input before calling onSearch', () => {
+      const { input, button, mockOnSearch } = renderTopSection();
+
+      fireEvent.change(input, { target: { value: '   Luke   ' } });
+      fireEvent.click(button);
+
+      expect(mockOnSearch).toHaveBeenCalledWith('Luke');
+    });
+
+    it('triggers search callback with correct parameters', () => {
+      const { input, button, mockOnSearch } = renderTopSection();
+      const testValue = 'Luke';
+
+      fireEvent.change(input, { target: { value: testValue } });
+      fireEvent.click(button);
+
+      expect(mockOnSearch).toHaveBeenCalledTimes(1);
+      expect(mockOnSearch).toHaveBeenCalledWith(testValue);
     });
   });
 });
