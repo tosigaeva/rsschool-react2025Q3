@@ -38,4 +38,37 @@ describe('BottomSection', () => {
       expect(cards).toHaveLength(0);
     });
   });
+
+  describe('Data Display Tests', () => {
+    it('correctly displays item names and descriptions', () => {
+      renderBottomSection({
+        results: mockResults,
+        hasSearch: true,
+      });
+
+      expect(
+        screen.getByText((_, el) => el?.textContent === 'Year of birth: 19BBY')
+      ).toBeInTheDocument();
+
+      expect(
+        screen.getByText((_, el) => el?.textContent === 'Gender: male')
+      ).toBeInTheDocument();
+    });
+
+    it('handles missing or undefined data gracefully', () => {
+      renderBottomSection({
+        results: [{ name: 'Unknown', birth_year: '', gender: '' }],
+        hasSearch: true,
+      });
+
+      expect(screen.getByText('Unknown')).toBeInTheDocument();
+
+      const birthYearValue = screen.getByText('Year of birth:').nextSibling;
+      expect(birthYearValue?.textContent).toBe('');
+
+      expect(screen.getByText('Gender:')).toBeInTheDocument();
+      const genderValue = screen.getByText('Gender:').nextSibling;
+      expect(genderValue?.textContent).toBe('');
+    });
+  });
 });
