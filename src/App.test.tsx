@@ -1,10 +1,11 @@
 import { vi } from 'vitest';
 import {
+  mockErrorResponse,
   mockSuccessResponse,
   renderApp,
   type ResponseLike,
 } from './__tests__/renderApp.tsx';
-import { screen, waitFor } from '@testing-library/dom';
+import { fireEvent, screen, waitFor } from '@testing-library/dom';
 import { act } from '@testing-library/react';
 
 interface Person {
@@ -77,6 +78,67 @@ describe('App', () => {
 
       await waitFor(() => {
         expect(getLoading()).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('API Integration Tests', () => {
+    it('calls API with correct parameters', async () => {
+      const testTerm = 'Luke Skywalker';
+      const mockResults: Person[] = [
+        { name: 'Luke Skywalker', birth_year: '19BBY', gender: 'male' },
+      ];
+      const mockFetch = vi
+        .fn()
+        .mockResolvedValue(mockSuccessResponse(mockResults));
+
+      const { input, button } = renderApp({ mockFetch });
+
+      await act(async () => {
+        fireEvent.change(input, { target: { value: testTerm } });
+        fireEvent.click(button);
+      });
+
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringContaining(`search=${encodeURIComponent(testTerm)}`)
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
+      });
+    });
+
+    it('handles successful API responses', async () => {
+      const mockResults = [
+        { name: 'Luke Skywalker', birth_year: '19BBY', gender: 'male' },
+        { name: 'C-3PO', birth_year: '112BBY', gender: 'n/a' },
+      ];
+      const mockFetch = vi
+        .fn()
+        .mockResolvedValue(mockSuccessResponse(mockResults));
+
+      renderApp({ mockFetch });
+
+      await waitFor(() => {
+        expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
+        expect(screen.getByText('C-3PO')).toBeInTheDocument();
+        expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/no results found/i)).not.toBeInTheDocument();
+      });
+    });
+
+    it('handles API error responses', async () => {
+      const mockFetch = vi
+        .fn()
+        .mockResolvedValue(mockErrorResponse(404, 'Not Found'));
+
+      renderApp({ mockFetch });
+
+      await waitFor(() => {
+        expect(
+          screen.getByText(/request failed: 404 not found/i)
+        ).toBeInTheDocument();
+        expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
       });
     });
   });

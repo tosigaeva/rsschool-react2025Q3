@@ -34,6 +34,8 @@ export const renderApp = (options: RenderAppOptions = {}) => {
   render(<App />);
 
   return {
+    input: screen.getByRole('textbox'),
+    button: screen.getByRole('button', { name: /search/i }),
     getLoading: () => screen.queryByText(/loading/i),
   };
 };
@@ -45,4 +47,14 @@ export const mockSuccessResponse = (
   status: 200,
   statusText: 'OK',
   json: async () => ({ results }),
+});
+
+export const mockErrorResponse = (
+  status: number,
+  statusText: string
+): ResponseLike<{ results: Person[] }> => ({
+  ok: false,
+  status,
+  statusText,
+  json: async () => ({ results: [] }),
 });
