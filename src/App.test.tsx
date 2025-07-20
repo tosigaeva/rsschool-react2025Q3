@@ -90,6 +90,20 @@ describe('App', () => {
         expect(getLoading()).not.toBeInTheDocument();
       });
     });
+
+    it('saves search term to localStorage when search button is clicked', async () => {
+      const testTerm = 'C-3PO';
+      const mockFetch = vi.fn().mockResolvedValue(mockSuccessResponse([]));
+
+      const { input, button } = renderApp({ mockFetch });
+
+      await act(async () => {
+        fireEvent.change(input, { target: { value: testTerm } });
+        fireEvent.click(button);
+      });
+
+      expect(localStorage.getItem('searchTerm')).toBe(testTerm);
+    });
   });
 
   describe('API Integration Tests', () => {
