@@ -198,4 +198,33 @@ describe('App', () => {
       expect(input).toHaveValue(testTerm);
     });
   });
+
+  describe('Error Handling Tests', () => {
+    it('shows appropriate error for 500 status code', async () => {
+      const mockFetch = vi
+        .fn()
+        .mockResolvedValue(mockErrorResponse(500, 'Internal Server Error'));
+
+      renderApp({ mockFetch });
+
+      await waitFor(() => {
+        expect(
+          screen.getByText(/request failed: 500 internal server error/i)
+        ).toBeInTheDocument();
+      });
+    });
+
+    it('throws error if shouldThrow is set to true', () => {
+      const consoleErrorSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
+
+      expect(() => {
+        renderApp();
+        fireEvent.click(screen.getByRole('button', { name: /throw error/i }));
+      }).toThrow('Simulated render error');
+
+      consoleErrorSpy.mockRestore();
+    });
+  });
 });
