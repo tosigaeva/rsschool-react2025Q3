@@ -7,6 +7,12 @@ import {
 } from './__tests__/renderApp.tsx';
 import { fireEvent, screen, waitFor } from '@testing-library/dom';
 import { act } from '@testing-library/react';
+import { mockLocalStorage } from './__tests__/mockLocalStorage.ts';
+
+Object.defineProperty(window, 'localStorage', {
+  value: mockLocalStorage(),
+  writable: true,
+});
 
 interface Person {
   name: string;
@@ -15,6 +21,10 @@ interface Person {
 }
 
 describe('App', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   describe('Integration Tests', () => {
     it('makes initial API call on component mount', async () => {
       const mockResults: Person[] = [
@@ -140,6 +150,38 @@ describe('App', () => {
         ).toBeInTheDocument();
         expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
       });
+    });
+  });
+
+  describe('State Management Tests', () => {
+    it('updates component state based on API responses', async () => {
+      const mockResults = [
+        { name: 'C-3PO', birth_year: '112BBY', gender: 'n/a' },
+      ];
+      const mockFetch = vi
+        .fn()
+        .mockResolvedValue(mockSuccessResponse(mockResults));
+
+      renderApp({ mockFetch });
+
+      await waitFor(() => {
+        expect(screen.getByText('C-3PO')).toBeInTheDocument();
+      });
+    });
+
+    it('manages search term state correctly', async () => {
+      const testTerm = 'C-3PO';
+      const mockFetch = vi.fn().mockResolvedValue(mockSuccessResponse([]));
+
+      const { input, button } = renderApp({ mockFetch });
+
+      await act(async () => {
+        fireEvent.change(input, { target: { value: testTerm } });
+        fireEvent.click(button);
+      });
+
+      expect(localStorage.getItem('searchTerm')).toBe(testTerm);
+      expect(input).toHaveValue(testTerm);
     });
   });
 });
