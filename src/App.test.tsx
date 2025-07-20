@@ -165,6 +165,30 @@ describe('App', () => {
         expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
       });
     });
+
+    it('logs error to console when handleSearch fails', async () => {
+      const consoleErrorSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
+      const mockFetch = vi
+        .fn()
+        .mockRejectedValue(new Error('Search network error'));
+
+      const { input, button } = renderApp({ mockFetch });
+
+      await act(async () => {
+        fireEvent.change(input, { target: { value: 'test' } });
+        fireEvent.click(button);
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText(/search network error/i)).toBeInTheDocument();
+      });
+
+      expect(consoleErrorSpy).toHaveBeenCalled();
+
+      consoleErrorSpy.mockRestore();
+    });
   });
 
   describe('State Management Tests', () => {
