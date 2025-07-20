@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import ErrorBoundary from './ErrorBoundary.tsx';
 import { vi } from 'vitest';
+import { fireEvent } from '@testing-library/dom';
 
 const ErrorComponent = () => {
   throw new Error('Test error');
@@ -43,6 +44,33 @@ describe('ErrorBoundary', () => {
 
       expect(consoleSpy).toHaveBeenCalled();
       consoleSpy.mockRestore();
+    });
+  });
+
+  describe('Error Recovery Tests', () => {
+    it('recovers from error when Try again button is clicked', () => {
+      const SafeComponent = () => <div>Recovered</div>;
+
+      const { rerender } = render(
+        <ErrorBoundary>
+          <ErrorComponent />
+        </ErrorBoundary>
+      );
+
+      expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
+
+      rerender(
+        <ErrorBoundary>
+          <SafeComponent />
+        </ErrorBoundary>
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: /try again/i }));
+
+      expect(
+        screen.queryByText(/something went wrong/i)
+      ).not.toBeInTheDocument();
+      expect(screen.getByText(/recovered/i)).toBeInTheDocument();
     });
   });
 });
