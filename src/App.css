@@ -6,19 +6,18 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Orbitron', 'Tahoma', sans-serif;
   background: url('accets/stars-bg.jpg');
   background-repeat: repeat;
   background-size: auto;
-  background-color: black;
-  color: #ffe81f;
+  background-color: hsl(0, 0%, 0%);
+  color: hsl(54, 100%, 56%);
   min-height: 100vh;
   overflow-x: hidden;
 }
 
 h1 {
-  text-shadow: 0 0 10px #ffe81f;
-  font-family: 'Orbitron', sans-serif;
+  text-shadow: 0 0 10px hsl(54, 100%, 56%);
   letter-spacing: 1.5px;
   text-align: center;
   margin-top: 2rem;
@@ -28,26 +27,26 @@ h1 {
 h1,
 h2,
 p {
-  color: #ffe81f;
+  color: hsl(54, 100%, 56%);
 }
 
 button {
   margin-right: 10px;
   width: 140px;
-  background-color: #000;
-  border: 2px solid #ffe81f;
+  background-color: hsl(0, 0%, 0%);
+  border: 2px solid hsl(54, 100%, 56%);
   border-radius: 10px;
-  color: #ffe81f;
+  color: hsl(54, 100%, 56%);
   padding: 8px 0;
   font-size: 16px;
   cursor: pointer;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Orbitron', 'Tahoma', sans-serif;
   transition: transform 0.2s ease;
 }
 
 button:hover {
   transform: scale(1.1);
-  background-color: #222;
+  background-color: hsl(0, 0%, 13%);
 }
 
 input {
@@ -72,13 +71,13 @@ input {
 }
 
 .card {
-  background-color: rgba(0, 0, 0, 0.7);
-  border: 2px solid #00f0ff;
+  background-color: hsla(0, 0%, 0%, 0.7);
+  border: 2px solid hsl(184, 100%, 50%);
   border-radius: 10px;
   padding: 20px;
   width: 290px;
   color: #fff;
-  box-shadow: 0 0 14px #00f0ff;
+  box-shadow: 0 0 14px hsl(184, 100%, 50%);
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
@@ -86,13 +85,13 @@ input {
 
 .card:hover {
   transform: scale(1.02);
-  box-shadow: 0 0 25px #00f0ff;
+  box-shadow: 0 0 25px hsl(184, 100%, 50%);
 }
 
 .card h3 {
   font-size: 24px;
   font-weight: bold;
-  color: #ffe81f;
+  color: hsl(54, 100%, 56%);
 }
 
 .card p {
@@ -104,9 +103,9 @@ input {
 }
 
 .label {
-  color: #ffe81f;
+  color: hsl(54, 100%, 56%);
 }
 
 .value {
-  color: #ffffff;
+  color: hsl(0, 0%, 100%);
 }
