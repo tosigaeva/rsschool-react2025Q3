@@ -1,47 +1,34 @@
-import React from 'react';
 import SearchInput from './SearchInput';
 import SearchButton from './SearchButton';
+import { useEffect, useState } from 'react';
 
 interface Props {
   onSearch: (term: string) => void;
 }
 
-interface State {
-  inputValue: string;
-}
+function TopSection({ onSearch }: Props) {
+  const [inputValue, setInputValue] = useState('');
 
-class TopSection extends React.Component<Props, State> {
-  state = {
-    inputValue: '',
-  };
-
-  componentDidMount() {
+  useEffect(() => {
     const stored = localStorage.getItem('searchTerm');
-    if (stored) this.setState({ inputValue: stored });
-  }
+    if (stored) setInputValue(stored);
+  }, []);
 
-  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ inputValue: event.target.value });
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
   };
 
-  handleSearchClick = () => {
-    const trim = this.state.inputValue.trim();
-    console.log(this.state.inputValue);
-    console.log(trim);
-    this.props.onSearch(trim);
+  const handleSearchClick = () => {
+    const trim = inputValue.trim();
+    onSearch(trim);
   };
 
-  render() {
-    return (
-      <>
-        <SearchInput
-          value={this.state.inputValue}
-          onChange={this.handleInputChange}
-        />
-        <SearchButton onClick={this.handleSearchClick} />
-      </>
-    );
-  }
+  return (
+    <>
+      <SearchInput value={inputValue} onChange={handleInputChange} />
+      <SearchButton onClick={handleSearchClick} />
+    </>
+  );
 }
 
 export default TopSection;
