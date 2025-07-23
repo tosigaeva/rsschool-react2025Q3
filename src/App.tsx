@@ -1,8 +1,8 @@
-import React from 'react';
 import TopSection from './components/TopSection';
 import BottomSection from './components/BottomSection';
 import ThrowErrorButton from './components/ThrowErrorButton';
 import './App.css';
+import { useEffect, useState } from 'react';
 
 interface Person {
   name: string;
@@ -10,24 +10,37 @@ interface Person {
   gender: string;
 }
 
-interface State {
-  results: Person[];
-  hasSearch: boolean;
-  isLoading: boolean;
-  shouldThrow: boolean;
-  errorMessage: string | null;
-}
+function App() {
+  const [results, setResults] = useState<Person[]>([]);
+  const [hasSearch, setHasSearch] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [shouldThrow, setShouldThrowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-class App extends React.Component<Record<string, never>, State> {
-  state = {
-    results: [],
-    hasSearch: false,
-    isLoading: false,
-    shouldThrow: false,
-    errorMessage: null,
-  };
+  useEffect(() => {
+    const savedSearchTerm = localStorage.getItem('searchTerm') || '';
 
-  fetchCharacters = async (searchTerm: string): Promise<Person[]> => {
+    setIsLoading(true);
+
+    (async () => {
+      try {
+        const results = await fetchCharacters(savedSearchTerm);
+
+        setResults(results);
+        setHasSearch(!!savedSearchTerm);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+
+        setIsLoading(false);
+        setErrorMessage(
+          error instanceof Error ? error.message : 'Unknown error occurred'
+        );
+      }
+    })();
+  }, []);
+
+  const fetchCharacters = async (searchTerm: string): Promise<Person[]> => {
     const url = searchTerm
       ? `https://swapi.py4e.com/api/people/?search=${encodeURIComponent(searchTerm)}`
       : 'https://swapi.py4e.com/api/people/';
@@ -44,71 +57,50 @@ class App extends React.Component<Record<string, never>, State> {
     return data.results;
   };
 
-  handleSearch = async (searchTerm: string) => {
-    this.setState({ results: [], isLoading: true, errorMessage: null });
+  const handleSearch = async (searchTerm: string) => {
+    setResults([]);
+    setIsLoading(true);
+    setErrorMessage(null);
 
     try {
-      const results = await this.fetchCharacters(searchTerm);
+      const results = await fetchCharacters(searchTerm);
 
-      this.setState({ results, hasSearch: true, isLoading: false }, () =>
-        console.log(this.state.results)
-      );
+      setResults(results);
+      setHasSearch(true);
+      setIsLoading(false);
 
       localStorage.setItem('searchTerm', searchTerm);
     } catch (error) {
       console.error(error);
-      this.setState({
-        isLoading: false,
-        errorMessage:
-          error instanceof Error ? error.message : 'Unknown error occurred',
-      });
+
+      setIsLoading(false);
+      setErrorMessage(
+        error instanceof Error ? error.message : 'Unknown error occurred'
+      );
     }
   };
 
-  componentDidMount() {
-    const savedSearchTerm = localStorage.getItem('searchTerm') || '';
-    this.setState({ isLoading: true }, async () => {
-      try {
-        const results = await this.fetchCharacters(savedSearchTerm);
-        this.setState({
-          results,
-          hasSearch: !!savedSearchTerm,
-          isLoading: false,
-        });
-      } catch (error) {
-        console.error(error);
-        this.setState({
-          isLoading: false,
-          errorMessage:
-            error instanceof Error ? error.message : 'Unknown error occurred',
-        });
-      }
-    });
-  }
-
-  handleThrow = () => {
-    this.setState({ shouldThrow: true });
+  const handleThrow = () => {
+    setShouldThrowError(true);
   };
 
-  render() {
-    if (this.state.shouldThrow) {
-      throw new Error('Simulated render error');
-    }
-
-    return (
-      <>
-        <h1>Star Wars Character Finder</h1>
-        <TopSection onSearch={this.handleSearch} />
-        <ThrowErrorButton onClick={this.handleThrow} />
-        <BottomSection
-          results={this.state.results}
-          hasSearch={this.state.hasSearch}
-          isLoading={this.state.isLoading}
-          errorMessage={this.state.errorMessage}
-        />
-      </>
-    );
+  if (shouldThrow) {
+    throw new Error('Simulated render error');
   }
+
+  return (
+    <>
+      <h1>Star Wars Character Finder</h1>
+      <TopSection onSearch={handleSearch} />
+      <ThrowErrorButton onClick={handleThrow} />
+      <BottomSection
+        results={results}
+        hasSearch={hasSearch}
+        isLoading={isLoading}
+        errorMessage={errorMessage}
+      />
+    </>
+  );
 }
 
 export default App;
