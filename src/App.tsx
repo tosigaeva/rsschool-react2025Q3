@@ -30,12 +30,7 @@ function App() {
         setHasSearch(!!savedSearchTerm);
         setIsLoading(false);
       } catch (error) {
-        console.error(error);
-
-        setIsLoading(false);
-        setErrorMessage(
-          error instanceof Error ? error.message : 'Unknown error occurred'
-        );
+        handleError(error);
       }
     })();
   }, []);
@@ -57,6 +52,16 @@ function App() {
     return data.results;
   };
 
+  const handleError = (error: unknown): void => {
+    console.error(error);
+
+    setIsLoading(false);
+
+    const textError =
+      error instanceof Error ? error.message : 'Unknown error occurred';
+    setErrorMessage(textError);
+  };
+
   const handleSearch = async (searchTerm: string) => {
     setResults([]);
     setIsLoading(true);
@@ -71,12 +76,7 @@ function App() {
 
       localStorage.setItem('searchTerm', searchTerm);
     } catch (error) {
-      console.error(error);
-
-      setIsLoading(false);
-      setErrorMessage(
-        error instanceof Error ? error.message : 'Unknown error occurred'
-      );
+      handleError(error);
     }
   };
 
