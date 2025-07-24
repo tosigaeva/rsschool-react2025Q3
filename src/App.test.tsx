@@ -38,7 +38,7 @@ describe('App', () => {
 
       expect(mockFetch).toHaveBeenCalledTimes(1);
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://swapi.py4e.com/api/people/'
+        'https://swapi.py4e.com/api/people/?page=1'
       );
 
       await waitFor(() => {

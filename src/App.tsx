@@ -2,7 +2,9 @@ import TopSection from './components/TopSection';
 import BottomSection from './components/BottomSection';
 import ThrowErrorButton from './components/ThrowErrorButton';
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+
+const ITEMS_PER_PAGE = 10;
 
 interface Person {
   name: string;
@@ -10,35 +12,55 @@ interface Person {
   gender: string;
 }
 
+interface ApiResponse {
+  results: Person[];
+  count: number;
+}
+
+// TODO: delete console.log()
+
 function App() {
   const [results, setResults] = useState<Person[]>([]);
   const [hasSearch, setHasSearch] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [shouldThrow, setShouldThrowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    const savedSearchTerm = localStorage.getItem('searchTerm') || '';
-
+  const loadData = useCallback(async (searchTerm: string, page: number) => {
+    setResults([]);
     setIsLoading(true);
+    setErrorMessage(null);
 
-    (async () => {
-      try {
-        const results = await fetchCharacters(savedSearchTerm);
+    console.log('loadData');
 
-        setResults(results);
-        setHasSearch(!!savedSearchTerm);
-        setIsLoading(false);
-      } catch (error) {
-        handleError(error);
-      }
-    })();
+    try {
+      const { results, count } = await fetchCharacters(searchTerm, page);
+
+      setResults(results);
+      setTotalPages(Math.ceil(count / ITEMS_PER_PAGE));
+      setHasSearch(!!searchTerm);
+      setIsLoading(false);
+    } catch (error) {
+      handleError(error);
+    }
   }, []);
 
-  const fetchCharacters = async (searchTerm: string): Promise<Person[]> => {
+  useEffect(() => {
+    const searchTerm = localStorage.getItem('searchTerm') || '';
+    loadData(searchTerm, currentPage);
+    console.log('useEffect', currentPage);
+  }, [loadData, currentPage]);
+
+  const fetchCharacters = async (
+    searchTerm: string,
+    page: number
+  ): Promise<ApiResponse> => {
+    console.log('fetchCharacters', page);
     const url = searchTerm
-      ? `https://swapi.py4e.com/api/people/?search=${encodeURIComponent(searchTerm)}`
-      : 'https://swapi.py4e.com/api/people/';
+      ? `https://swapi.py4e.com/api/people/?search=${encodeURIComponent(searchTerm)}&page=${page}`
+      : `https://swapi.py4e.com/api/people/?page=${page}`;
 
     const response = await fetch(url);
 
@@ -49,7 +71,7 @@ function App() {
     }
 
     const data = await response.json();
-    return data.results;
+    return { results: data.results, count: data.count };
   };
 
   const handleError = (error: unknown): void => {
@@ -63,21 +85,15 @@ function App() {
   };
 
   const handleSearch = async (searchTerm: string) => {
-    setResults([]);
-    setIsLoading(true);
-    setErrorMessage(null);
+    localStorage.setItem('searchTerm', searchTerm);
+    setCurrentPage(1);
+    await loadData(searchTerm, 1);
+    console.log('handleSearch', currentPage);
+  };
 
-    try {
-      const results = await fetchCharacters(searchTerm);
-
-      setResults(results);
-      setHasSearch(true);
-      setIsLoading(false);
-
-      localStorage.setItem('searchTerm', searchTerm);
-    } catch (error) {
-      handleError(error);
-    }
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    console.log('handlePageChange', page);
   };
 
   const handleThrow = () => {
@@ -98,6 +114,9 @@ function App() {
         hasSearch={hasSearch}
         isLoading={isLoading}
         errorMessage={errorMessage}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
       />
     </>
   );

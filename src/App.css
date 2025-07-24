@@ -49,6 +49,19 @@ button:hover {
   background-color: hsl(0, 0%, 13%);
 }
 
+button:disabled {
+  background-color: hsl(0, 0%, 20%);
+  border-color: hsl(54, 100%, 30%);
+  color: hsl(54, 100%, 30%);
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.button_square {
+  width: 40px;
+}
+
 input {
   margin-right: 10px;
   width: 300px;
@@ -61,13 +74,20 @@ input {
   width: 700px;
   margin: 40px auto;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
-  gap: 24px;
+  row-gap: 30px;
 }
 
 .no-results {
   margin-top: 40px;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
 }
 
 .card {
@@ -108,4 +128,10 @@ input {
 
 .value {
   color: hsl(0, 0%, 100%);
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
