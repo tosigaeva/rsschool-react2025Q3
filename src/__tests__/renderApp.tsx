@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import App from '../App';
 import { vi } from 'vitest';
+import { MemoryRouter } from 'react-router';
 
 interface Person {
   name: string;
@@ -31,7 +32,11 @@ export const renderApp = (options: RenderAppOptions = {}) => {
     localStorage.setItem('searchTerm', localStorageTerm);
   }
 
-  render(<App />);
+  render(
+    <MemoryRouter>
+      <App />
+    </MemoryRouter>
+  );
 
   return {
     input: screen.getByRole('textbox'),

@@ -3,6 +3,7 @@ import BottomSection from './components/BottomSection';
 import ThrowErrorButton from './components/ThrowErrorButton';
 import './App.css';
 import { useCallback, useEffect, useState } from 'react';
+import { Route, Routes, useSearchParams } from 'react-router';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -17,23 +18,21 @@ interface ApiResponse {
   count: number;
 }
 
-// TODO: delete console.log()
-
 function App() {
   const [results, setResults] = useState<Person[]>([]);
   const [hasSearch, setHasSearch] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [shouldThrow, setShouldThrowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageParam = searchParams.get('page');
+  const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
 
   const loadData = useCallback(async (searchTerm: string, page: number) => {
     setResults([]);
     setIsLoading(true);
     setErrorMessage(null);
-
-    console.log('loadData');
 
     try {
       const { results, count } = await fetchCharacters(searchTerm, page);
@@ -50,14 +49,12 @@ function App() {
   useEffect(() => {
     const searchTerm = localStorage.getItem('searchTerm') || '';
     loadData(searchTerm, currentPage);
-    console.log('useEffect', currentPage);
   }, [loadData, currentPage]);
 
   const fetchCharacters = async (
     searchTerm: string,
     page: number
   ): Promise<ApiResponse> => {
-    console.log('fetchCharacters', page);
     const url = searchTerm
       ? `https://swapi.py4e.com/api/people/?search=${encodeURIComponent(searchTerm)}&page=${page}`
       : `https://swapi.py4e.com/api/people/?page=${page}`;
@@ -86,14 +83,12 @@ function App() {
 
   const handleSearch = async (searchTerm: string) => {
     localStorage.setItem('searchTerm', searchTerm);
-    setCurrentPage(1);
+    setSearchParams({ page: '1' });
     await loadData(searchTerm, 1);
-    console.log('handleSearch', currentPage);
   };
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    console.log('handlePageChange', page);
+    setSearchParams({ page: page.toString() });
   };
 
   const handleThrow = () => {
@@ -105,20 +100,27 @@ function App() {
   }
 
   return (
-    <>
-      <h1>Star Wars Character Finder</h1>
-      <TopSection onSearch={handleSearch} />
-      <ThrowErrorButton onClick={handleThrow} />
-      <BottomSection
-        results={results}
-        hasSearch={hasSearch}
-        isLoading={isLoading}
-        errorMessage={errorMessage}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <>
+            <h1>Star Wars Character Finder</h1>
+            <TopSection onSearch={handleSearch} />
+            <ThrowErrorButton onClick={handleThrow} />
+            <BottomSection
+              results={results}
+              hasSearch={hasSearch}
+              isLoading={isLoading}
+              errorMessage={errorMessage}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </>
+        }
       />
-    </>
+    </Routes>
   );
 }
 
