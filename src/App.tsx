@@ -4,6 +4,7 @@ import ThrowErrorButton from './components/ThrowErrorButton';
 import './App.css';
 import { useCallback, useEffect, useState } from 'react';
 import { Route, Routes, useSearchParams } from 'react-router';
+import NotFound from './components/not-found.tsx';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -120,6 +121,7 @@ function App() {
           </>
         }
       />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
