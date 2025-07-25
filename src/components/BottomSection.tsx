@@ -11,6 +11,7 @@ function BottomSection({
   currentPage,
   totalPages,
   onPageChange,
+  onSelectCharacter,
 }: BottomSectionProps) {
   if (isLoading) return <p>Loading...</p>;
   if (errorMessage) return <p>{errorMessage}</p>;
@@ -23,9 +24,8 @@ function BottomSection({
         {results.map((item, index) => (
           <Card
             key={index}
-            name={item.name}
-            birth_year={item.birth_year}
-            gender={item.gender}
+            character={item}
+            onClick={() => onSelectCharacter(item)}
           />
         ))}
       </div>

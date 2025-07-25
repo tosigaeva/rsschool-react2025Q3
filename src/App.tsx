@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Route, Routes, useSearchParams } from 'react-router';
 import NotFound from './components/not-found.tsx';
 import type { ApiResponse, Character } from './types';
+import CardDetails from './components/card-details.tsx';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -16,7 +17,11 @@ function App() {
   const [shouldThrow, setShouldThrowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [totalPages, setTotalPages] = useState(1);
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    null
+  );
   const [searchParams, setSearchParams] = useSearchParams();
+
   const pageParam = searchParams.get('page');
   const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
 
@@ -82,6 +87,10 @@ function App() {
     setSearchParams({ page: page.toString() });
   };
 
+  const handleSelectCharacter = (character: Character) => {
+    setSelectedCharacter(character);
+  };
+
   const handleThrow = () => {
     setShouldThrowError(true);
   };
@@ -107,7 +116,9 @@ function App() {
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={handlePageChange}
+              onSelectCharacter={handleSelectCharacter}
             />
+            <CardDetails details={selectedCharacter} />
           </>
         }
       />

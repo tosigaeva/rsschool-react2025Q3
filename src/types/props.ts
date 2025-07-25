@@ -21,12 +21,16 @@ export interface BottomSectionProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  onSelectCharacter: (character: Character) => void;
 }
 
 export interface CardProps {
-  name: string;
-  birth_year: string;
-  gender: string;
+  character: Character;
+  onClick: () => void;
+}
+
+export interface CardDetailsProps {
+  details: Character | null;
 }
 
 export interface PaginationProps {

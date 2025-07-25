@@ -1,17 +1,17 @@
 import '../App.css';
 import type { CardProps } from '../types';
 
-function Card({ name, birth_year, gender }: CardProps) {
+function Card({ character, onClick }: CardProps) {
   return (
-    <div className="card">
-      <h3>{name}</h3>
+    <div className="card" onClick={onClick}>
+      <h3>{character.name}</h3>
       <p>
         <span className="label">Year of birth: </span>
-        <span className="value">{birth_year}</span>
+        <span className="value">{character.birth_year}</span>
       </p>
       <p>
         <span className="label">Gender: </span>
-        <span className="value">{gender}</span>
+        <span className="value">{character.gender}</span>
       </p>
     </div>
   );
