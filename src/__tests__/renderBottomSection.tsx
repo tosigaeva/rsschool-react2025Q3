@@ -1,14 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import BottomSection from '../components/BottomSection';
-
-interface Person {
-  name: string;
-  birth_year: string;
-  gender: string;
-}
+import type { Character } from '../types/interfaces.tsx';
 
 type RenderBottomSectionOptions = {
-  results?: Person[];
+  results?: Character[];
   hasSearch?: boolean;
   isLoading?: boolean;
   errorMessage?: string | null;

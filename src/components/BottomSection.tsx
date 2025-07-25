@@ -1,22 +1,7 @@
 import Card from './Card';
 import '../App.css';
 import Pagination from './pagination.tsx';
-
-interface Person {
-  name: string;
-  birth_year: string;
-  gender: string;
-}
-
-interface Props {
-  results: Person[];
-  hasSearch: boolean;
-  isLoading: boolean;
-  errorMessage: string | null;
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-}
+import type { BottomSectionProps } from '../types';
 
 function BottomSection({
   results,
@@ -26,7 +11,7 @@ function BottomSection({
   currentPage,
   totalPages,
   onPageChange,
-}: Props) {
+}: BottomSectionProps) {
   if (isLoading) return <p>Loading...</p>;
   if (errorMessage) return <p>{errorMessage}</p>;
   if (hasSearch && !results.length)

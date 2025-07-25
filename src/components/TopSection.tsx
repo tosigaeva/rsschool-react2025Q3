@@ -1,12 +1,9 @@
 import SearchInput from './SearchInput';
 import SearchButton from './SearchButton';
 import { useEffect, useState } from 'react';
+import type { TopSectionProps } from '../types';
 
-interface Props {
-  onSearch: (term: string) => void;
-}
-
-function TopSection({ onSearch }: Props) {
+function TopSection({ onSearch }: TopSectionProps) {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {

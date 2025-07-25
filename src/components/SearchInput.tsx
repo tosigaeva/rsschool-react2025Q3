@@ -1,9 +1,6 @@
-interface Props {
-  value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+import type { SearchInputProps } from '../types';
 
-function SearchInput({ value, onChange }: Props) {
+function SearchInput({ value, onChange }: SearchInputProps) {
   return (
     <input
       type="text"

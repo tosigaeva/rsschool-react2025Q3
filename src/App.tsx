@@ -5,22 +5,12 @@ import './App.css';
 import { useCallback, useEffect, useState } from 'react';
 import { Route, Routes, useSearchParams } from 'react-router';
 import NotFound from './components/not-found.tsx';
+import type { ApiResponse, Character } from './types';
 
 const ITEMS_PER_PAGE = 10;
 
-interface Person {
-  name: string;
-  birth_year: string;
-  gender: string;
-}
-
-interface ApiResponse {
-  results: Person[];
-  count: number;
-}
-
 function App() {
-  const [results, setResults] = useState<Person[]>([]);
+  const [results, setResults] = useState<Character[]>([]);
   const [hasSearch, setHasSearch] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [shouldThrow, setShouldThrowError] = useState(false);

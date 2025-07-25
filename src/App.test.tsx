@@ -8,17 +8,12 @@ import {
 import { fireEvent, screen, waitFor } from '@testing-library/dom';
 import { act } from '@testing-library/react';
 import { mockLocalStorage } from './__tests__/mockLocalStorage.ts';
+import type { Character } from './types';
 
 Object.defineProperty(window, 'localStorage', {
   value: mockLocalStorage(),
   writable: true,
 });
-
-interface Person {
-  name: string;
-  birth_year: string;
-  gender: string;
-}
 
 describe('App', () => {
   beforeEach(() => {
@@ -27,7 +22,7 @@ describe('App', () => {
 
   describe('Integration Tests', () => {
     it('makes initial API call on component mount', async () => {
-      const mockResults: Person[] = [
+      const mockResults: Character[] = [
         { name: 'Luke Skywalker', birth_year: '19BBY', gender: 'male' },
       ];
       const mockFetch = vi
@@ -48,7 +43,7 @@ describe('App', () => {
 
     it('handles search term from localStorage on initial load', async () => {
       const testTerm = 'Luke Skywalker';
-      const mockResults: Person[] = [
+      const mockResults: Character[] = [
         { name: 'Luke Skywalker', birth_year: '19BBY', gender: 'male' },
       ];
       const mockFetch = vi
@@ -70,7 +65,7 @@ describe('App', () => {
     it('manages loading states during API calls', async () => {
       let resolveFetch: () => void;
 
-      const fetchPromise = new Promise<ResponseLike<{ results: Person[] }>>(
+      const fetchPromise = new Promise<ResponseLike<{ results: Character[] }>>(
         (resolve) => {
           resolveFetch = () => resolve(mockSuccessResponse([]));
         }
@@ -109,7 +104,7 @@ describe('App', () => {
   describe('API Integration Tests', () => {
     it('calls API with correct parameters', async () => {
       const testTerm = 'Luke Skywalker';
-      const mockResults: Person[] = [
+      const mockResults: Character[] = [
         { name: 'Luke Skywalker', birth_year: '19BBY', gender: 'male' },
       ];
       const mockFetch = vi

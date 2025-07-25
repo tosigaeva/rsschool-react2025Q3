@@ -1,12 +1,7 @@
 import '../App.css';
+import type { CardProps } from '../types';
 
-interface Props {
-  name: string;
-  birth_year: string;
-  gender: string;
-}
-
-function Card({ name, birth_year, gender }: Props) {
+function Card({ name, birth_year, gender }: CardProps) {
   return (
     <div className="card">
       <h3>{name}</h3>

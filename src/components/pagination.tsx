@@ -1,10 +1,5 @@
 import '../App.css';
-
-interface PaginationProps {
-  totalPages: number;
-  currentPage: number;
-  onClick: (page: number) => void;
-}
+import type { PaginationProps } from '../types';
 
 function Pagination({ totalPages, currentPage, onClick }: PaginationProps) {
   return (
