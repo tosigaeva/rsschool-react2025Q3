@@ -31,6 +31,7 @@ export interface CardProps {
 
 export interface CardDetailsProps {
   details: Character | null;
+  onClick: () => void;
 }
 
 export interface PaginationProps {

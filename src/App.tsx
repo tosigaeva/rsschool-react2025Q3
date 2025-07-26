@@ -91,6 +91,10 @@ function App() {
     setSelectedCharacter(character);
   };
 
+  const handleCloseDetails = () => {
+    setSelectedCharacter(null);
+  };
+
   const handleThrow = () => {
     setShouldThrowError(true);
   };
@@ -121,7 +125,12 @@ function App() {
                 onPageChange={handlePageChange}
                 onSelectCharacter={handleSelectCharacter}
               />
-              {selectedCharacter && <CardDetails details={selectedCharacter} />}
+              {selectedCharacter && (
+                <CardDetails
+                  details={selectedCharacter}
+                  onClick={handleCloseDetails}
+                />
+              )}
             </div>
           </div>
         }

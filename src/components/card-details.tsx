@@ -1,6 +1,6 @@
 import type { CardDetailsProps } from '../types';
 
-function CardDetails({ details }: CardDetailsProps) {
+function CardDetails({ details, onClick }: CardDetailsProps) {
   if (!details) return null;
 
   const entries = Object.entries(details);
@@ -8,6 +8,12 @@ function CardDetails({ details }: CardDetailsProps) {
   return (
     <div className="character-details">
       <div className="character-details__card">
+        <button
+          className={'character-details__button button_square'}
+          onClick={onClick}
+        >
+          ×
+        </button>
         {entries.map(([key, value]) => (
           <p key={key}>
             <span className="character-details__label">{key}: </span>
