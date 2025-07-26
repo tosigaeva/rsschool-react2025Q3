@@ -7,10 +7,13 @@ import { Route, Routes, useSearchParams } from 'react-router';
 import NotFound from './components/not-found.tsx';
 import type { ApiResponse, Character } from './types';
 import CardDetails from './components/card-details.tsx';
+import useSearchStorage from './hooks/useSearchStorage.ts';
 
 const ITEMS_PER_PAGE = 10;
 
 function App() {
+  const [searchTerm, setSearchTerm] = useSearchStorage('searchTerm');
+
   const [results, setResults] = useState<Character[]>([]);
   const [hasSearch, setHasSearch] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -43,9 +46,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const searchTerm = localStorage.getItem('searchTerm') || '';
     loadData(searchTerm, currentPage);
-  }, [loadData, currentPage]);
+  }, [loadData, searchTerm, currentPage]);
 
   const fetchCharacters = async (
     searchTerm: string,
@@ -78,7 +80,7 @@ function App() {
   };
 
   const handleSearch = async (searchTerm: string) => {
-    localStorage.setItem('searchTerm', searchTerm);
+    setSearchTerm(searchTerm);
     setSearchParams({ page: '1' });
     await loadData(searchTerm, 1);
   };

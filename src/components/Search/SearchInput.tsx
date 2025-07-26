@@ -1,4 +1,4 @@
-import type { SearchInputProps } from '../types';
+import type { SearchInputProps } from '../../types';
 
 function SearchInput({ value, onChange }: SearchInputProps) {
   return (
