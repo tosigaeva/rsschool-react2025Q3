@@ -104,22 +104,26 @@ function App() {
       <Route
         path="/"
         element={
-          <>
+          <div className={'app'}>
             <h1>Star Wars Character Finder</h1>
             <TopSection onSearch={handleSearch} />
             <ThrowErrorButton onClick={handleThrow} />
-            <BottomSection
-              results={results}
-              hasSearch={hasSearch}
-              isLoading={isLoading}
-              errorMessage={errorMessage}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-              onSelectCharacter={handleSelectCharacter}
-            />
-            <CardDetails details={selectedCharacter} />
-          </>
+            <div
+              className={`main-content ${selectedCharacter ? 'main-content_with-details' : ''}`}
+            >
+              <BottomSection
+                results={results}
+                hasSearch={hasSearch}
+                isLoading={isLoading}
+                errorMessage={errorMessage}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                onSelectCharacter={handleSelectCharacter}
+              />
+              {selectedCharacter && <CardDetails details={selectedCharacter} />}
+            </div>
+          </div>
         }
       />
       <Route path="*" element={<NotFound />} />

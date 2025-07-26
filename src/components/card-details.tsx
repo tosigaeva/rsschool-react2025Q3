@@ -6,13 +6,15 @@ function CardDetails({ details }: CardDetailsProps) {
   const entries = Object.entries(details);
 
   return (
-    <div className="card card_details">
-      {entries.map(([key, value]) => (
-        <p key={key}>
-          <span className="label">{key}: </span>
-          <span className="value">{value}</span>
-        </p>
-      ))}
+    <div className="character-details">
+      <div className="character-details__card">
+        {entries.map(([key, value]) => (
+          <p key={key}>
+            <span className="character-details__label">{key}: </span>
+            <span className="character-details__value">{value}</span>
+          </p>
+        ))}
+      </div>
     </div>
   );
 }

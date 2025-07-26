@@ -72,7 +72,6 @@ input {
 
 .bottom-section {
   width: 700px;
-  margin: 40px auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -122,11 +121,13 @@ input {
   column-gap: 10px;
 }
 
-.label {
+.label,
+.character-details__label {
   color: hsl(54, 100%, 56%);
 }
 
-.value {
+.value,
+.character-details__value {
   color: hsl(0, 0%, 100%);
 }
 
@@ -134,4 +135,42 @@ input {
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.main-content {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  transition: all 0.3s ease;
+}
+
+.main-content_with-details {
+  gap: 20px;
+}
+
+.main-content_with-details .bottom-section {
+  width: 50%;
+}
+
+.character-details {
+  width: 50%;
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+  background-color: hsla(0, 0%, 0%, 0.7);
+  border: 2px solid hsl(184, 100%, 50%);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 14px hsl(184, 100%, 50%);
+}
+
+.character-details__card {
+  text-align: start;
+  word-break: break-all;
 }
