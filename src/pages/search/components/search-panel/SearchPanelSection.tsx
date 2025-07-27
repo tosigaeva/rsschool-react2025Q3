@@ -1,26 +1,31 @@
-import useSearchTermStorage from '#/shared/hooks/useSearchTermStorage.ts';
 import { Button, Input } from '#/shared/ui';
 import type { SearchPanelSectionProps } from '#/types';
+import { useEffect, useState } from 'react';
+import useSearchTermStorage from '#/shared/hooks/useSearchTermStorage.ts';
 import { useSearchParams } from 'react-router';
 
 export function SearchPanelSection({ onSearch }: SearchPanelSectionProps) {
+  const [input, setInput] = useState('');
   const [searchTerm, setSearchTerm] = useSearchTermStorage('searchTerm');
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    setInput(searchTerm || '');
+  }, [searchTerm]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value.trim());
+    setInput(event.target.value.trim());
   };
 
   const handleSearchClick = async () => {
-    setSearchTerm(searchTerm);
+    setSearchTerm(input);
     setSearchParams({ page: '1' });
-    onSearch(searchTerm, 1);
-    setSearchParams(searchParams);
+    onSearch(input, 1);
   };
 
   return (
     <>
-      <Input value={searchTerm} onChange={handleInputChange} />
+      <Input value={input} onChange={handleInputChange} />
       <Button onClick={handleSearchClick} />
     </>
   );

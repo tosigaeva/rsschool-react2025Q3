@@ -13,12 +13,12 @@ export function SearchResultSection({
   onPageChange,
   onSelectCharacter,
 }: SearchResultSectionProps) {
-  if (isLoading) return <p>Loading...</p>;
-
   if (error)
     return (
       <p>{error instanceof Error ? error.message : 'Unknown error occurred'}</p>
     );
+
+  if (isLoading) return <p>Loading...</p>;
 
   if (hasBeenSearched && !results.length)
     return <p className="no-results">No results found.</p>;
