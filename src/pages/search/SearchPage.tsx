@@ -2,9 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { SearchPanelSection } from '#/pages/search/components/search-panel';
 import ThrowErrorButton from '#/shared/ui/ThrowErrorButton';
 import { SearchResultSection } from '#/pages/search/components/search-result';
-import { CardDetails } from './components/card-details';
 import type { Character } from '#/types';
-import { useSearchParams } from 'react-router';
+import {Outlet, useNavigate, useSearchParams} from 'react-router';
 import useSearchTermStorage from '#/shared/hooks/useSearchTermStorage.ts';
 import { useClient } from '#/shared/api/useClient.ts';
 
@@ -18,12 +17,10 @@ export function SearchPage() {
   const [hasBeenSearched, setHasBeenSearched] = useState(false);
   const [error, setError] = useState<Error | null | unknown>(null);
   const [totalPages, setTotalPages] = useState(1);
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
-    null
-  );
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get('page');
   const currentPage = page ? parseInt(page, 10) : 1;
+  const navigate = useNavigate();
 
   const handleApiCall = useCallback(
     async (searchTerm: string, page: number) => {
@@ -74,16 +71,17 @@ export function SearchPage() {
     throw new Error('Simulated render error');
   }
 
-  const handleCloseDetails = () => {
-    setSelectedCharacter(null);
-  };
-
   const handleThrow = () => {
     setShouldThrowError(true);
   };
 
   const onSelectCharacter = (character: Character) => {
     console.log(character);
+    const id = character.url.split('/').filter(Boolean).pop();
+    navigate({
+      pathname: `/details/${id}`,
+      search: window.location.search,
+    });
   };
 
   return (
@@ -92,7 +90,7 @@ export function SearchPage() {
       <SearchPanelSection onSearch={handleApiCall} />
       <ThrowErrorButton onClick={handleThrow} />
       <div
-        className={`main-content ${selectedCharacter ? 'main-content_with-details' : ''}`}
+        className={`main-content ${true ? 'main-content_with-details' : ''}`}
       >
         <SearchResultSection
           results={results}
@@ -106,12 +104,7 @@ export function SearchPage() {
           }
           onSelectCharacter={onSelectCharacter}
         />
-        {selectedCharacter && (
-          <CardDetails
-            details={selectedCharacter}
-            onClick={handleCloseDetails}
-          />
-        )}
+        <Outlet />
       </div>
     </div>
   );
