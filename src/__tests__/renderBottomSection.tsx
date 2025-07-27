@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import BottomSection from '../components/BottomSection';
+import SearchResultSection from '../components/SearchResultSection.tsx';
 import type { Character } from '../types/interfaces.tsx';
 
 type RenderBottomSectionOptions = {
@@ -20,7 +20,7 @@ export const renderBottomSection = (
   } = options;
 
   const { container } = render(
-    <BottomSection
+    <SearchResultSection
       results={results}
       hasSearch={hasSearch}
       isLoading={isLoading}

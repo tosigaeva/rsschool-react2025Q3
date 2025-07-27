@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 
 const useSearchTermStorage = (key: string) => {
-  const [query, setquery] = useState<string>(() => {
+  const [term, setTerm] = useState<string>(() => {
     return localStorage.getItem(key) || '';
   });
 
   useEffect(() => {
-    localStorage.setItem(key, query);
+    localStorage.setItem(key, term);
     return () => {
-      localStorage.setItem(key, query);
+      localStorage.setItem(key, term);
     };
-  }, [key, query]);
+  }, [key, term]);
 
-  return [query, setquery] as const;
+  return [term, setTerm] as const;
 };
 
 export default useSearchTermStorage;

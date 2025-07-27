@@ -1,23 +1,14 @@
 import type { Character } from './character.ts';
 
-export interface TopSectionProps {
-  onSearch: (term: string) => void;
+export interface SearchPanelSectionProps {
+  onSearch: (searchTerm: string, pageNumber: number) => void;
 }
 
-export interface SearchInputProps {
-  value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-export interface SearchButtonProps {
-  onClick: () => void;
-}
-
-export interface BottomSectionProps {
+export interface SearchResultSectionProps {
   results: Character[];
-  hasSearch: boolean;
+  hasBeenSearched: boolean;
   isLoading: boolean;
-  errorMessage: string | null;
+  error: Error | unknown | null;
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;

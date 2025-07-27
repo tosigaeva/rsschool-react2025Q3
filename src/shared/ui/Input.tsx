@@ -1,6 +1,6 @@
-import type { SearchInputProps } from '../../types';
+import type { InputProps } from '#/shared/ui/props/inputProps.ts';
 
-function SearchInput({ value, onChange }: SearchInputProps) {
+export function Input({ value, onChange }: InputProps) {
   return (
     <input
       type="text"
@@ -10,5 +10,3 @@ function SearchInput({ value, onChange }: SearchInputProps) {
     />
   );
 }
-
-export default SearchInput;

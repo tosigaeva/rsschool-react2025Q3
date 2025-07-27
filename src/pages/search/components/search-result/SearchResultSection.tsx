@@ -1,21 +1,26 @@
-import Card from './Card';
-import '../App.css';
-import Pagination from './pagination.tsx';
-import type { BottomSectionProps } from '../types';
+import '#/App.css';
+import { Card } from '#/pages/search/components/card';
+import type { SearchResultSectionProps } from '#/types';
+import { Pagination } from '#/pages/search/components/pagination';
 
-function BottomSection({
+export function SearchResultSection({
   results,
-  hasSearch,
+  hasBeenSearched,
   isLoading,
-  errorMessage,
+  error,
   currentPage,
   totalPages,
   onPageChange,
   onSelectCharacter,
-}: BottomSectionProps) {
+}: SearchResultSectionProps) {
   if (isLoading) return <p>Loading...</p>;
-  if (errorMessage) return <p>{errorMessage}</p>;
-  if (hasSearch && !results.length)
+
+  if (error)
+    return (
+      <p>{error instanceof Error ? error.message : 'Unknown error occurred'}</p>
+    );
+
+  if (hasBeenSearched && !results.length)
     return <p className="no-results">No results found.</p>;
 
   return (
@@ -37,5 +42,3 @@ function BottomSection({
     </div>
   );
 }
-
-export default BottomSection;

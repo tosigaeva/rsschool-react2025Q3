@@ -1,7 +1,11 @@
-import '../App.css';
-import type { PaginationProps } from '../types';
+import '#/App.css';
+import type { PaginationProps } from '#/types/props';
 
-function Pagination({ totalPages, currentPage, onClick }: PaginationProps) {
+export function Pagination({
+  totalPages,
+  currentPage,
+  onClick,
+}: PaginationProps) {
   return (
     <div className={'pagination'}>
       {Array.from({ length: totalPages }, (_, index) => index + 1).map(
@@ -19,5 +23,3 @@ function Pagination({ totalPages, currentPage, onClick }: PaginationProps) {
     </div>
   );
 }
-
-export default Pagination;

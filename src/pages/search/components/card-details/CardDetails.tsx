@@ -1,6 +1,6 @@
-import type { CardDetailsProps } from '../types';
+import type { CardDetailsProps } from '#/types';
 
-function CardDetails({ details, onClick }: CardDetailsProps) {
+export function CardDetails({ details, onClick }: CardDetailsProps) {
   if (!details) return null;
 
   const entries = Object.entries(details);
@@ -24,5 +24,3 @@ function CardDetails({ details, onClick }: CardDetailsProps) {
     </div>
   );
 }
-
-export default CardDetails;

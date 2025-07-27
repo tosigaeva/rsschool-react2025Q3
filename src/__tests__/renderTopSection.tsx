@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import TopSection from '../components/TopSection';
+import SearchPanelSection from '../components/SearchPanelSection.tsx';
 import { vi } from 'vitest';
 
 type RenderTopSectionOptions = {
@@ -14,7 +14,7 @@ export const renderTopSection = (options: RenderTopSectionOptions = {}) => {
     localStorage.setItem('searchTerm', localStorageTerm);
   }
 
-  render(<TopSection onSearch={mockOnSearch} />);
+  render(<SearchPanelSection onSearch={mockOnSearch} />);
 
   return {
     input: screen.getByRole('textbox'),

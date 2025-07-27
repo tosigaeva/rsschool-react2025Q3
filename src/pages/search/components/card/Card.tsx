@@ -1,7 +1,7 @@
-import '../App.css';
-import type { CardProps } from '../types';
+import '#/App.css';
+import type { CardProps } from '#/types';
 
-function Card({ character, onClick }: CardProps) {
+export function Card({ character, onClick }: CardProps) {
   return (
     <div className="card" onClick={onClick}>
       <h3>{character.name}</h3>
@@ -16,5 +16,3 @@ function Card({ character, onClick }: CardProps) {
     </div>
   );
 }
-
-export default Card;
