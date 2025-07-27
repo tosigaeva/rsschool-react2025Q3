@@ -4,21 +4,16 @@ import {
   mockSuccessResponse,
   renderApp,
   type ResponseLike,
-} from './__tests__/renderApp.tsx';
+} from '#/__tests__/renderApp.tsx';
 import { fireEvent, screen, waitFor } from '@testing-library/dom';
 import { act } from '@testing-library/react';
-import { mockLocalStorage } from './__tests__/mockLocalStorage.ts';
+import { mockLocalStorage } from '#/__tests__/mockLocalStorage.ts';
+import type { Character } from '#/types';
 
 Object.defineProperty(window, 'localStorage', {
   value: mockLocalStorage(),
   writable: true,
 });
-
-interface Person {
-  name: string;
-  birth_year: string;
-  gender: string;
-}
 
 describe('App', () => {
   beforeEach(() => {
@@ -27,8 +22,13 @@ describe('App', () => {
 
   describe('Integration Tests', () => {
     it('makes initial API call on component mount', async () => {
-      const mockResults: Person[] = [
-        { name: 'Luke Skywalker', birth_year: '19BBY', gender: 'male' },
+      const mockResults: Character[] = [
+        {
+          name: 'Luke Skywalker',
+          birth_year: '19BBY',
+          gender: 'male',
+          url: 'http://localhost:8080',
+        },
       ];
       const mockFetch = vi
         .fn()
@@ -38,7 +38,7 @@ describe('App', () => {
 
       expect(mockFetch).toHaveBeenCalledTimes(1);
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://swapi.py4e.com/api/people/'
+        'https://swapi.py4e.com/api/people/?page=1'
       );
 
       await waitFor(() => {
@@ -48,8 +48,13 @@ describe('App', () => {
 
     it('handles search term from localStorage on initial load', async () => {
       const testTerm = 'Luke Skywalker';
-      const mockResults: Person[] = [
-        { name: 'Luke Skywalker', birth_year: '19BBY', gender: 'male' },
+      const mockResults: Character[] = [
+        {
+          name: 'Luke Skywalker',
+          birth_year: '19BBY',
+          gender: 'male',
+          url: 'http://localhost:8080',
+        },
       ];
       const mockFetch = vi
         .fn()
@@ -70,7 +75,7 @@ describe('App', () => {
     it('manages loading states during API calls', async () => {
       let resolveFetch: () => void;
 
-      const fetchPromise = new Promise<ResponseLike<{ results: Person[] }>>(
+      const fetchPromise = new Promise<ResponseLike<{ results: Character[] }>>(
         (resolve) => {
           resolveFetch = () => resolve(mockSuccessResponse([]));
         }
@@ -109,8 +114,13 @@ describe('App', () => {
   describe('API Integration Tests', () => {
     it('calls API with correct parameters', async () => {
       const testTerm = 'Luke Skywalker';
-      const mockResults: Person[] = [
-        { name: 'Luke Skywalker', birth_year: '19BBY', gender: 'male' },
+      const mockResults: Character[] = [
+        {
+          name: 'Luke Skywalker',
+          birth_year: '19BBY',
+          gender: 'male',
+          url: 'http://localhost:8080',
+        },
       ];
       const mockFetch = vi
         .fn()
@@ -134,8 +144,18 @@ describe('App', () => {
 
     it('handles successful API responses', async () => {
       const mockResults = [
-        { name: 'Luke Skywalker', birth_year: '19BBY', gender: 'male' },
-        { name: 'C-3PO', birth_year: '112BBY', gender: 'n/a' },
+        {
+          name: 'Luke Skywalker',
+          birth_year: '19BBY',
+          gender: 'male',
+          url: 'http://localhost:8080',
+        },
+        {
+          name: 'C-3PO',
+          birth_year: '112BBY',
+          gender: 'n/a',
+          url: 'http://localhost:8080',
+        },
       ];
       const mockFetch = vi
         .fn()
@@ -194,7 +214,12 @@ describe('App', () => {
   describe('State Management Tests', () => {
     it('updates component state based on API responses', async () => {
       const mockResults = [
-        { name: 'C-3PO', birth_year: '112BBY', gender: 'n/a' },
+        {
+          name: 'C-3PO',
+          birth_year: '112BBY',
+          gender: 'n/a',
+          url: 'http://localhost:8080',
+        },
       ];
       const mockFetch = vi
         .fn()

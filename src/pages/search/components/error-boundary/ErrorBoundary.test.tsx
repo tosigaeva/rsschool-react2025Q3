@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import ErrorBoundary from './ErrorBoundary.tsx';
 import { vi } from 'vitest';
 import { fireEvent } from '@testing-library/dom';
+import { ErrorBoundary } from '#/pages/search/components/error-boundary/ErrorBoundary.tsx';
 
 const ErrorComponent = () => {
   throw new Error('Test error');

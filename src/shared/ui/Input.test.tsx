@@ -1,0 +1,219 @@
+import { render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
+import userEvent from '@testing-library/user-event';
+import { Input } from './Input';
+
+describe('Input', () => {
+  describe('Rendering Tests', () => {
+    it('should render with correct attributes', () => {
+      const mockOnChange = vi.fn();
+
+      render(<Input value="" onChange={mockOnChange} />);
+
+      const input = screen.getByRole('textbox');
+      expect(input).toBeInTheDocument();
+      expect(input).toHaveAttribute('type', 'text');
+      expect(input).toHaveAttribute('placeholder', 'Search for a character...');
+    });
+
+    it('should display the provided value', () => {
+      const mockOnChange = vi.fn();
+      const testValue = 'Luke Skywalker';
+
+      render(<Input value={testValue} onChange={mockOnChange} />);
+
+      const input = screen.getByRole('textbox');
+      expect(input).toHaveValue(testValue);
+    });
+
+    it('should display empty string when value is empty', () => {
+      const mockOnChange = vi.fn();
+
+      render(<Input value="" onChange={mockOnChange} />);
+
+      const input = screen.getByRole('textbox');
+      expect(input).toHaveValue('');
+    });
+  });
+
+  describe('Interaction Tests', () => {
+    it('should call onChange when user types', async () => {
+      const mockOnChange = vi.fn();
+      const user = userEvent.setup();
+
+      render(<Input value="" onChange={mockOnChange} />);
+
+      const input = screen.getByRole('textbox');
+      await user.type(input, 'test');
+
+      expect(mockOnChange).toHaveBeenCalled();
+    });
+
+    it('should call onChange for each character typed', async () => {
+      const mockOnChange = vi.fn();
+      const user = userEvent.setup();
+
+      render(<Input value="" onChange={mockOnChange} />);
+
+      const input = screen.getByRole('textbox');
+      await user.type(input, 'abc');
+
+      expect(mockOnChange).toHaveBeenCalledTimes(3);
+    });
+
+    it('should handle special characters', async () => {
+      const mockOnChange = vi.fn();
+      const user = userEvent.setup();
+
+      render(<Input value="" onChange={mockOnChange} />);
+
+      const input = screen.getByRole('textbox');
+      await user.type(input, '!@#$%^&*()');
+
+      expect(mockOnChange).toHaveBeenCalled();
+    });
+
+    it('should handle unicode characters', async () => {
+      const mockOnChange = vi.fn();
+      const user = userEvent.setup();
+
+      render(<Input value="" onChange={mockOnChange} />);
+
+      const input = screen.getByRole('textbox');
+      await user.type(input, '🚀🌟🎉中文русский');
+
+      expect(mockOnChange).toHaveBeenCalled();
+    });
+
+    it('should handle very long input', async () => {
+      const mockOnChange = vi.fn();
+      const user = userEvent.setup();
+      const longText = 'a'.repeat(1000);
+
+      render(<Input value="" onChange={mockOnChange} />);
+
+      const input = screen.getByRole('textbox');
+      await user.type(input, longText);
+
+      expect(mockOnChange).toHaveBeenCalled();
+    });
+  });
+
+  describe('Props Tests', () => {
+    it('should accept value and onChange props', () => {
+      const mockOnChange = vi.fn();
+      const testValue = 'test value';
+
+      render(<Input value={testValue} onChange={mockOnChange} />);
+
+      const input = screen.getByRole('textbox');
+      expect(input).toHaveValue(testValue);
+    });
+
+    it('should handle different onChange functions', async () => {
+      const mockOnChange1 = vi.fn();
+      const mockOnChange2 = vi.fn();
+      const user = userEvent.setup();
+
+      const { rerender } = render(<Input value="" onChange={mockOnChange1} />);
+
+      const input = screen.getByRole('textbox');
+      await user.type(input, 'a');
+
+      expect(mockOnChange1).toHaveBeenCalled();
+      expect(mockOnChange2).not.toHaveBeenCalled();
+
+      rerender(<Input value="" onChange={mockOnChange2} />);
+
+      await user.type(input, 'b');
+
+      expect(mockOnChange1).toHaveBeenCalledTimes(1);
+      expect(mockOnChange2).toHaveBeenCalled();
+    });
+
+    it('should update value when prop changes', () => {
+      const mockOnChange = vi.fn();
+
+      const { rerender } = render(
+        <Input value="initial" onChange={mockOnChange} />
+      );
+
+      let input = screen.getByRole('textbox');
+      expect(input).toHaveValue('initial');
+
+      rerender(<Input value="updated" onChange={mockOnChange} />);
+
+      input = screen.getByRole('textbox');
+      expect(input).toHaveValue('updated');
+    });
+  });
+
+  describe('Accessibility Tests', () => {
+    it('should be focusable', () => {
+      const mockOnChange = vi.fn();
+
+      render(<Input value="" onChange={mockOnChange} />);
+
+      const input = screen.getByRole('textbox');
+      input.focus();
+
+      expect(input).toHaveFocus();
+    });
+
+    it('should have correct role', () => {
+      const mockOnChange = vi.fn();
+
+      render(<Input value="" onChange={mockOnChange} />);
+
+      expect(screen.getByRole('textbox')).toBeInTheDocument();
+    });
+
+    it('should be accessible via keyboard navigation', async () => {
+      const mockOnChange = vi.fn();
+      const user = userEvent.setup();
+
+      render(<Input value="" onChange={mockOnChange} />);
+
+      const input = screen.getByRole('textbox');
+      input.focus();
+      await user.keyboard('test');
+
+      expect(mockOnChange).toHaveBeenCalled();
+    });
+  });
+
+  describe('Edge Cases', () => {
+    it('should handle null value gracefully', () => {
+      const mockOnChange = vi.fn();
+
+      render(
+        <Input value={null as unknown as string} onChange={mockOnChange} />
+      );
+
+      const input = screen.getByRole('textbox');
+      expect(input).toBeInTheDocument();
+    });
+
+    it('should handle undefined value gracefully', () => {
+      const mockOnChange = vi.fn();
+
+      render(
+        <Input value={undefined as unknown as string} onChange={mockOnChange} />
+      );
+
+      const input = screen.getByRole('textbox');
+      expect(input).toBeInTheDocument();
+    });
+
+    it('should handle number value', () => {
+      const mockOnChange = vi.fn();
+
+      render(
+        <Input value={123 as unknown as string} onChange={mockOnChange} />
+      );
+
+      const input = screen.getByRole('textbox');
+      expect(input).toHaveValue('123');
+    });
+  });
+});

@@ -1,12 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import App from '../App';
 import { vi } from 'vitest';
-
-interface Person {
-  name: string;
-  birth_year: string;
-  gender: string;
-}
+import { MemoryRouter } from 'react-router';
+import App from '#/App.tsx';
+import type { Character } from '#/types';
 
 export interface ResponseLike<T> {
   ok: boolean;
@@ -16,7 +12,7 @@ export interface ResponseLike<T> {
 }
 
 type RenderAppOptions = {
-  mockFetch?: (url: string) => Promise<ResponseLike<{ results: Person[] }>>;
+  mockFetch?: (url: string) => Promise<ResponseLike<{ results: Character[] }>>;
   localStorageTerm?: string;
 };
 
@@ -31,7 +27,11 @@ export const renderApp = (options: RenderAppOptions = {}) => {
     localStorage.setItem('searchTerm', localStorageTerm);
   }
 
-  render(<App />);
+  render(
+    <MemoryRouter>
+      <App />
+    </MemoryRouter>
+  );
 
   return {
     input: screen.getByRole('textbox'),
@@ -41,8 +41,8 @@ export const renderApp = (options: RenderAppOptions = {}) => {
 };
 
 export const mockSuccessResponse = (
-  results: Person[]
-): ResponseLike<{ results: Person[] }> => ({
+  results: Character[]
+): ResponseLike<{ results: Character[] }> => ({
   ok: true,
   status: 200,
   statusText: 'OK',
@@ -52,7 +52,7 @@ export const mockSuccessResponse = (
 export const mockErrorResponse = (
   status: number,
   statusText: string
-): ResponseLike<{ results: Person[] }> => ({
+): ResponseLike<{ results: Character[] }> => ({
   ok: false,
   status,
   statusText,
