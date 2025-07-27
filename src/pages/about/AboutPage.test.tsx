@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { AboutPage } from './about-page';
+import { AboutPage } from '#/pages/about/AboutPage.tsx';
 
 describe('AboutPage', () => {
   it('renders the about page content', () => {

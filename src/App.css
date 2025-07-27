@@ -93,7 +93,7 @@ input {
   border-radius: 10px;
   padding: 20px;
   width: 290px;
-  color: #fff;
+  color: hsl(341, 0%, 100%);
   box-shadow: 0 0 14px hsl(184, 100%, 50%);
   transition:
     transform 0.3s ease,
@@ -121,13 +121,14 @@ input {
 }
 
 .label,
-.character-details__label {
+.character-details__label,
+li .label {
   color: hsl(54, 100%, 56%);
 }
 
 .value,
 .character-details__value {
-  color: hsl(0, 0%, 100%);
+  color: hsl(341, 0%, 100%);
 }
 
 .pagination {
@@ -136,7 +137,8 @@ input {
   justify-content: center;
 }
 
-.app {
+.app,
+.about-page {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
@@ -184,4 +186,22 @@ input {
 
 .no-text-decoration {
   text-decoration: none;
+}
+
+section {
+  width: 50%;
+  margin: 0 auto;
+  text-align: start;
+}
+
+li {
+  padding-bottom: 10px;
+  color: hsl(341, 0%, 100%);
+}
+
+a {
+  display: inline-block;
+  margin-top: 30px;
+  color: hsl(341, 0%, 100%);
+  font-size: 24px;
 }

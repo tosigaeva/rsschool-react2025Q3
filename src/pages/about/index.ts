@@ -1,1 +1,1 @@
-export { AboutPage } from '#/pages/about/about-page.tsx';
+export { AboutPage } from '#/pages/about/AboutPage.tsx';
