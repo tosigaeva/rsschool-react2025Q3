@@ -11,7 +11,7 @@ describe('AboutPage', () => {
   it('renders content within a paragraph element', () => {
     render(<AboutPage />);
     const paragraph = screen.getByText('About me');
-    expect(paragraph.tagName).toBe('P');
+    expect(paragraph.tagName).toBe('H2');
   });
 
   it('renders exactly the expected text', () => {
