@@ -1,0 +1,21 @@
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { AboutPage } from './about-page';
+
+describe('AboutPage', () => {
+  it('renders the about page content', () => {
+    render(<AboutPage />);
+    expect(screen.getByText('About me')).toBeInTheDocument();
+  });
+
+  it('renders content within a paragraph element', () => {
+    render(<AboutPage />);
+    const paragraph = screen.getByText('About me');
+    expect(paragraph.tagName).toBe('P');
+  });
+
+  it('renders exactly the expected text', () => {
+    render(<AboutPage />);
+    expect(screen.getByText('About me')).toHaveTextContent('About me');
+  });
+});

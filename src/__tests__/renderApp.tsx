@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import App from '../App';
 import { vi } from 'vitest';
 import { MemoryRouter } from 'react-router';
-import type { Character } from '../types';
+import App from '#/App.tsx';
+import type { Character } from '#/types';
 
 export interface ResponseLike<T> {
   ok: boolean;

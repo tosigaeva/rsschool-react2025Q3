@@ -1,6 +1,6 @@
-import { mockLocalStorage } from '../__tests__/mockLocalStorage';
-import { renderTopSection } from '../__tests__/renderTopSection';
 import { fireEvent } from '@testing-library/dom';
+import { mockLocalStorage } from '#/__tests__/mockLocalStorage.ts';
+import { renderTopSection } from '#/__tests__/renderTopSection.tsx';
 
 Object.defineProperty(window, 'localStorage', {
   value: mockLocalStorage(),
@@ -49,7 +49,7 @@ describe('TopSection', () => {
       fireEvent.change(input, { target: { value: '   Luke   ' } });
       fireEvent.click(button);
 
-      expect(mockOnSearch).toHaveBeenCalledWith('Luke');
+      expect(mockOnSearch).toHaveBeenCalledWith('Luke', 1);
     });
 
     it('triggers search callback with correct parameters', () => {
@@ -60,7 +60,7 @@ describe('TopSection', () => {
       fireEvent.click(button);
 
       expect(mockOnSearch).toHaveBeenCalledTimes(1);
-      expect(mockOnSearch).toHaveBeenCalledWith(testValue);
+      expect(mockOnSearch).toHaveBeenCalledWith(testValue, 1);
     });
   });
 });

@@ -57,6 +57,7 @@ export const useFetchAll = () => {
       return { results, totalPages };
     } catch (error) {
       setError(error);
+      setLoading(false);
     }
   }, []);
 
@@ -79,6 +80,7 @@ export const useFetchItem = () => {
       return { character: data };
     } catch (error) {
       setError(error);
+      setLoading(false);
     }
   }, []);
 

@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import SearchPanelSection from '../components/SearchPanelSection.tsx';
 import { vi } from 'vitest';
+import { BrowserRouter } from 'react-router';
+import { SearchPanelSection } from '#/pages/search/components/search-panel';
 
 type RenderTopSectionOptions = {
   localStorageTerm?: string;
@@ -14,7 +15,11 @@ export const renderTopSection = (options: RenderTopSectionOptions = {}) => {
     localStorage.setItem('searchTerm', localStorageTerm);
   }
 
-  render(<SearchPanelSection onSearch={mockOnSearch} />);
+  render(
+    <BrowserRouter>
+      <SearchPanelSection onSearch={mockOnSearch} />
+    </BrowserRouter>
+  );
 
   return {
     input: screen.getByRole('textbox'),

@@ -4,11 +4,11 @@ import {
   mockSuccessResponse,
   renderApp,
   type ResponseLike,
-} from './__tests__/renderApp.tsx';
+} from '#/__tests__/renderApp.tsx';
 import { fireEvent, screen, waitFor } from '@testing-library/dom';
 import { act } from '@testing-library/react';
-import { mockLocalStorage } from './__tests__/mockLocalStorage.ts';
-import type { Character } from './types';
+import { mockLocalStorage } from '#/__tests__/mockLocalStorage.ts';
+import type { Character } from '#/types';
 
 Object.defineProperty(window, 'localStorage', {
   value: mockLocalStorage(),
@@ -23,7 +23,12 @@ describe('App', () => {
   describe('Integration Tests', () => {
     it('makes initial API call on component mount', async () => {
       const mockResults: Character[] = [
-        { name: 'Luke Skywalker', birth_year: '19BBY', gender: 'male' },
+        {
+          name: 'Luke Skywalker',
+          birth_year: '19BBY',
+          gender: 'male',
+          url: 'http://localhost:8080',
+        },
       ];
       const mockFetch = vi
         .fn()
@@ -44,7 +49,12 @@ describe('App', () => {
     it('handles search term from localStorage on initial load', async () => {
       const testTerm = 'Luke Skywalker';
       const mockResults: Character[] = [
-        { name: 'Luke Skywalker', birth_year: '19BBY', gender: 'male' },
+        {
+          name: 'Luke Skywalker',
+          birth_year: '19BBY',
+          gender: 'male',
+          url: 'http://localhost:8080',
+        },
       ];
       const mockFetch = vi
         .fn()
@@ -105,7 +115,12 @@ describe('App', () => {
     it('calls API with correct parameters', async () => {
       const testTerm = 'Luke Skywalker';
       const mockResults: Character[] = [
-        { name: 'Luke Skywalker', birth_year: '19BBY', gender: 'male' },
+        {
+          name: 'Luke Skywalker',
+          birth_year: '19BBY',
+          gender: 'male',
+          url: 'http://localhost:8080',
+        },
       ];
       const mockFetch = vi
         .fn()
@@ -129,8 +144,18 @@ describe('App', () => {
 
     it('handles successful API responses', async () => {
       const mockResults = [
-        { name: 'Luke Skywalker', birth_year: '19BBY', gender: 'male' },
-        { name: 'C-3PO', birth_year: '112BBY', gender: 'n/a' },
+        {
+          name: 'Luke Skywalker',
+          birth_year: '19BBY',
+          gender: 'male',
+          url: 'http://localhost:8080',
+        },
+        {
+          name: 'C-3PO',
+          birth_year: '112BBY',
+          gender: 'n/a',
+          url: 'http://localhost:8080',
+        },
       ];
       const mockFetch = vi
         .fn()
@@ -189,7 +214,12 @@ describe('App', () => {
   describe('State Management Tests', () => {
     it('updates component state based on API responses', async () => {
       const mockResults = [
-        { name: 'C-3PO', birth_year: '112BBY', gender: 'n/a' },
+        {
+          name: 'C-3PO',
+          birth_year: '112BBY',
+          gender: 'n/a',
+          url: 'http://localhost:8080',
+        },
       ];
       const mockFetch = vi
         .fn()

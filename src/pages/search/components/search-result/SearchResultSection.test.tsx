@@ -1,18 +1,28 @@
-import { renderBottomSection } from '../__tests__/renderBottomSection.tsx';
 import { screen } from '@testing-library/react';
 import { expect } from 'vitest';
+import { renderBottomSection } from '#/__tests__/renderBottomSection.tsx';
 
 describe('BottomSection', () => {
   const mockResults = [
-    { name: 'Luke Skywalker', birth_year: '19BBY', gender: 'male' },
-    { name: 'C-3PO', birth_year: '112BBY', gender: 'n/a' },
+    {
+      name: 'Luke Skywalker',
+      birth_year: '19BBY',
+      gender: 'male',
+      url: 'http://localhost:8080',
+    },
+    {
+      name: 'C-3PO',
+      birth_year: '112BBY',
+      gender: 'n/a',
+      url: 'http://localhost:8080',
+    },
   ];
 
   describe('Rendering Tests', () => {
     it('renders correct number of items when data is provided', () => {
       const { cards } = renderBottomSection({
         results: mockResults,
-        hasSearch: true,
+        hasBeenSearched: true,
       });
 
       expect(cards).toHaveLength(mockResults.length);
@@ -23,7 +33,7 @@ describe('BottomSection', () => {
     it('displays "no results" message when data array is empty', () => {
       const { cards, noResultsElement } = renderBottomSection({
         results: [],
-        hasSearch: true,
+        hasBeenSearched: true,
       });
 
       expect(noResultsElement).toBeInTheDocument();
@@ -44,7 +54,7 @@ describe('BottomSection', () => {
     it('correctly displays item names and descriptions', () => {
       renderBottomSection({
         results: mockResults,
-        hasSearch: true,
+        hasBeenSearched: true,
       });
 
       expect(
@@ -58,8 +68,15 @@ describe('BottomSection', () => {
 
     it('handles missing or undefined data gracefully', () => {
       renderBottomSection({
-        results: [{ name: 'Unknown', birth_year: '', gender: '' }],
-        hasSearch: true,
+        results: [
+          {
+            name: 'Unknown',
+            birth_year: '',
+            gender: '',
+            url: 'http://localhost:8080',
+          },
+        ],
+        hasBeenSearched: true,
       });
 
       expect(screen.getByText('Unknown')).toBeInTheDocument();
@@ -76,7 +93,7 @@ describe('BottomSection', () => {
   describe('Error Handling Tests', () => {
     it('displays error message when API call fails', () => {
       const { cards, loadingElement, errorElement } = renderBottomSection({
-        errorMessage: '404 Not Found',
+        error: new Error('404 Not Found'),
       });
 
       expect(errorElement).toBeInTheDocument();

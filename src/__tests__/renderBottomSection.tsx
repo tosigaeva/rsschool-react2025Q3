@@ -1,12 +1,15 @@
 import { render, screen } from '@testing-library/react';
-import SearchResultSection from '../components/SearchResultSection.tsx';
-import type { Character } from '../types/interfaces.tsx';
+import { MemoryRouter } from 'react-router';
+import type { Character } from '#/types';
+import { SearchResultSection } from '#/pages/search/components/search-result';
 
 type RenderBottomSectionOptions = {
   results?: Character[];
-  hasSearch?: boolean;
+  hasBeenSearched?: boolean;
   isLoading?: boolean;
-  errorMessage?: string | null;
+  error?: Error | null;
+  currentPage?: number;
+  totalPages?: number;
 };
 
 export const renderBottomSection = (
@@ -14,24 +17,36 @@ export const renderBottomSection = (
 ) => {
   const {
     results = [],
-    hasSearch = false,
+    hasBeenSearched = false,
     isLoading = false,
-    errorMessage = null,
+    error = null,
+    currentPage = 0,
+    totalPages = 0,
   } = options;
 
   const { container } = render(
-    <SearchResultSection
-      results={results}
-      hasSearch={hasSearch}
-      isLoading={isLoading}
-      errorMessage={errorMessage}
-    />
+    <MemoryRouter>
+      <SearchResultSection
+        results={results}
+        hasBeenSearched={hasBeenSearched}
+        isLoading={isLoading}
+        error={error}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+        onSelectCharacter={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+      />
+    </MemoryRouter>
   );
 
   return {
     cards: container.querySelectorAll('.card'),
     loadingElement: screen.queryByText(/loading/i),
     noResultsElement: screen.queryByText(/no results found/i),
-    errorElement: errorMessage ? screen.queryByText(errorMessage) : null,
+    errorElement: error ? screen.queryByText(error.message) : null,
   };
 };
