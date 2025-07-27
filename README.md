@@ -46,3 +46,11 @@ The API supports searching characters by name with query parameters, which are u
     ```bash
     npm start
     ```
+6. Run tests:
+    ```bash
+    npm run test:run
+    ```
+7. Run test coverage:
+    ```bash
+    npm run test:coverage
+    ```
