@@ -139,6 +139,7 @@ li .label {
 
 .app,
 .about-page {
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
@@ -204,4 +205,15 @@ a {
   margin-top: 30px;
   color: hsl(341, 0%, 100%);
   font-size: 24px;
+}
+
+.flyout {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: fit-content;
+  background: hsla(0, 0%, 10%, 0.9);
+  padding: 16px 24px;
+  border-radius: 10px;
+  box-shadow: 0 0 14px hsl(54, 100%, 56%);
 }
