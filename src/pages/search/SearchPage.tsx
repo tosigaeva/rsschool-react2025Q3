@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { SearchPanelSection } from '#/pages/search/components/search-panel';
 import ThrowErrorButton from '#/shared/ui/ThrowErrorButton';
 import { SearchResultSection } from '#/pages/search/components/search-result';
-import { Outlet, useOutlet, useSearchParams } from 'react-router';
+import { Link, Outlet, useOutlet, useSearchParams } from 'react-router';
 import useSearchTermStorage from '#/shared/hooks/useSearchTermStorage.ts';
 import { useFetchAll } from '#/shared/api/useClient.ts';
 
@@ -64,7 +64,7 @@ export function SearchPage() {
         />
         <Outlet />
       </div>
-      <a href={'/about'}>About</a>
+      <Link to="/about">About</Link>
     </div>
   );
 }
