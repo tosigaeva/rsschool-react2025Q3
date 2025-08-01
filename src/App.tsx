@@ -5,10 +5,12 @@ import { NotFoundPage } from '#/pages/not-found';
 import { DetailsPage } from '#/pages/details-page';
 import { AboutPage } from '#/pages/about';
 import { Flyout } from '#/pages/search/components/flyout';
+import { Header } from '#/widgets/header';
 
 function App() {
   return (
     <>
+      <Header />
       <Routes>
         <Route path="/" element={<SearchPage />}>
           <Route path="/details/:id" element={<DetailsPage />} />

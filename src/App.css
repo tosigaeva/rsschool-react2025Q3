@@ -1,5 +1,4 @@
 #root {
-  padding: 20px;
   text-align: center;
 }
 
@@ -12,20 +11,6 @@ body {
   color: hsl(54, 100%, 56%);
   min-height: 100vh;
   overflow-x: hidden;
-}
-
-h1 {
-  text-shadow: 0 0 10px hsl(54, 100%, 56%);
-  letter-spacing: 1.5px;
-  text-align: center;
-  margin-top: 2rem;
-  margin-bottom: 4rem;
-}
-
-h1,
-h2,
-p {
-  color: hsl(54, 100%, 56%);
 }
 
 button {
@@ -200,7 +185,7 @@ li {
   color: hsl(341, 0%, 100%);
 }
 
-a {
+.about-page a {
   display: inline-block;
   margin-top: 30px;
   color: hsl(341, 0%, 100%);
@@ -216,4 +201,64 @@ a {
   padding: 16px 24px;
   border-radius: 10px;
   box-shadow: 0 0 14px hsl(54, 100%, 56%);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  padding: 20px 40px 0 20px;
+  align-items: center;
+  background-color: hsla(0, 0%, 0%, 0.7);
+  border-bottom: 1px solid hsl(50, 100%, 30%);
+}
+
+.header__title {
+  margin: 0 0 14px;
+  font-size: 28px;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 8px hsl(54, 100%, 56%);
+}
+
+.header__nav {
+  display: flex;
+  gap: 8px;
+}
+
+.nav__link {
+  position: relative;
+  padding: 12px 8px 16px;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  color: hsl(54, 100%, 30%);
+  transition: all 0.3s ease;
+}
+
+.nav__link:hover {
+  color: hsl(54, 100%, 56%);
+}
+
+.nav__link.active {
+  color: hsl(54, 100%, 56%);
+}
+
+.nav__link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 8px;
+  width: calc(100% - 16px);
+  height: 2px;
+  border-radius: 2px;
+  background: hsl(54, 100%, 56%);
+  box-shadow:
+    0 0 4px hsl(54, 100%, 56%),
+    0 0 8px hsla(54, 100%, 56%, 0.6),
+    0 0 16px hsla(54, 100%, 56%, 0.3);
+  z-index: 1;
+}
+
+.nav__link.active:hover {
+  text-shadow: none;
+  cursor: default;
 }

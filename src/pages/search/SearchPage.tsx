@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { SearchPanelSection } from '#/pages/search/components/search-panel';
 import ThrowErrorButton from '#/shared/ui/ThrowErrorButton';
 import { SearchResultSection } from '#/pages/search/components/search-result';
-import { Link, Outlet, useOutlet, useSearchParams } from 'react-router';
+import { Outlet, useOutlet, useSearchParams } from 'react-router';
 import useSearchTermStorage from '#/shared/hooks/useSearchTermStorage.ts';
 import { useFetchAll } from '#/shared/api/useClient.ts';
 
@@ -44,7 +44,6 @@ export function SearchPage() {
   const onSelectCharacter = () => {};
   return (
     <div className={'app'}>
-      <h1>Star Wars Character Finder</h1>
       <SearchPanelSection onSearch={loadData} />
       <ThrowErrorButton onClick={handleThrow} />
       <div
@@ -64,7 +63,6 @@ export function SearchPage() {
         />
         <Outlet />
       </div>
-      <Link to="/about">About</Link>
     </div>
   );
 }
