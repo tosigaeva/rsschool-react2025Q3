@@ -25,11 +25,14 @@ export function Card({ character, onClick }: CardProps) {
           <span className="value">{character.gender}</span>
         </p>
       </Link>
-      <input
-        type={'checkbox'}
-        checked={selected.some((item) => item.url === character.url)}
-        onChange={() => toggleSelection(character)}
-      ></input>
+      <label className="checkbox">
+        <input
+          type={'checkbox'}
+          checked={selected.some((item) => item.url === character.url)}
+          onChange={() => toggleSelection(character)}
+        ></input>
+        <span className="checkmark"></span>
+      </label>
     </div>
   );
 }
