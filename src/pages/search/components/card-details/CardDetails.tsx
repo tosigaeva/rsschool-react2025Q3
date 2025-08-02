@@ -6,18 +6,18 @@ export function CardDetails({ details, onClick }: CardDetailsProps) {
   const entries = Object.entries(details);
 
   return (
-    <div className="character-details">
-      <div className="character-details__card">
+    <div className="card-details">
+      <div className="text-start break-all">
         <button
-          className={'character-details__button button_square'}
+          className="absolute top-[10px] right-[10px] w-10 bg-transparent px-0 py-1.5 text-xl font-thin"
           onClick={onClick}
         >
           ×
         </button>
         {entries.map(([key, value]) => (
           <p key={key}>
-            <span className="character-details__label">{key}: </span>
-            <span className="character-details__value">{value}</span>
+            <span className="text-text-label">{key}: </span>
+            <span>{value}</span>
           </p>
         ))}
       </div>

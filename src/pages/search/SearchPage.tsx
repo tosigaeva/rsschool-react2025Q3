@@ -43,7 +43,7 @@ export function SearchPage() {
 
   const onSelectCharacter = () => {};
   return (
-    <div className={'app'}>
+    <div className="relative mx-auto my-0 max-w-[1200px] p-5">
       <SearchPanelSection onSearch={loadData} />
       <ThrowErrorButton onClick={handleThrow} />
       <div

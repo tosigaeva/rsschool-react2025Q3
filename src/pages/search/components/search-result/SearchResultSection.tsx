@@ -24,8 +24,8 @@ export function SearchResultSection({
     return <p className="no-results">No results found.</p>;
 
   return (
-    <div className="bottom-section">
-      <div className={'cards'}>
+    <div className="flex w-[700px] flex-col justify-center gap-y-8">
+      <div className="flex flex-wrap justify-center gap-6">
         {results.map((item, index) => (
           <Card
             key={index}

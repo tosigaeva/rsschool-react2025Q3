@@ -7,13 +7,13 @@ export function Pagination({
   onClick,
 }: PaginationProps) {
   return (
-    <div className={'pagination'}>
+    <div className="flex flex-row justify-center">
       {Array.from({ length: totalPages }, (_, index) => index + 1).map(
         (page) => (
           <button
             key={page}
             onClick={() => onClick(page)}
-            className={'button_square'}
+            className="w-10"
             disabled={page === currentPage}
           >
             {page}
