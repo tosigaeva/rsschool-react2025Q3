@@ -13,7 +13,7 @@ export function Pagination({
           <button
             key={page}
             onClick={() => onClick(page)}
-            className="w-10"
+            className="not-dark:bg-primary-500 not-dark:hover:bg-primary-400 not-dark:hover:border-primary-400 w-10"
             disabled={page === currentPage}
           >
             {page}
