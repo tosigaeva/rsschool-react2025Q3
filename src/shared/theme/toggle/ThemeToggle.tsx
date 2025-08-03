@@ -5,7 +5,7 @@ export const ThemeToggle = () => {
 
   return (
     <button onClick={toggleTheme} className="mb-2 h-10 w-10">
-      {theme === 'dark' ? '🌙' : '☀️'}
+      {theme === 'dark' ? '☀️' : '🌙'}
     </button>
   );
 };
