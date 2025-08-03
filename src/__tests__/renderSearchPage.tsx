@@ -6,17 +6,14 @@ import type { Character } from '#/types';
 import * as useClient from '#/shared/api/useClient';
 import * as useSearchTermStorage from '#/shared/hooks/useSearchTermStorage';
 
-// Mock the useFetchAll hook
 vi.mock('#/shared/api/useClient.ts', () => ({
   useFetchAll: vi.fn(),
 }));
 
-// Mock the useSearchTermStorage hook
 vi.mock('#/shared/hooks/useSearchTermStorage.ts', () => ({
   default: vi.fn(),
 }));
 
-// Mock react-router hooks
 const mockSetSearchParams = vi.fn();
 const mockUseSearchParams = vi.fn();
 const mockUseOutlet = vi.fn();
@@ -56,13 +53,11 @@ export const renderSearchPage = (options: RenderSearchPageOptions = {}) => {
     mockLoadData = vi.fn().mockResolvedValue(undefined),
   } = options;
 
-  // Mock useSearchTermStorage
   vi.mocked(useSearchTermStorage.default).mockReturnValue([
     searchTerm,
     vi.fn(),
   ]);
 
-  // Mock useFetchAll
   const mockUseFetchAll = vi.fn().mockReturnValue({
     loadData: mockLoadData,
     isLoading,
@@ -74,10 +69,8 @@ export const renderSearchPage = (options: RenderSearchPageOptions = {}) => {
 
   vi.mocked(useClient.useFetchAll).mockImplementation(mockUseFetchAll);
 
-  // Mock useSearchParams
   mockUseSearchParams.mockReturnValue(searchParams);
 
-  // Mock useOutlet
   mockUseOutlet.mockReturnValue(outlet);
 
   const { container } = render(
@@ -90,13 +83,11 @@ export const renderSearchPage = (options: RenderSearchPageOptions = {}) => {
     container,
     mockLoadData,
     mockSetSearchParams,
-    getTitle: () => screen.getByText('Star Wars Character Finder'),
     getSearchPanel: () =>
       container.querySelector('input[placeholder="Search for a character..."]'),
-    getSearchResults: () => container.querySelector('.bottom-section'),
+    getSearchResults: () => screen.getByTestId('search-results'),
     getThrowErrorButton: () =>
       screen.getByRole('button', { name: /throw error/i }),
-    getAboutLink: () => screen.getByRole('link', { name: /about/i }),
     getLoading: () => screen.queryByText(/loading/i),
     getError: () => (error ? screen.queryByText(error.message) : null),
     getMainContent: () => container.querySelector('.main-content'),

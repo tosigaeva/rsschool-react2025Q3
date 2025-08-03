@@ -280,9 +280,7 @@ describe('DetailsPage', () => {
         expect(screen.getByText('birth_year:')).toBeInTheDocument();
         expect(screen.getByText('gender:')).toBeInTheDocument();
         // Values should be empty but labels should still be present
-        const valueSpans = document.querySelectorAll(
-          '.character-details__value'
-        );
+        const valueSpans = document.querySelectorAll('p > span:nth-of-type(2)');
         expect(valueSpans).toHaveLength(9); // All character properties including url
 
         // Check that most values are empty, but url has a value

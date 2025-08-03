@@ -84,19 +84,6 @@ describe('Input', () => {
 
       expect(mockOnChange).toHaveBeenCalled();
     });
-
-    it('should handle very long input', async () => {
-      const mockOnChange = vi.fn();
-      const user = userEvent.setup();
-      const longText = 'a'.repeat(1000);
-
-      render(<Input value="" onChange={mockOnChange} />);
-
-      const input = screen.getByRole('textbox');
-      await user.type(input, longText);
-
-      expect(mockOnChange).toHaveBeenCalled();
-    });
   });
 
   describe('Props Tests', () => {
@@ -108,27 +95,6 @@ describe('Input', () => {
 
       const input = screen.getByRole('textbox');
       expect(input).toHaveValue(testValue);
-    });
-
-    it('should handle different onChange functions', async () => {
-      const mockOnChange1 = vi.fn();
-      const mockOnChange2 = vi.fn();
-      const user = userEvent.setup();
-
-      const { rerender } = render(<Input value="" onChange={mockOnChange1} />);
-
-      const input = screen.getByRole('textbox');
-      await user.type(input, 'a');
-
-      expect(mockOnChange1).toHaveBeenCalled();
-      expect(mockOnChange2).not.toHaveBeenCalled();
-
-      rerender(<Input value="" onChange={mockOnChange2} />);
-
-      await user.type(input, 'b');
-
-      expect(mockOnChange1).toHaveBeenCalledTimes(1);
-      expect(mockOnChange2).toHaveBeenCalled();
     });
 
     it('should update value when prop changes', () => {

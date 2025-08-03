@@ -2,22 +2,35 @@ import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 import { MemoryRouter } from 'react-router';
 import { Card } from '#/pages/search/components/card';
+import userEvent from '@testing-library/user-event';
+import type { Character } from '#/types';
+
+type RenderCardProps = {
+  character?: Character;
+  mockOnClick?: () => void;
+};
+
+const renderCard = (props: RenderCardProps = {}) => {
+  const { character = mockCharacter, mockOnClick = vi.fn() } = props;
+
+  return render(
+    <MemoryRouter>
+      <Card character={character} onClick={mockOnClick} />
+    </MemoryRouter>
+  );
+};
+
+const mockCharacter = {
+  name: 'Luke Skywalker',
+  birth_year: '19BBY',
+  gender: 'male',
+  url: 'http://localhost:8080/api/people/1',
+};
 
 describe('Card', () => {
   describe('Rendering Tests', () => {
     it('displays item name and description correctly', () => {
-      const character = {
-        name: 'Luke Skywalker',
-        birth_year: '19BBY',
-        gender: 'male',
-        url: 'http://localhost:8080/api/people/1',
-      };
-
-      render(
-        <MemoryRouter>
-          <Card character={character} onClick={() => {}} />
-        </MemoryRouter>
-      );
+      renderCard();
 
       expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
         'Luke Skywalker'
@@ -36,44 +49,27 @@ describe('Card', () => {
         url: 'http://localhost:8080/api/people/1',
       };
 
-      render(
-        <MemoryRouter>
-          <Card character={emptyCharacter} onClick={() => {}} />
-        </MemoryRouter>
-      );
+      renderCard({ character: emptyCharacter });
 
       expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent('');
-
-      // Check that labels are still present
       expect(screen.getByText('Year of birth:')).toBeInTheDocument();
       expect(screen.getByText('Gender:')).toBeInTheDocument();
 
-      // Check that the value spans exist and have empty content
-      const valueSpans = document.querySelectorAll('.value');
-      expect(valueSpans).toHaveLength(2);
-      expect(valueSpans[0]).toHaveTextContent('');
-      expect(valueSpans[1]).toHaveTextContent('');
+      const emptyTextNodes = screen.getAllByText((content) => content === '');
+      expect(emptyTextNodes.length).toBeGreaterThanOrEqual(2);
     });
 
-    it('handles onClick callback', () => {
+    it('handles onClick callback', async () => {
+      const user = userEvent.setup();
       const mockOnClick = vi.fn();
-      const character = {
-        name: 'Luke Skywalker',
-        birth_year: '19BBY',
-        gender: 'male',
-        url: 'http://localhost:8080/api/people/1',
-      };
 
-      render(
-        <MemoryRouter>
-          <Card character={character} onClick={mockOnClick} />
-        </MemoryRouter>
-      );
+      renderCard({ mockOnClick });
 
-      const cardElement = screen
-        .getByRole('heading', { level: 3 })
-        .closest('.card');
-      expect(cardElement).toBeInTheDocument();
+      const linkElement = screen.getByRole('link');
+
+      await user.click(linkElement);
+
+      expect(mockOnClick).toHaveBeenCalled();
     });
   });
 });

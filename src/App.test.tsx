@@ -1,4 +1,4 @@
-import { vi } from 'vitest';
+import { beforeAll, vi } from 'vitest';
 import {
   mockErrorResponse,
   mockSuccessResponse,
@@ -9,6 +9,22 @@ import { fireEvent, screen, waitFor } from '@testing-library/dom';
 import { act } from '@testing-library/react';
 import { mockLocalStorage } from '#/__tests__/mockLocalStorage.ts';
 import type { Character } from '#/types';
+
+beforeAll(() => {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: (query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    }),
+  });
+});
 
 Object.defineProperty(window, 'localStorage', {
   value: mockLocalStorage(),

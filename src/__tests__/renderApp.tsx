@@ -3,6 +3,7 @@ import { vi } from 'vitest';
 import { MemoryRouter } from 'react-router';
 import App from '#/App.tsx';
 import type { Character } from '#/types';
+import { ThemeProvider } from '#/shared/theme/provider.tsx';
 
 export interface ResponseLike<T> {
   ok: boolean;
@@ -28,9 +29,11 @@ export const renderApp = (options: RenderAppOptions = {}) => {
   }
 
   render(
-    <MemoryRouter>
-      <App />
-    </MemoryRouter>
+    <ThemeProvider>
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    </ThemeProvider>
   );
 
   return {

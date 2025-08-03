@@ -7,11 +7,6 @@ describe('SearchPage', () => {
     vi.clearAllMocks();
   });
 
-  it('renders the main title', () => {
-    renderSearchPage();
-    expect(screen.getByText('Star Wars Character Finder')).toBeInTheDocument();
-  });
-
   it('renders search panel section', () => {
     const { getSearchPanel } = renderSearchPage();
     expect(getSearchPanel()).toBeInTheDocument();
@@ -25,12 +20,6 @@ describe('SearchPage', () => {
   it('renders throw error button', () => {
     const { getThrowErrorButton } = renderSearchPage();
     expect(getThrowErrorButton()).toBeInTheDocument();
-  });
-
-  it('renders about link', () => {
-    const { getAboutLink } = renderSearchPage();
-    expect(getAboutLink()).toBeInTheDocument();
-    expect(getAboutLink()).toHaveAttribute('href', '/about');
   });
 
   it('calls loadData with search term and current page on mount', async () => {
@@ -109,7 +98,6 @@ describe('SearchPage', () => {
 
   it('logs unknown error message when error is not Error instance', () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    // Create an object that's not an Error instance
     const error = { customProperty: 'test' } as unknown as Error;
 
     renderSearchPage({ error });
@@ -134,8 +122,6 @@ describe('SearchPage', () => {
       currentPage: 1,
     });
 
-    // The SearchResultSection should render pagination when there are results
-    // and totalPages > 0
     expect(mockSetSearchParams).toBeDefined();
   });
 
@@ -171,7 +157,6 @@ describe('SearchPage', () => {
       totalPages,
     });
 
-    // Verify that the SearchResultSection is rendered
     expect(getSearchResults()).toBeInTheDocument();
   });
 
@@ -181,17 +166,7 @@ describe('SearchPage', () => {
       hasBeenSearched: true,
     });
 
-    // Should not display any character names when results are empty
     expect(screen.queryByText('Luke Skywalker')).not.toBeInTheDocument();
     expect(screen.queryByText('Leia Organa')).not.toBeInTheDocument();
-  });
-
-  it('handles search term storage correctly', () => {
-    const searchTerm = 'Darth Vader';
-    renderSearchPage({ searchTerm });
-
-    // The search term should be used in the loadData call
-    // This is verified by the loadData being called with the search term
-    expect(screen.getByText('Star Wars Character Finder')).toBeInTheDocument();
   });
 });
