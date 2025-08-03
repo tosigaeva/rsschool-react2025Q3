@@ -17,6 +17,8 @@ The API supports searching characters by name with query parameters, which are u
 - **Build tool:** Vite v7.0.3
 - **Custom Hooks:** For reusable logic
 - **Language:** TypeScript ~5.8.3
+- **State Management:** Zustand
+- **Theme Management:** Context API (`ThemeProvider`)
 - **Linting:**
     - ESLint v9.30.1
     - React Compiler plugin
@@ -34,9 +36,9 @@ The API supports searching characters by name with query parameters, which are u
     ```bash
     cd rsschool-react2025Q3
     ```
-3. Switch to the `class-components` branch:
+3. Switch to the `app-state-management` branch:
     ```bash
-    git checkout class-components
+    git checkout app-state-management
     ```
 4. Install dependencies:
     ```bash
