@@ -3,7 +3,6 @@ import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { useFetchAll, useFetchItem } from './useClient';
 import type { Character, ApiResponse } from '#/types';
 
-// Mock fetch globally
 const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
@@ -114,7 +113,7 @@ describe('useClient', () => {
         await result.current.loadData('Luke', 1);
       });
 
-      expect(result.current.isLoading).toBe(false); // Loading should be false when error occurs
+      expect(result.current.isLoading).toBe(false);
       expect(result.current.results).toEqual([]);
       expect(result.current.hasBeenSearched).toBe(false);
       expect(result.current.error).toBeInstanceOf(Error);
@@ -132,7 +131,7 @@ describe('useClient', () => {
         await result.current.loadData('Luke', 1);
       });
 
-      expect(result.current.isLoading).toBe(false); // Loading should be false when error occurs
+      expect(result.current.isLoading).toBe(false);
       expect(result.current.results).toEqual([]);
       expect(result.current.hasBeenSearched).toBe(false);
       expect(result.current.error).toBe(networkError);
@@ -140,7 +139,6 @@ describe('useClient', () => {
     });
 
     it('should reset state when starting new request', async () => {
-      // First request
       mockFetch.mockResolvedValueOnce({
         ok: true,
         json: async () => ({
@@ -158,7 +156,6 @@ describe('useClient', () => {
       expect(result.current.results).toEqual(mockCharacters);
       expect(result.current.hasBeenSearched).toBe(true);
 
-      // Second request - should reset state
       mockFetch.mockResolvedValueOnce({
         ok: true,
         json: async () => ({
@@ -173,7 +170,7 @@ describe('useClient', () => {
 
       expect(result.current.results).toEqual([]);
       expect(result.current.hasBeenSearched).toBe(true);
-      expect(result.current.totalPages).toBe(0); // When count is 0, totalPages becomes 0
+      expect(result.current.totalPages).toBe(0);
     });
 
     it('should encode search terms properly', async () => {
@@ -248,7 +245,7 @@ describe('useClient', () => {
         await result.current.loadData('999');
       });
 
-      expect(result.current.isLoading).toBe(false); // Loading should be false when error occurs
+      expect(result.current.isLoading).toBe(false);
       expect(result.current.character).toBe(null);
       expect(result.current.error).toBeInstanceOf(Error);
       expect((result.current.error as Error).message).toBe(errorMessage);
@@ -264,13 +261,12 @@ describe('useClient', () => {
         await result.current.loadData('1');
       });
 
-      expect(result.current.isLoading).toBe(false); // Loading should be false when error occurs
+      expect(result.current.isLoading).toBe(false);
       expect(result.current.character).toBe(null);
       expect(result.current.error).toBe(networkError);
     });
 
     it('should reset state when starting new request', async () => {
-      // First request
       mockFetch.mockResolvedValueOnce({
         ok: true,
         json: async () => mockCharacter,
@@ -284,7 +280,6 @@ describe('useClient', () => {
 
       expect(result.current.character).toEqual(mockCharacter);
 
-      // Second request - should reset state
       mockFetch.mockResolvedValueOnce({
         ok: true,
         json: async () => ({ ...mockCharacter, name: 'Leia Organa' }),

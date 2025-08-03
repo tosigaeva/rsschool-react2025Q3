@@ -5,12 +5,10 @@ import { DetailsPage } from './DetailsPage';
 import type { CharacterDetails } from '#/types';
 import * as useClient from '#/shared/api/useClient';
 
-// Mock the useFetchItem hook
 vi.mock('#/shared/api/useClient.ts', () => ({
   useFetchItem: vi.fn(),
 }));
 
-// Mock react-router hooks
 const mockNavigate = vi.fn();
 const mockUseParams = vi.fn();
 
@@ -191,7 +189,6 @@ describe('DetailsPage', () => {
 
       vi.mocked(useClient.useFetchItem).mockImplementation(mockUseFetchItem);
 
-      // Mock window.location.search
       Object.defineProperty(window, 'location', {
         value: {
           search: '?search=luke&page=1',
@@ -239,7 +236,6 @@ describe('DetailsPage', () => {
       );
 
       await waitFor(() => {
-        // CardDetails should not render when character is null
         expect(screen.queryByText('name:')).not.toBeInTheDocument();
       });
     });
@@ -279,17 +275,12 @@ describe('DetailsPage', () => {
         expect(screen.getByText('name:')).toBeInTheDocument();
         expect(screen.getByText('birth_year:')).toBeInTheDocument();
         expect(screen.getByText('gender:')).toBeInTheDocument();
-        // Values should be empty but labels should still be present
         const valueSpans = document.querySelectorAll('p > span:nth-of-type(2)');
-        expect(valueSpans).toHaveLength(9); // All character properties including url
-
-        // Check that most values are empty, but url has a value
+        expect(valueSpans).toHaveLength(9);
         const emptySpans = Array.from(valueSpans).filter(
           (span) => span.textContent === ''
         );
-        expect(emptySpans).toHaveLength(8); // 8 empty values
-
-        // Check that url has the expected value
+        expect(emptySpans).toHaveLength(8);
         const urlSpan = Array.from(valueSpans).find(
           (span) => span.textContent === 'http://localhost:8080/api/people/1'
         );

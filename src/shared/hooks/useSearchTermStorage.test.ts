@@ -85,8 +85,6 @@ describe('useSearchTermStorage', () => {
       });
 
       expect(result.current[0]).toBe('third value');
-      // The useEffect calls setItem on every render, plus cleanup functions
-      // So we expect more calls than just the 3 state updates
       expect(mockStorage.setItem).toHaveBeenCalledWith(
         'testKey',
         'first value'
@@ -153,7 +151,6 @@ describe('useSearchTermStorage', () => {
 
       rerender({ key: 'newKey' });
 
-      // Should still have the same value but now stored under new key
       expect(result.current[0]).toBe('some value');
       expect(mockStorage.setItem).toHaveBeenCalledWith('newKey', 'some value');
     });

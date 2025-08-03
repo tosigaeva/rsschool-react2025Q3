@@ -52,7 +52,9 @@ describe('App', () => {
 
       renderApp({ mockFetch });
 
-      expect(mockFetch).toHaveBeenCalledTimes(1);
+      await waitFor(() => {
+        expect(mockFetch).toHaveBeenCalledTimes(1);
+      });
       expect(mockFetch).toHaveBeenCalledWith(
         'https://swapi.py4e.com/api/people/?page=1'
       );
@@ -101,7 +103,9 @@ describe('App', () => {
 
       const { getLoading } = renderApp({ mockFetch });
 
-      expect(getLoading()).toBeInTheDocument();
+      await waitFor(() => {
+        expect(getLoading()).toBeInTheDocument();
+      });
 
       act(() => {
         resolveFetch();
@@ -149,9 +153,11 @@ describe('App', () => {
         fireEvent.click(button);
       });
 
-      expect(mockFetch).toHaveBeenCalledWith(
-        expect.stringContaining(`search=${encodeURIComponent(testTerm)}`)
-      );
+      await waitFor(() => {
+        expect(mockFetch).toHaveBeenCalledWith(
+          expect.stringContaining(`search=${encodeURIComponent(testTerm)}`)
+        );
+      });
 
       await waitFor(() => {
         expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();

@@ -20,7 +20,6 @@ describe('Pagination', () => {
       const pageButtons = screen.getAllByRole('button');
       expect(pageButtons).toHaveLength(totalPages);
 
-      // Check that buttons show correct page numbers
       pageButtons.forEach((button, index) => {
         expect(button).toHaveTextContent(String(index + 1));
       });
@@ -40,8 +39,7 @@ describe('Pagination', () => {
       );
 
       const pageButtons = screen.getAllByRole('button');
-      const currentPageButton = pageButtons[currentPage - 1]; // 0-indexed
-
+      const currentPageButton = pageButtons[currentPage - 1];
       expect(currentPageButton).toBeDisabled();
       expect(currentPageButton).toHaveTextContent(String(currentPage));
     });
@@ -61,7 +59,6 @@ describe('Pagination', () => {
 
       const pageButtons = screen.getAllByRole('button');
 
-      // Check that non-current page buttons are enabled
       pageButtons.forEach((button, index) => {
         const pageNumber = index + 1;
         if (pageNumber !== currentPage) {
@@ -105,10 +102,8 @@ describe('Pagination', () => {
       const pageButtons = screen.getAllByRole('button');
       expect(pageButtons).toHaveLength(10);
 
-      // Check that current page is disabled
       expect(pageButtons[currentPage - 1]).toBeDisabled();
 
-      // Check that other pages are enabled
       pageButtons.forEach((button, index) => {
         const pageNumber = index + 1;
         if (pageNumber !== currentPage) {
@@ -134,12 +129,10 @@ describe('Pagination', () => {
 
       const pageButtons = screen.getAllByRole('button');
 
-      // Click on page 2 (index 1)
       pageButtons[1].click();
       expect(mockOnClick).toHaveBeenCalledWith(2);
       expect(mockOnClick).toHaveBeenCalledTimes(1);
 
-      // Click on page 3 (index 2)
       pageButtons[2].click();
       expect(mockOnClick).toHaveBeenCalledWith(3);
       expect(mockOnClick).toHaveBeenCalledTimes(2);
@@ -161,7 +154,6 @@ describe('Pagination', () => {
       const pageButtons = screen.getAllByRole('button');
       const currentPageButton = pageButtons[currentPage - 1];
 
-      // Try to click on current page button
       currentPageButton.click();
       expect(mockOnClick).not.toHaveBeenCalled();
     });
@@ -181,12 +173,10 @@ describe('Pagination', () => {
 
       const pageButtons = screen.getAllByRole('button');
 
-      // Click on different pages
-      pageButtons[1].click(); // Page 2
-      pageButtons[2].click(); // Page 3
-      pageButtons[3].click(); // Page 4
-      pageButtons[4].click(); // Page 5
-
+      pageButtons[1].click();
+      pageButtons[2].click();
+      pageButtons[3].click();
+      pageButtons[4].click();
       expect(mockOnClick).toHaveBeenCalledTimes(4);
       expect(mockOnClick).toHaveBeenNthCalledWith(1, 2);
       expect(mockOnClick).toHaveBeenNthCalledWith(2, 3);
@@ -216,8 +206,7 @@ describe('Pagination', () => {
     it('handles current page greater than total pages', () => {
       const mockOnClick = vi.fn();
       const totalPages = 3;
-      const currentPage = 5; // Greater than total pages
-
+      const currentPage = 5;
       render(
         <Pagination
           totalPages={totalPages}
@@ -229,7 +218,6 @@ describe('Pagination', () => {
       const pageButtons = screen.getAllByRole('button');
       expect(pageButtons).toHaveLength(3);
 
-      // All buttons should be enabled since current page doesn't exist
       pageButtons.forEach((button) => {
         expect(button).not.toBeDisabled();
       });
@@ -251,7 +239,6 @@ describe('Pagination', () => {
       const pageButtons = screen.getAllByRole('button');
       expect(pageButtons).toHaveLength(3);
 
-      // All buttons should be enabled since current page is 0
       pageButtons.forEach((button) => {
         expect(button).not.toBeDisabled();
       });

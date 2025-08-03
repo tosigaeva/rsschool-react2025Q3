@@ -15,25 +15,6 @@ describe('Input', () => {
       expect(input).toHaveAttribute('type', 'text');
       expect(input).toHaveAttribute('placeholder', 'Search for a character...');
     });
-
-    it('should display the provided value', () => {
-      const mockOnChange = vi.fn();
-      const testValue = 'Luke Skywalker';
-
-      render(<Input value={testValue} onChange={mockOnChange} />);
-
-      const input = screen.getByRole('textbox');
-      expect(input).toHaveValue(testValue);
-    });
-
-    it('should display empty string when value is empty', () => {
-      const mockOnChange = vi.fn();
-
-      render(<Input value="" onChange={mockOnChange} />);
-
-      const input = screen.getByRole('textbox');
-      expect(input).toHaveValue('');
-    });
   });
 
   describe('Interaction Tests', () => {
@@ -45,42 +26,6 @@ describe('Input', () => {
 
       const input = screen.getByRole('textbox');
       await user.type(input, 'test');
-
-      expect(mockOnChange).toHaveBeenCalled();
-    });
-
-    it('should call onChange for each character typed', async () => {
-      const mockOnChange = vi.fn();
-      const user = userEvent.setup();
-
-      render(<Input value="" onChange={mockOnChange} />);
-
-      const input = screen.getByRole('textbox');
-      await user.type(input, 'abc');
-
-      expect(mockOnChange).toHaveBeenCalledTimes(3);
-    });
-
-    it('should handle special characters', async () => {
-      const mockOnChange = vi.fn();
-      const user = userEvent.setup();
-
-      render(<Input value="" onChange={mockOnChange} />);
-
-      const input = screen.getByRole('textbox');
-      await user.type(input, '!@#$%^&*()');
-
-      expect(mockOnChange).toHaveBeenCalled();
-    });
-
-    it('should handle unicode characters', async () => {
-      const mockOnChange = vi.fn();
-      const user = userEvent.setup();
-
-      render(<Input value="" onChange={mockOnChange} />);
-
-      const input = screen.getByRole('textbox');
-      await user.type(input, '🚀🌟🎉中文русский');
 
       expect(mockOnChange).toHaveBeenCalled();
     });

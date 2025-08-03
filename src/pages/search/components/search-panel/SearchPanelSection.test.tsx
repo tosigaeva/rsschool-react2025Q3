@@ -49,7 +49,7 @@ describe('TopSection', () => {
       fireEvent.change(input, { target: { value: '   Luke   ' } });
       fireEvent.click(button);
 
-      expect(mockOnSearch).toHaveBeenCalledWith('Luke', 1);
+      expect(mockOnSearch).toHaveBeenCalledWith('Luke');
     });
 
     it('triggers search callback with correct parameters', () => {
@@ -60,7 +60,7 @@ describe('TopSection', () => {
       fireEvent.click(button);
 
       expect(mockOnSearch).toHaveBeenCalledTimes(1);
-      expect(mockOnSearch).toHaveBeenCalledWith(testValue, 1);
+      expect(mockOnSearch).toHaveBeenCalledWith(testValue);
     });
   });
 });

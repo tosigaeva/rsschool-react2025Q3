@@ -5,12 +5,10 @@ import { DetailsPage } from '#/pages/details-page/DetailsPage';
 import type { CharacterDetails } from '#/types';
 import * as useClient from '#/shared/api/useClient';
 
-// Mock the useFetchItem hook
 vi.mock('#/shared/api/useClient.ts', () => ({
   useFetchItem: vi.fn(),
 }));
 
-// Mock react-router hooks
 const mockNavigate = vi.fn();
 const mockUseParams = vi.fn();
 

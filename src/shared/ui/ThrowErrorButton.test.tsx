@@ -132,21 +132,6 @@ describe('ThrowErrorButton', () => {
   });
 
   describe('Error Handling', () => {
-    // it('should call onClick even when it throws an error', async () => {
-    //   const mockOnClick = vi.fn().mockImplementation(() => {
-    //     throw new Error('Test error');
-    //   });
-    //   const user = userEvent.setup();
-    //
-    //   render(<ThrowErrorButton onClick={mockOnClick} />);
-    //
-    //   const button = screen.getByRole('button');
-    //
-    //   // The click should still call the function even if it throws
-    //   await user.click(button);
-    //   expect(mockOnClick).toHaveBeenCalledTimes(1);
-    // });
-
     it('should handle async error functions', async () => {
       const mockOnClick = vi.fn().mockImplementation(async () => {
         throw new Error('Async test error');

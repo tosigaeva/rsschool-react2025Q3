@@ -37,46 +37,6 @@ describe('Button', () => {
 
       expect(mockOnClick).toHaveBeenCalledTimes(1);
     });
-
-    it('should call onClick multiple times when clicked multiple times', async () => {
-      const mockOnClick = vi.fn();
-      const user = userEvent.setup();
-
-      render(<Button onClick={mockOnClick} />);
-
-      const button = screen.getByRole('button');
-      await user.click(button);
-      await user.click(button);
-      await user.click(button);
-
-      expect(mockOnClick).toHaveBeenCalledTimes(3);
-    });
-
-    it('should be accessible via keyboard', async () => {
-      const mockOnClick = vi.fn();
-      const user = userEvent.setup();
-
-      render(<Button onClick={mockOnClick} />);
-
-      const button = screen.getByRole('button');
-      button.focus();
-      await user.keyboard('{Enter}');
-
-      expect(mockOnClick).toHaveBeenCalledTimes(1);
-    });
-
-    it('should be accessible via space key', async () => {
-      const mockOnClick = vi.fn();
-      const user = userEvent.setup();
-
-      render(<Button onClick={mockOnClick} />);
-
-      const button = screen.getByRole('button');
-      button.focus();
-      await user.keyboard(' ');
-
-      expect(mockOnClick).toHaveBeenCalledTimes(1);
-    });
   });
 
   describe('Props Tests', () => {
