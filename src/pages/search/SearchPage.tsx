@@ -7,7 +7,7 @@ import useSearchTermStorage from '#/shared/hooks/useSearchTermStorage.ts';
 import { useFetchAll } from '#/shared/api/useClient.ts';
 
 export function SearchPage() {
-  const [searchTerm] = useSearchTermStorage('searchTerm');
+  const [searchTerm, setSearchTerm] = useSearchTermStorage('searchTerm');
   const { loadData, isLoading, results, totalPages, hasBeenSearched, error } =
     useFetchAll();
 
@@ -18,7 +18,13 @@ export function SearchPage() {
   const currentPage = page ? parseInt(page, 10) : 1;
 
   useEffect(() => {
-    loadData(searchTerm, currentPage).then(() => {});
+    const handler = setTimeout(() => {
+      loadData(searchTerm, currentPage).then(() => {});
+    }, 100);
+
+    return () => {
+      clearTimeout(handler);
+    };
   }, [loadData, searchTerm, currentPage]);
 
   useEffect(() => {
@@ -44,7 +50,7 @@ export function SearchPage() {
   const onSelectCharacter = () => {};
   return (
     <div className="relative mx-auto my-0 max-w-[1200px] p-5">
-      <SearchPanelSection onSearch={loadData} />
+      <SearchPanelSection onSearch={setSearchTerm} />
       <ThrowErrorButton onClick={handleThrow} />
       <div
         className={`main-content ${isDetailsOpen ? 'main-content_with-details' : ''}`}

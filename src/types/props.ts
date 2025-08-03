@@ -1,7 +1,7 @@
 import type { Character } from './character.ts';
 
 export interface SearchPanelSectionProps {
-  onSearch: (searchTerm: string, pageNumber: number) => void;
+  onSearch: (searchTerm: string) => void;
 }
 
 export interface SearchResultSectionProps {

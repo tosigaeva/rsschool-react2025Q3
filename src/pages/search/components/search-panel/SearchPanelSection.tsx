@@ -20,7 +20,7 @@ export function SearchPanelSection({ onSearch }: SearchPanelSectionProps) {
   const handleSearchClick = async () => {
     setSearchTerm(input);
     setSearchParams({ page: '1' });
-    onSearch(input, 1);
+    onSearch(input);
   };
 
   return (
