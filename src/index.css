@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-orbitron: 'Orbitron', 'Tahoma', sans-serif;
+
+  --color-primary-100: hsl(50, 95%, 95%);
+  --color-primary-200: hsl(50, 95%, 85%);
+  --color-primary-300: hsl(50, 95%, 75%);
+  --color-primary-400: hsl(48, 86%, 63%); /*hover*/
+  --color-primary-500: hsl(50, 95%, 64%); /*base*/
+  --color-primary-600: hsl(50, 95%, 55%);
+  --color-primary-700: hsl(54, 100%, 40%);
+  --color-primary-800: hsl(54, 100%, 30%); /*disabled*/
+  --color-primary-900: hsl(54, 100%, 20%);
+
+  --color-secondary-50: hsl(196, 84%, 98%);
+  --color-secondary-100: hsl(196, 84%, 95%);
+  --color-secondary-200: hsl(196, 84%, 90%);
+  --color-secondary-300: hsl(196, 84%, 88%); /*base*/
+  --color-secondary-400: hsl(196, 84%, 84%); /*hover*/
+  --color-secondary-500: hsl(196, 84%, 80%);
+  --color-secondary-600: hsl(196, 84%, 75%);
+  --color-secondary-700: hsl(196, 84%, 70%);
+  --color-secondary-800: hsl(196, 84%, 65%);
+  --color-secondary-900: hsl(196, 84%, 60%);
+
+  --color-disabled-bg: hsl(0, 0%, 20%);
+  --color-card-bg: hsl(210, 3%, 12%);
+  --color-text-label: hsl(180, 1%, 71%);
+  --color-divider: hsl(210, 1%, 29%);
+  --color-text-active: hsl(0, 0%, 97%);
+  --color-text-inactive: hsl(0, 0%, 90%);
+}
+
+@layer base {
+  h1 {
+    @apply my-6 text-4xl font-bold;
+  }
+
+  h2 {
+    @apply my-5 text-3xl font-semibold;
+  }
+
+  h3 {
+    @apply my-4 font-bold;
+  }
+
+  button {
+    @apply border-primary-500 font-orbitron mr-2.5 w-[170px] cursor-pointer rounded-3xl border bg-transparent px-0 py-2.5 text-sm text-black uppercase transition-all duration-200 ease-in-out dark:text-white;
+  }
+  button:hover {
+    @apply border-black dark:border-white;
+  }
+  button:disabled {
+    @apply bg-disabled-bg border-primary-800 not-dark:border-primary-500 text-primary-800 cursor-default opacity-[0.5];
+  }
+
+  input {
+    @apply font-orbitron mr-2.5 w-[300px] rounded-lg border border-black bg-white p-2 dark:border-white dark:bg-black/75 dark:text-white;
+  }
+}
+
+@layer components {
+  .card {
+    @apply relative w-[320px] cursor-pointer rounded-lg bg-white p-5;
+    box-shadow: 0 0 14px hsl(54, 100%, 56%);
+  }
+  .dark .card {
+    @apply bg-card-bg;
+  }
+  .card h3 {
+    @apply text-2xl;
+  }
+  .card h3::before,
+  .card h3::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 4px;
+    top: 20px;
+    left: 15px;
+    border-radius: 4px;
+    background-color: hsl(200, 2%, 36%);
+    transition: box-shadow 0.3s ease;
+    z-index: 2;
+  }
+  .card h3::after {
+    top: 20px;
+    left: 45px;
+    width: 4px;
+  }
+  .card:hover h3::before,
+  .card:hover h3::after {
+    background-color: hsl(54, 100%, 56%);
+    box-shadow: 0 0 4px 1px hsl(54, 100%, 56%);
+  }
+
+  .dark .card:hover h3::before,
+  .dark .card:hover h3::after {
+    background-color: hsl(0, 0%, 100%);
+    box-shadow: 0 0 4px 1px hsl(196, 84%, 88%);
+  }
+
+  .card-details {
+    @apply dark:bg-card-bg sticky top-5 h-fit w-1/2 rounded-lg border-[0.5px] bg-white p-5;
+    border-color: hsl(54, 100%, 56%);
+    box-shadow: 0 0 14px hsl(54, 100%, 56%);
+  }
+
+  .checkbox {
+    @apply relative flex cursor-pointer items-center justify-end gap-2 text-base select-none;
+    color: hsl(0, 0%, 90%);
+  }
+  .checkbox input[type='checkbox'] {
+    @apply pointer-events-none absolute opacity-0;
+  }
+  .checkbox .checkmark {
+    width: 18px;
+    height: 18px;
+    border: 1px solid hsl(50, 95%, 64%);
+    border-radius: 50%;
+    background-color: transparent;
+    transition:
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .checkbox input:checked + .checkmark {
+    background-color: hsl(50, 95%, 64%);
+  }
+
+  .nav-link {
+    @apply relative px-2 pt-3 pb-4 text-[14px] text-[hsl(180,1%,71%)] uppercase no-underline transition-all duration-300 ease-in-out;
+  }
+  .nav-link:hover {
+    @apply dark:text-text-active text-black;
+  }
+  .nav-link.active {
+    @apply dark:text-text-active text-black;
+  }
+  .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 8px;
+    width: calc(100% - 16px);
+    height: 2px;
+    border-radius: 2px;
+    background: hsl(0, 0%, 0%);
+    box-shadow: 0 0 4px 1px hsl(50, 95%, 64%);
+    z-index: 1;
+  }
+  .nav-link.active:hover {
+    @apply cursor-default;
+  }
+  .dark .nav-link.active::after {
+    background: hsl(0, 0%, 100%);
+  }
+}

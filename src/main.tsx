@@ -1,7 +1,10 @@
+import './index.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
-import ErrorBoundary from './components/ErrorBoundary';
+import { BrowserRouter } from 'react-router';
+import { ErrorBoundary } from '#/pages/search/components/error-boundary';
+import { ThemeProvider } from '#/shared/theme/provider.tsx';
 
 const rootElement = document.getElementById('root');
 
@@ -12,7 +15,11 @@ if (!rootElement) {
 createRoot(rootElement).render(
   <StrictMode>
     <ErrorBoundary>
-      <App />
+      <BrowserRouter>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
+      </BrowserRouter>
     </ErrorBoundary>
   </StrictMode>
 );
