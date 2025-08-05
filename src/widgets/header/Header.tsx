@@ -1,6 +1,6 @@
 import '#/App.css';
 import { NavLink } from 'react-router';
-import { ThemeToggle } from '#/shared/theme/toggle';
+import { ThemeToggle } from '#/shared/state/theme/toggle';
 
 export function Header() {
   return (

@@ -1,6 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen, waitFor } from '@testing-library/react';
-import { renderSearchPage, mockCharacters } from '#/__tests__/renderSearchPage';
+import {
+  renderSearchPage,
+  mockCharacters,
+} from '../../../__tests__/renderSearchPage';
 
 describe('SearchPage', () => {
   beforeEach(() => {

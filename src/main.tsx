@@ -1,15 +1,18 @@
 import './index.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App';
 import { BrowserRouter } from 'react-router';
-import { ErrorBoundary } from '#/pages/search/components/error-boundary';
-import { ThemeProvider } from '#/shared/theme/provider.tsx';
+
+import { ErrorBoundary } from '#/features/error-boundary';
+import { ThemeProvider } from '#/shared/state/theme/provider';
+import App from './App';
 
 const rootElement = document.getElementById('root');
 
+const errMessage = 'Root element not found';
+
 if (!rootElement) {
-  throw new Error('Root element not found');
+  throw new Error(errMessage);
 }
 
 createRoot(rootElement).render(

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { SearchPanelSection } from '#/pages/search/components/search-panel';
+import { SearchPanelSection } from '#/entities/search/search-panel';
 import ThrowErrorButton from '#/shared/ui/ThrowErrorButton';
-import { SearchResultSection } from '#/pages/search/components/search-result';
+import { SearchResultSection } from '#/entities/search/search-result';
 import { Outlet, useOutlet, useSearchParams } from 'react-router';
 import useSearchTermStorage from '#/shared/hooks/useSearchTermStorage.ts';
 import { useFetchAll } from '#/shared/api/useClient.ts';

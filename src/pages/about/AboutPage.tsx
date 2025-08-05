@@ -1,6 +1,6 @@
 import '../../App.css';
 
-export const AboutPage = () => (
+const AboutPage = () => (
   <div className="relative mx-auto my-0 max-w-[1200px] p-5">
     <h1 className="name">Anastasiia Barkovskaia</h1>
     <h2 className="level">Junior Front-end Developer</h2>
@@ -57,3 +57,5 @@ export const AboutPage = () => (
     </a>
   </div>
 );
+
+export default AboutPage;

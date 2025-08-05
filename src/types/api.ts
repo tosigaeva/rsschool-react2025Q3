@@ -4,3 +4,4 @@ export interface ApiResponse {
   results: Character[];
   totalPages: number;
 }
+export type Buttonprops = {};
