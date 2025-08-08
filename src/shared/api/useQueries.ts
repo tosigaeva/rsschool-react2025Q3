@@ -1,5 +1,5 @@
 import type { ApiResponse, Character } from '#/types';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 const ITEMS_PER_PAGE = 10;
 const BASE_URL = 'https://swapi.py4e.com/api/people';
@@ -46,3 +46,8 @@ export const useCharacterDetailsQuery = (id: string) =>
     queryFn: () => fetchCharacterDetails(id),
     enabled: !!id,
   });
+
+export const useInvalidateCharacters = () => {
+  const client = useQueryClient();
+  return () => client.invalidateQueries({ queryKey: ['characters'] });
+};

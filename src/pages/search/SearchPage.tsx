@@ -4,7 +4,11 @@ import ThrowErrorButton from '#/shared/ui/ThrowErrorButton';
 import { SearchResultSection } from '#/pages/search/components/search-result';
 import { Outlet, useOutlet, useSearchParams } from 'react-router';
 import useSearchTermStorage from '#/shared/hooks/useSearchTermStorage.ts';
-import { useCharactersQuery } from '#/shared/api/useQueries.ts';
+import {
+  useCharactersQuery,
+  useInvalidateCharacters,
+} from '#/shared/api/useQueries.ts';
+import { RefreshButton } from '#/shared/ui/RefreshButton.tsx';
 
 export function SearchPage() {
   const [searchTerm, setSearchTerm] = useSearchTermStorage('searchTerm');
@@ -19,6 +23,8 @@ export function SearchPage() {
     searchTerm,
     currentPage
   );
+
+  const invalidate = useInvalidateCharacters();
 
   if (error) {
     console.error(
@@ -37,6 +43,7 @@ export function SearchPage() {
   return (
     <div className="relative mx-auto my-0 max-w-[1200px] p-5">
       <SearchPanelSection onSearch={setSearchTerm} />
+      <RefreshButton onClick={() => invalidate()} />
       <ThrowErrorButton onClick={() => setShouldThrowError(true)} />
       <div
         className={`main-content ${isDetailsOpen ? 'main-content_with-details' : ''}`}
