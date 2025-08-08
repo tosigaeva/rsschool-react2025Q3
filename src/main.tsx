@@ -7,6 +7,7 @@ import { ErrorBoundary } from '#/pages/search/components/error-boundary';
 import { ThemeProvider } from '#/shared/theme/provider.tsx';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '#/shared/api/queryClient.ts';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const rootElement = document.getElementById('root');
 
@@ -22,6 +23,7 @@ createRoot(rootElement).render(
           <ThemeProvider>
             <App />
           </ThemeProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </BrowserRouter>
     </ErrorBoundary>
