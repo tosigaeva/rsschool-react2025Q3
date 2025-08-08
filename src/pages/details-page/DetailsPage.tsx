@@ -1,28 +1,23 @@
 import { CardDetails } from '#/pages/search/components/card-details';
 import { useNavigate, useParams } from 'react-router';
-import { useEffect } from 'react';
-import { useFetchItem } from '#/shared/api/useClient.ts';
+import { useCharacterDetailsQuery } from '#/shared/api/useQueries.ts';
 
 export const DetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { loadData, isLoading, character, error } = useFetchItem();
+  const {
+    data: character,
+    isLoading,
+    error,
+  } = useCharacterDetailsQuery(id || '');
 
-  useEffect(() => {
-    if (!id) return;
-    loadData(id).then(() => {});
-  }, [loadData, id]);
-
-  if (error)
-    return (
-      <p>{error instanceof Error ? error.message : 'Unknown error occurred'}</p>
-    );
+  if (error) return <p>{error.message}</p>;
 
   if (isLoading) return <p>Loading...</p>;
 
   return (
     <CardDetails
-      details={character}
+      details={character ?? null}
       onClick={() =>
         navigate({ pathname: '/', search: window.location.search })
       }
