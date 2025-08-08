@@ -1,15 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SearchPanelSection } from '#/pages/search/components/search-panel';
 import ThrowErrorButton from '#/shared/ui/ThrowErrorButton';
 import { SearchResultSection } from '#/pages/search/components/search-result';
 import { Outlet, useOutlet, useSearchParams } from 'react-router';
 import useSearchTermStorage from '#/shared/hooks/useSearchTermStorage.ts';
-import { useFetchAll } from '#/shared/api/useClient.ts';
+import { useCharactersQuery } from '#/shared/api/useQueries.ts';
 
 export function SearchPage() {
   const [searchTerm, setSearchTerm] = useSearchTermStorage('searchTerm');
-  const { loadData, isLoading, results, totalPages, hasBeenSearched, error } =
-    useFetchAll();
 
   const [shouldThrow, setShouldThrowError] = useState(false);
 
@@ -17,32 +15,20 @@ export function SearchPage() {
   const page = searchParams.get('page');
   const currentPage = page ? parseInt(page, 10) : 1;
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      loadData(searchTerm, currentPage).then(() => {});
-    }, 100);
+  const { data, isLoading, error, isFetched } = useCharactersQuery(
+    searchTerm,
+    currentPage
+  );
 
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [loadData, searchTerm, currentPage]);
-
-  useEffect(() => {
-    if (error !== null) {
-      console.error(
-        error instanceof Error ? error.message : 'Unknown error occurred'
-      );
-    }
-    return () => {};
-  }, [error]);
+  if (error) {
+    console.error(
+      error instanceof Error ? error.message : 'Unknown error occurred'
+    );
+  }
 
   if (shouldThrow) {
     throw new Error('Simulated render error');
   }
-
-  const handleThrow = () => {
-    setShouldThrowError(true);
-  };
 
   const outlet = useOutlet();
   const isDetailsOpen = !!outlet;
@@ -51,17 +37,17 @@ export function SearchPage() {
   return (
     <div className="relative mx-auto my-0 max-w-[1200px] p-5">
       <SearchPanelSection onSearch={setSearchTerm} />
-      <ThrowErrorButton onClick={handleThrow} />
+      <ThrowErrorButton onClick={() => setShouldThrowError(true)} />
       <div
         className={`main-content ${isDetailsOpen ? 'main-content_with-details' : ''}`}
       >
         <SearchResultSection
-          results={results}
+          results={data?.results || []}
           error={error}
-          hasBeenSearched={hasBeenSearched}
+          hasBeenSearched={isFetched}
           isLoading={isLoading}
           currentPage={currentPage}
-          totalPages={totalPages}
+          totalPages={data?.totalPages || 1}
           onPageChange={(pageNumber: number) =>
             setSearchParams({ page: pageNumber.toString() })
           }
