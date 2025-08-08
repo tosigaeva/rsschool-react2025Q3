@@ -1,4 +1,4 @@
-import type { ApiResponse } from '#/types';
+import type { ApiResponse, Character } from '#/types';
 import { useQuery } from '@tanstack/react-query';
 
 const ITEMS_PER_PAGE = 10;
@@ -25,9 +25,24 @@ const fetchCharacters = async (
   };
 };
 
+const fetchCharacterDetails = async (id: string): Promise<Character> => {
+  const response = await fetch(`${BASE_URL}/${id}`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch character: ${response.status}`);
+  }
+  return response.json();
+};
+
 export const useCharactersQuery = (searchTerm: string, page: number) =>
   useQuery({
     queryKey: ['characters', searchTerm, page],
     queryFn: () => fetchCharacters(searchTerm, page),
     enabled: page > 0,
+  });
+
+export const useCharacterDetailsQuery = (id: string) =>
+  useQuery({
+    queryKey: ['character', id],
+    queryFn: () => fetchCharacterDetails(id),
+    enabled: !!id,
   });
