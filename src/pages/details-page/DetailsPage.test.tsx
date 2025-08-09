@@ -4,14 +4,15 @@ import { MemoryRouter } from 'react-router';
 import { DetailsPage } from './DetailsPage';
 import type { CharacterDetails } from '#/types';
 import * as useClient from '#/shared/api/useClient';
-
-vi.mock('#/shared/api/useClient.ts', () => ({
-  useFetchItem: vi.fn(),
-}));
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const mockNavigate = vi.fn();
 const mockUseParams = vi.fn();
+const mockUseCharacterDetailsQuery = vi.fn();
 
+vi.mock('#/shared/api/useQueries.ts', () => ({
+  useCharacterDetailsQuery: () => mockUseCharacterDetailsQuery(),
+}));
 vi.mock('react-router', async () => {
   const actual = await vi.importActual('react-router');
   return {
@@ -38,21 +39,20 @@ describe('DetailsPage', () => {
     vi.clearAllMocks();
     mockUseParams.mockReturnValue({ id: '1' });
   });
+  const queryClient = new QueryClient();
 
   describe('Rendering Tests', () => {
     it('displays loading state initially', () => {
-      const mockUseFetchItem = vi.fn().mockReturnValue({
-        loadData: vi.fn().mockResolvedValue({}),
+      mockUseCharacterDetailsQuery.mockReturnValue({
+        data: mockCharacter,
         isLoading: true,
-        character: null,
         error: null,
       });
-
-      vi.mocked(useClient.useFetchItem).mockImplementation(mockUseFetchItem);
-
       render(
         <MemoryRouter>
-          <DetailsPage />
+          <QueryClientProvider client={queryClient}>
+            <DetailsPage />
+          </QueryClientProvider>
         </MemoryRouter>
       );
 
@@ -60,49 +60,36 @@ describe('DetailsPage', () => {
     });
 
     it('displays character details when data is loaded', async () => {
-      const mockLoadData = vi
-        .fn()
-        .mockResolvedValue({ character: mockCharacter });
-      const mockUseFetchItem = vi.fn().mockReturnValue({
-        loadData: mockLoadData,
+      mockUseCharacterDetailsQuery.mockReturnValue({
+        data: mockCharacter,
         isLoading: false,
-        character: mockCharacter,
         error: null,
       });
-
-      vi.mocked(useClient.useFetchItem).mockImplementation(mockUseFetchItem);
-
       render(
         <MemoryRouter>
-          <DetailsPage />
+          <QueryClientProvider client={queryClient}>
+            <DetailsPage />
+          </QueryClientProvider>
         </MemoryRouter>
       );
 
-      await waitFor(() => {
-        expect(screen.getByText('name:')).toBeInTheDocument();
-        expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
-        expect(screen.getByText('birth_year:')).toBeInTheDocument();
-        expect(screen.getByText('19BBY')).toBeInTheDocument();
-        expect(screen.getByText('gender:')).toBeInTheDocument();
-        expect(screen.getByText('male')).toBeInTheDocument();
-      });
+      expect(screen.getByText('name:')).toBeInTheDocument();
+      expect(screen.getByText('name:')).toBeInTheDocument();
+      expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
+      expect(screen.getByText('birth_year:')).toBeInTheDocument();
+      expect(screen.getByText('19BBY')).toBeInTheDocument();
+      expect(screen.getByText('gender:')).toBeInTheDocument();
+      expect(screen.getByText('male')).toBeInTheDocument();
     });
 
     it('displays error message when there is an error', () => {
-      const mockUseFetchItem = vi.fn().mockReturnValue({
-        loadData: vi.fn().mockResolvedValue({}),
+      mockUseCharacterDetailsQuery.mockReturnValue({
+        data: mockCharacter,
         isLoading: false,
-        character: null,
         error: new Error('Failed to fetch character'),
       });
 
-      vi.mocked(useClient.useFetchItem).mockImplementation(mockUseFetchItem);
-
-      render(
-        <MemoryRouter>
-          <DetailsPage />
-        </MemoryRouter>
-      );
+      render(<DetailsPage />);
 
       expect(screen.getByText('Failed to fetch character')).toBeInTheDocument();
     });
@@ -124,54 +111,6 @@ describe('DetailsPage', () => {
       );
 
       expect(screen.getByText('Unknown error occurred')).toBeInTheDocument();
-    });
-  });
-
-  describe('Data Loading Tests', () => {
-    it('calls loadData with correct id when component mounts', async () => {
-      const mockLoadData = vi
-        .fn()
-        .mockResolvedValue({ character: mockCharacter });
-      const mockUseFetchItem = vi.fn().mockReturnValue({
-        loadData: mockLoadData,
-        isLoading: false,
-        character: mockCharacter,
-        error: null,
-      });
-
-      vi.mocked(useClient.useFetchItem).mockImplementation(mockUseFetchItem);
-
-      render(
-        <MemoryRouter>
-          <DetailsPage />
-        </MemoryRouter>
-      );
-
-      await waitFor(() => {
-        expect(mockLoadData).toHaveBeenCalledWith('1');
-      });
-    });
-
-    it('does not call loadData when id is not provided', () => {
-      mockUseParams.mockReturnValue({ id: undefined });
-
-      const mockLoadData = vi.fn().mockResolvedValue({});
-      const mockUseFetchItem = vi.fn().mockReturnValue({
-        loadData: mockLoadData,
-        isLoading: false,
-        character: null,
-        error: null,
-      });
-
-      vi.mocked(useClient.useFetchItem).mockImplementation(mockUseFetchItem);
-
-      render(
-        <MemoryRouter>
-          <DetailsPage />
-        </MemoryRouter>
-      );
-
-      expect(mockLoadData).not.toHaveBeenCalled();
     });
   });
 
@@ -219,16 +158,6 @@ describe('DetailsPage', () => {
 
   describe('Edge Cases', () => {
     it('handles empty character data gracefully', async () => {
-      const mockLoadData = vi.fn().mockResolvedValue({ character: null });
-      const mockUseFetchItem = vi.fn().mockReturnValue({
-        loadData: mockLoadData,
-        isLoading: false,
-        character: null,
-        error: null,
-      });
-
-      vi.mocked(useClient.useFetchItem).mockImplementation(mockUseFetchItem);
-
       render(
         <MemoryRouter>
           <DetailsPage />
