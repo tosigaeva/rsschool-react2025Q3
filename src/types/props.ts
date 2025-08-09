@@ -21,7 +21,7 @@ export interface CardProps {
 }
 
 export interface CardDetailsProps {
-  details: Character | null;
+  details: Character;
   onClick: () => void;
 }
 

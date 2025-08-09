@@ -12,12 +12,12 @@ export const DetailsPage = () => {
   } = useCharacterDetailsQuery(id || '');
 
   if (error) return <p>{error.message}</p>;
-
   if (isLoading) return <p>Loading...</p>;
+  if (!character) return null;
 
   return (
     <CardDetails
-      details={character ?? null}
+      details={character}
       onClick={() =>
         navigate({ pathname: '/', search: window.location.search })
       }
