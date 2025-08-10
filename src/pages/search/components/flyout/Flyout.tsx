@@ -1,6 +1,6 @@
 import { useSelectionStore } from '#/shared/store/useSelectionStore.ts';
 import type { Character } from '#/types';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export function Flyout() {
   const selected = useSelectionStore((state) => state.selected);
@@ -8,8 +8,6 @@ export function Flyout() {
 
   const downloadRef = useRef<HTMLAnchorElement | null>(null);
   const [downloadUrl, setDownloadUrl] = useState('');
-
-  if (selected.length === 0) return null;
 
   const generateCsvContent = (
     headers: (keyof Character)[],
@@ -30,17 +28,18 @@ export function Flyout() {
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
-
     setDownloadUrl(url);
-
-    setTimeout(() => {
-      if (downloadRef.current) {
-        downloadRef.current.click();
-        URL.revokeObjectURL(url);
-        setDownloadUrl('');
-      }
-    }, 0);
   };
+
+  useEffect(() => {
+    if (downloadUrl && downloadRef.current) {
+      downloadRef.current.click();
+      URL.revokeObjectURL(downloadUrl);
+      setDownloadUrl('');
+    }
+  }, [downloadUrl]);
+
+  if (selected.length === 0) return null;
 
   return (
     <div className="bg-secondary-300 border-secondary-300 secondary-shadow-md fixed right-5 bottom-5 z-2 w-fit rounded-lg border-2 px-6 py-4">
