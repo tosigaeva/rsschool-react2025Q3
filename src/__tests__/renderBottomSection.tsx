@@ -36,9 +36,6 @@ export const renderBottomSection = (
         onPageChange={function (): void {
           throw new Error('Function not implemented.');
         }}
-        onSelectCharacter={function (): void {
-          throw new Error('Function not implemented.');
-        }}
       />
     </MemoryRouter>
   );
