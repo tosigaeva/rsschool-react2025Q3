@@ -41,7 +41,7 @@ export function SearchPage() {
 
   const onSelectCharacter = () => {};
   return (
-    <div className="relative mx-auto my-0 max-w-[1200px] p-5">
+    <div className="relative mx-auto my-0 max-w-7xl p-5">
       <SearchPanelSection onSearch={setSearchTerm} />
       <RefreshButton onClick={() => invalidate()} />
       <ThrowErrorButton onClick={() => setShouldThrowError(true)} />

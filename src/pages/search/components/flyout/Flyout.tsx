@@ -43,11 +43,23 @@ export function Flyout() {
   };
 
   return (
-    <div className={'flyout'}>
-      <span>{selected.length} items are selected</span>
+    <div className="bg-secondary-300 border-secondary-300 secondary-shadow-md fixed right-5 bottom-5 z-2 w-fit rounded-lg border-2 px-6 py-4">
+      <span className="mb-5 inline-block text-black">
+        {selected.length} items are selected
+      </span>
       <div>
-        <button onClick={clearSelection}>Unselect all</button>
-        <button onClick={handleDownload}>Download</button>
+        <button
+          className="hover:border-secondary-400 hover:bg-secondary-400 border-black text-black normal-case"
+          onClick={clearSelection}
+        >
+          Unselect all
+        </button>
+        <button
+          className="hover:border-secondary-400 hover:bg-secondary-400 border-black text-black normal-case"
+          onClick={handleDownload}
+        >
+          Download
+        </button>
       </div>
       <a
         ref={downloadRef}

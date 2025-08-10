@@ -8,7 +8,7 @@ export function CardDetails({ details, onClick }: CardDetailsProps) {
       <div className="text-start break-all">
         <button
           data-testid="button-close-card-details"
-          className="absolute top-[10px] right-[10px] w-10 bg-transparent px-0 py-1.5 text-xl font-thin"
+          className="absolute top-2.5 right-2.5 w-10 bg-transparent px-0 py-1.5 text-xl font-thin"
           onClick={onClick}
         >
           ×

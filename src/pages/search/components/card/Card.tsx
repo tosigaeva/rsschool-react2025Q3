@@ -1,4 +1,3 @@
-import '#/App.css';
 import type { CardProps } from '#/types';
 import { Link } from 'react-router';
 import { useSelectionStore } from '#/shared/store/useSelectionStore';
