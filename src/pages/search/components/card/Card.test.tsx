@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
-import { Card } from '#/pages/search/components/card';
 import type { Character } from '#/types';
+
+import { render, screen } from '@testing-library/react';
+import { Card } from '#/pages/search/components/card';
+import { MemoryRouter } from 'react-router';
 
 type RenderCardProps = {
   character?: Character;

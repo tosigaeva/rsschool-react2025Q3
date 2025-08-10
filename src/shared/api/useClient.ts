@@ -1,4 +1,5 @@
 import type { ApiResponse, Character } from '#/types';
+
 import { useCallback, useState } from 'react';
 
 const ITEMS_PER_PAGE = 10;

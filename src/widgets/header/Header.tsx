@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router';
 import { ThemeToggle } from '#/shared/theme/toggle';
+import { NavLink } from 'react-router';
 
 export function Header() {
   return (

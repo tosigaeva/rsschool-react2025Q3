@@ -1,9 +1,10 @@
-import { render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
-import { MemoryRouter } from 'react-router';
-import { SearchPage } from '#/pages/search/SearchPage';
 import type { Character } from '#/types';
+
+import { render, screen } from '@testing-library/react';
+import { SearchPage } from '#/pages/search/SearchPage';
 import * as useSearchTermStorage from '#/shared/hooks/useSearchTermStorage';
+import { MemoryRouter } from 'react-router';
+import { vi } from 'vitest';
 
 const mockUseCharactersQuery = vi.fn();
 const mockUseInvalidateCharacters = vi.fn();

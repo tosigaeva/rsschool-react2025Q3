@@ -1,4 +1,5 @@
 import type { ApiResponse, Character } from '#/types';
+
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 const ITEMS_PER_PAGE = 10;

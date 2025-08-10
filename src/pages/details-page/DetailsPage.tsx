@@ -1,6 +1,6 @@
 import { CardDetails } from '#/pages/search/components/card-details';
-import { useNavigate, useParams, useSearchParams } from 'react-router';
 import { useCharacterDetailsQuery } from '#/shared/api/useQueries.ts';
+import { useNavigate, useParams, useSearchParams } from 'react-router';
 
 export const DetailsPage = () => {
   const { id } = useParams();

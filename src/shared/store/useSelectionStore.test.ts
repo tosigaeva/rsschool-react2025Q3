@@ -1,7 +1,9 @@
+import type { Character } from '#/types';
+
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
+
 import { useSelectionStore } from './useSelectionStore';
-import type { Character } from '#/types';
 
 const mockCharacter1: Character = {
   name: 'Luke Skywalker',

@@ -1,6 +1,7 @@
 import type { CardProps } from '#/types';
-import { Link, useSearchParams } from 'react-router';
+
 import { useSelectionStore } from '#/shared/store/useSelectionStore';
+import { Link, useSearchParams } from 'react-router';
 
 export function Card({ id, character }: CardProps) {
   const selected = useSelectionStore((state) => state.selected);

@@ -1,5 +1,6 @@
-import { useSelectionStore } from '#/shared/store/useSelectionStore.ts';
 import type { Character } from '#/types';
+
+import { useSelectionStore } from '#/shared/store/useSelectionStore.ts';
 import { useEffect, useRef, useState } from 'react';
 
 export function Flyout() {

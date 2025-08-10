@@ -1,7 +1,9 @@
+import type { Character } from '#/types';
+
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
+
 import { CardDetails } from './CardDetails';
-import type { Character } from '#/types';
 
 type RenderCardDetailsProps = {
   details: Character;

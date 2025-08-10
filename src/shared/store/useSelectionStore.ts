@@ -1,5 +1,6 @@
-import { create } from 'zustand';
 import type { SelectionStore } from '#/types';
+
+import { create } from 'zustand';
 
 export const useSelectionStore = create<SelectionStore>((set) => ({
   selected: [],

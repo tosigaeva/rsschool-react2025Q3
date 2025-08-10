@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
-import { expect } from 'vitest';
 import { renderBottomSection } from '#/__tests__/renderBottomSection.tsx';
+import { expect } from 'vitest';
 
 describe('BottomSection', () => {
   const mockResults = [

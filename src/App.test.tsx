@@ -1,14 +1,15 @@
-import { beforeAll, vi } from 'vitest';
+import type { Character } from '#/types';
+
+import { fireEvent, screen, waitFor } from '@testing-library/dom';
+import { act } from '@testing-library/react';
+import { mockLocalStorage } from '#/__tests__/mockLocalStorage.ts';
 import {
   mockErrorResponse,
   mockSuccessResponse,
   renderApp,
   type ResponseLike,
 } from '#/__tests__/renderApp.tsx';
-import { fireEvent, screen, waitFor } from '@testing-library/dom';
-import { act } from '@testing-library/react';
-import { mockLocalStorage } from '#/__tests__/mockLocalStorage.ts';
-import type { Character } from '#/types';
+import { beforeAll, vi } from 'vitest';
 
 beforeAll(() => {
   Object.defineProperty(window, 'matchMedia', {

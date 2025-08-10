@@ -1,8 +1,9 @@
-import { Flyout } from '#/pages/search/components/flyout/Flyout.tsx';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
-import { useSelectionStore } from '#/shared/store/useSelectionStore.ts';
 import type { Character } from '#/types';
+
+import { fireEvent, render, screen } from '@testing-library/react';
+import { Flyout } from '#/pages/search/components/flyout/Flyout.tsx';
+import { useSelectionStore } from '#/shared/store/useSelectionStore.ts';
+import { vi } from 'vitest';
 
 vi.mock('#/shared/store/useSelectionStore.ts', () => ({
   useSelectionStore: vi.fn(),

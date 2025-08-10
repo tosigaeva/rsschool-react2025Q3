@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen } from '@testing-library/react';
 import { renderSearchPage, mockCharacters } from '#/__tests__/renderSearchPage';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 describe('SearchPage', () => {
   beforeEach(() => {

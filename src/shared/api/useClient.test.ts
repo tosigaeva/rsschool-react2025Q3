@@ -1,7 +1,9 @@
+import type { Character, ApiResponse } from '#/types';
+
 import { renderHook, act } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+
 import { useFetchAll, useFetchItem } from './useClient';
-import type { Character, ApiResponse } from '#/types';
 
 const mockFetch = vi.fn();
 global.fetch = mockFetch;

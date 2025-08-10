@@ -1,7 +1,8 @@
-import { Button, Input } from '#/shared/ui';
 import type { SearchPanelSectionProps } from '#/types';
-import { useEffect, useState } from 'react';
+
 import useSearchTermStorage from '#/shared/hooks/useSearchTermStorage.ts';
+import { Button, Input } from '#/shared/ui';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 
 export function SearchPanelSection({ onSearch }: SearchPanelSectionProps) {

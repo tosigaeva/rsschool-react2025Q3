@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
 import { Pagination } from '#/pages/search/components/pagination';
+import { vi } from 'vitest';
 
 describe('Pagination', () => {
   describe('Rendering Tests', () => {

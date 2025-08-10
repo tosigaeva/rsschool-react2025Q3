@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { vi, beforeEach, afterEach } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import { ThemeProvider } from './provider';
+import { vi, beforeEach, afterEach } from 'vitest';
+
 import { useTheme } from './context';
+import { ThemeProvider } from './provider';
 
 const localStorageMock = {
   getItem: vi.fn(),

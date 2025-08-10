@@ -1,9 +1,10 @@
-import { render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
-import { MemoryRouter } from 'react-router';
-import { DetailsPage } from '#/pages/details-page/DetailsPage';
 import type { CharacterDetails } from '#/types';
+
+import { render, screen } from '@testing-library/react';
+import { DetailsPage } from '#/pages/details-page/DetailsPage';
 import * as useClient from '#/shared/api/useClient';
+import { MemoryRouter } from 'react-router';
+import { vi } from 'vitest';
 
 vi.mock('#/shared/api/useClient.ts', () => ({
   useFetchItem: vi.fn(),

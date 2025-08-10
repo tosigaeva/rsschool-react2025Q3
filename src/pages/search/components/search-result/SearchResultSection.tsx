@@ -1,5 +1,6 @@
-import { Card } from '#/pages/search/components/card';
 import type { SearchResultSectionProps } from '#/types';
+
+import { Card } from '#/pages/search/components/card';
 import { Pagination } from '#/pages/search/components/pagination';
 
 export function SearchResultSection({

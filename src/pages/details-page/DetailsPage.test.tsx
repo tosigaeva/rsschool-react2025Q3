@@ -1,7 +1,9 @@
+import type { CharacterDetails } from '#/types';
+
 import { render, screen, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
+
 import { DetailsPage } from './DetailsPage';
-import type { CharacterDetails } from '#/types';
 
 const mockNavigate = vi.fn();
 const mockUseParams = vi.fn();

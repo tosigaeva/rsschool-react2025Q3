@@ -1,14 +1,14 @@
-import { useState } from 'react';
 import { SearchPanelSection } from '#/pages/search/components/search-panel';
-import ThrowErrorButton from '#/shared/ui/ThrowErrorButton';
 import { SearchResultSection } from '#/pages/search/components/search-result';
-import { Outlet, useOutlet, useSearchParams } from 'react-router';
-import useSearchTermStorage from '#/shared/hooks/useSearchTermStorage.ts';
 import {
   useCharactersQuery,
   useInvalidateCharacters,
 } from '#/shared/api/useQueries.ts';
+import useSearchTermStorage from '#/shared/hooks/useSearchTermStorage.ts';
 import { RefreshButton } from '#/shared/ui/RefreshButton.tsx';
+import ThrowErrorButton from '#/shared/ui/ThrowErrorButton';
+import { useState } from 'react';
+import { Outlet, useOutlet, useSearchParams } from 'react-router';
 
 export function SearchPage() {
   const [searchTerm, setSearchTerm] = useSearchTermStorage('searchTerm');
