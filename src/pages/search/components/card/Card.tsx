@@ -1,19 +1,16 @@
 import type { CardProps } from '#/types';
-import { Link } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import { useSelectionStore } from '#/shared/store/useSelectionStore';
 
-export function Card({ character, onClick }: CardProps) {
-  const id = character.url.split('/').filter(Boolean).pop();
+export function Card({ id, character }: CardProps) {
   const selected = useSelectionStore((state) => state.selected);
   const toggleSelection = useSelectionStore((state) => state.toggleSelection);
+  const [searchParams] = useSearchParams();
+  const search = searchParams.toString() ? `?${searchParams.toString()}` : '';
 
   return (
     <div className="card">
-      <Link
-        to={{ pathname: `details/${id}`, search: `${window.location.search}` }}
-        className="no-underline"
-        onClick={onClick}
-      >
+      <Link to={{ pathname: `details/${id}`, search }} className="no-underline">
         <h3>{character.name}</h3>
         <p className="mx-0 my-2 flex justify-start gap-x-2.5 text-lg">
           <span className="text-text-label">Year of birth: </span>

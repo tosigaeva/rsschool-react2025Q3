@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router';
 import App from '#/App.tsx';
 import type { Character } from '#/types';
 import { ThemeProvider } from '#/shared/theme/provider.tsx';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export interface ResponseLike<T> {
   ok: boolean;
@@ -31,7 +32,9 @@ export const renderApp = (options: RenderAppOptions = {}) => {
   render(
     <ThemeProvider>
       <MemoryRouter>
-        <App />
+        <QueryClientProvider client={new QueryClient()}>
+          <App />
+        </QueryClientProvider>
       </MemoryRouter>
     </ThemeProvider>
   );

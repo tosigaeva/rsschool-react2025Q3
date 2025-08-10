@@ -39,7 +39,6 @@ export function SearchPage() {
   const outlet = useOutlet();
   const isDetailsOpen = !!outlet;
 
-  const onSelectCharacter = () => {};
   return (
     <div className="relative mx-auto my-0 max-w-7xl p-5">
       <SearchPanelSection onSearch={setSearchTerm} />
@@ -58,7 +57,6 @@ export function SearchPage() {
           onPageChange={(pageNumber: number) =>
             setSearchParams({ page: pageNumber.toString() })
           }
-          onSelectCharacter={onSelectCharacter}
         />
         <Outlet />
       </div>

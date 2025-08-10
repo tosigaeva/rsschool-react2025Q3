@@ -12,12 +12,11 @@ export interface SearchResultSectionProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
-  onSelectCharacter: (character: Character) => void;
 }
 
 export interface CardProps {
+  id: string;
   character: Character;
-  onClick: () => void;
 }
 
 export interface CardDetailsProps {

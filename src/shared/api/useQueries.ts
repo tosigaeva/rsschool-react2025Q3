@@ -13,6 +13,7 @@ const fetchCharacters = async (
   const response = await fetch(url);
 
   if (!response.ok) {
+    console.error(`Request failed: ${response.status} ${response.statusText}`);
     throw new Error(
       `Request failed: ${response.status} ${response.statusText}`
     );

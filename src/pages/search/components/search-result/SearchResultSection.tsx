@@ -10,7 +10,6 @@ export function SearchResultSection({
   currentPage,
   totalPages,
   onPageChange,
-  onSelectCharacter,
 }: SearchResultSectionProps) {
   if (error)
     return (
@@ -28,13 +27,11 @@ export function SearchResultSection({
       className="flex w-3xl flex-col justify-center gap-y-8"
     >
       <div className="flex flex-wrap justify-center gap-6">
-        {results.map((item, index) => (
-          <Card
-            key={index}
-            character={item}
-            onClick={() => onSelectCharacter(item)}
-          />
-        ))}
+        {results.map((item) => {
+          const id = item.url.split('/').filter(Boolean).pop() ?? '1';
+
+          return <Card key={id} id={id} character={item} />;
+        })}
       </div>
       <Pagination
         totalPages={totalPages}

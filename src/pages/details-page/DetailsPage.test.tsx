@@ -1,10 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
-import { MemoryRouter } from 'react-router';
 import { DetailsPage } from './DetailsPage';
 import type { CharacterDetails } from '#/types';
-import * as useClient from '#/shared/api/useClient';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const mockNavigate = vi.fn();
 const mockUseParams = vi.fn();
@@ -13,12 +10,16 @@ const mockUseCharacterDetailsQuery = vi.fn();
 vi.mock('#/shared/api/useQueries.ts', () => ({
   useCharacterDetailsQuery: () => mockUseCharacterDetailsQuery(),
 }));
+vi.mock('#/shared/api/useQueries.ts', () => ({
+  useCharacterDetailsQuery: () => mockUseCharacterDetailsQuery(),
+}));
 vi.mock('react-router', async () => {
   const actual = await vi.importActual('react-router');
   return {
     ...actual,
     useNavigate: () => mockNavigate,
-    useParams: () => mockUseParams(),
+    useParams: () => mockUseParams,
+    useSearchParams: () => [new URLSearchParams('search=luke&page=1'), vi.fn()],
   };
 });
 
@@ -39,7 +40,6 @@ describe('DetailsPage', () => {
     vi.clearAllMocks();
     mockUseParams.mockReturnValue({ id: '1' });
   });
-  const queryClient = new QueryClient();
 
   describe('Rendering Tests', () => {
     it('displays loading state initially', () => {
@@ -48,13 +48,7 @@ describe('DetailsPage', () => {
         isLoading: true,
         error: null,
       });
-      render(
-        <MemoryRouter>
-          <QueryClientProvider client={queryClient}>
-            <DetailsPage />
-          </QueryClientProvider>
-        </MemoryRouter>
-      );
+      render(<DetailsPage />);
 
       expect(screen.getByText('Loading...')).toBeInTheDocument();
     });
@@ -65,13 +59,7 @@ describe('DetailsPage', () => {
         isLoading: false,
         error: null,
       });
-      render(
-        <MemoryRouter>
-          <QueryClientProvider client={queryClient}>
-            <DetailsPage />
-          </QueryClientProvider>
-        </MemoryRouter>
-      );
+      render(<DetailsPage />);
 
       expect(screen.getByText('name:')).toBeInTheDocument();
       expect(screen.getByText('name:')).toBeInTheDocument();
@@ -88,58 +76,21 @@ describe('DetailsPage', () => {
         isLoading: false,
         error: new Error('Failed to fetch character'),
       });
-
       render(<DetailsPage />);
 
       expect(screen.getByText('Failed to fetch character')).toBeInTheDocument();
-    });
-
-    it('displays generic error message for unknown error types', () => {
-      const mockUseFetchItem = vi.fn().mockReturnValue({
-        loadData: vi.fn().mockResolvedValue({}),
-        isLoading: false,
-        character: null,
-        error: 'Unknown error',
-      });
-
-      vi.mocked(useClient.useFetchItem).mockImplementation(mockUseFetchItem);
-
-      render(
-        <MemoryRouter>
-          <DetailsPage />
-        </MemoryRouter>
-      );
-
-      expect(screen.getByText('Unknown error occurred')).toBeInTheDocument();
     });
   });
 
   describe('Navigation Tests', () => {
     it('navigates back to home page when close button is clicked', async () => {
-      const mockLoadData = vi
-        .fn()
-        .mockResolvedValue({ character: mockCharacter });
-      const mockUseFetchItem = vi.fn().mockReturnValue({
-        loadData: mockLoadData,
+      mockUseCharacterDetailsQuery.mockReturnValue({
+        data: mockCharacter,
         isLoading: false,
-        character: mockCharacter,
         error: null,
       });
 
-      vi.mocked(useClient.useFetchItem).mockImplementation(mockUseFetchItem);
-
-      Object.defineProperty(window, 'location', {
-        value: {
-          search: '?search=luke&page=1',
-        },
-        writable: true,
-      });
-
-      render(
-        <MemoryRouter>
-          <DetailsPage />
-        </MemoryRouter>
-      );
+      render(<DetailsPage />);
 
       await waitFor(() => {
         const closeButton = screen.getByRole('button', { name: '×' });
@@ -158,11 +109,12 @@ describe('DetailsPage', () => {
 
   describe('Edge Cases', () => {
     it('handles empty character data gracefully', async () => {
-      render(
-        <MemoryRouter>
-          <DetailsPage />
-        </MemoryRouter>
-      );
+      mockUseCharacterDetailsQuery.mockReturnValue({
+        data: null,
+        isLoading: false,
+        error: null,
+      });
+      render(<DetailsPage />);
 
       await waitFor(() => {
         expect(screen.queryByText('name:')).not.toBeInTheDocument();
@@ -182,39 +134,27 @@ describe('DetailsPage', () => {
         url: 'http://localhost:8080/api/people/1',
       };
 
-      const mockLoadData = vi
-        .fn()
-        .mockResolvedValue({ character: emptyCharacter });
-      const mockUseFetchItem = vi.fn().mockReturnValue({
-        loadData: mockLoadData,
+      mockUseCharacterDetailsQuery.mockReturnValue({
+        data: emptyCharacter,
         isLoading: false,
-        character: emptyCharacter,
         error: null,
       });
 
-      vi.mocked(useClient.useFetchItem).mockImplementation(mockUseFetchItem);
+      render(<DetailsPage />);
 
-      render(
-        <MemoryRouter>
-          <DetailsPage />
-        </MemoryRouter>
+      expect(screen.getByText('name:')).toBeInTheDocument();
+      expect(screen.getByText('birth_year:')).toBeInTheDocument();
+      expect(screen.getByText('gender:')).toBeInTheDocument();
+      const valueSpans = document.querySelectorAll('p > span:nth-of-type(2)');
+      expect(valueSpans).toHaveLength(9);
+      const emptySpans = Array.from(valueSpans).filter(
+        (span) => span.textContent === ''
       );
-
-      await waitFor(() => {
-        expect(screen.getByText('name:')).toBeInTheDocument();
-        expect(screen.getByText('birth_year:')).toBeInTheDocument();
-        expect(screen.getByText('gender:')).toBeInTheDocument();
-        const valueSpans = document.querySelectorAll('p > span:nth-of-type(2)');
-        expect(valueSpans).toHaveLength(9);
-        const emptySpans = Array.from(valueSpans).filter(
-          (span) => span.textContent === ''
-        );
-        expect(emptySpans).toHaveLength(8);
-        const urlSpan = Array.from(valueSpans).find(
-          (span) => span.textContent === 'http://localhost:8080/api/people/1'
-        );
-        expect(urlSpan).toBeInTheDocument();
-      });
+      expect(emptySpans).toHaveLength(8);
+      const urlSpan = Array.from(valueSpans).find(
+        (span) => span.textContent === 'http://localhost:8080/api/people/1'
+      );
+      expect(urlSpan).toBeInTheDocument();
     });
   });
 });
