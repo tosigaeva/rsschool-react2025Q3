@@ -1,9 +1,11 @@
-import { render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
-import { MemoryRouter } from 'react-router';
-import App from '#/App.tsx';
 import type { Character } from '#/types';
-import { ThemeProvider } from '#/shared/theme/provider.tsx';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render, screen } from '@testing-library/react';
+import App from '#/App.tsx';
+import { ThemeProvider } from '#/shared/theme';
+import { MemoryRouter } from 'react-router';
+import { vi } from 'vitest';
 
 export interface ResponseLike<T> {
   ok: boolean;
@@ -31,7 +33,9 @@ export const renderApp = (options: RenderAppOptions = {}) => {
   render(
     <ThemeProvider>
       <MemoryRouter>
-        <App />
+        <QueryClientProvider client={new QueryClient()}>
+          <App />
+        </QueryClientProvider>
       </MemoryRouter>
     </ThemeProvider>
   );

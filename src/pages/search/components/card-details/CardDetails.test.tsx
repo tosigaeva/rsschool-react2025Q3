@@ -1,17 +1,19 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { vi } from 'vitest';
-import { CardDetails } from './CardDetails';
 import type { Character } from '#/types';
 
+import { render, screen, fireEvent } from '@testing-library/react';
+import { vi } from 'vitest';
+
+import { CardDetails } from './CardDetails';
+
 type RenderCardDetailsProps = {
-  details?: Character | null;
-  mockOnClick?: () => void;
+  details: Character;
+  mockOnClick: () => void;
 };
 
-const renderCardDetails = (props: RenderCardDetailsProps = {}) => {
-  const { details = null, mockOnClick = vi.fn() } = props;
-
-  return render(<CardDetails details={details} onClick={mockOnClick} />);
+const renderCardDetails = (props: RenderCardDetailsProps) => {
+  return render(
+    <CardDetails details={props.details} onClick={props.mockOnClick} />
+  );
 };
 
 const mockCharacter: Character = {
@@ -23,7 +25,7 @@ const mockCharacter: Character = {
 
 describe('CardDetails', () => {
   it('should render character details when details is provided', () => {
-    renderCardDetails({ details: mockCharacter });
+    renderCardDetails({ details: mockCharacter, mockOnClick: vi.fn() });
 
     Object.entries(mockCharacter).forEach(([key, value]) => {
       expect(screen.getByText(`${key}:`)).toBeInTheDocument();
@@ -35,7 +37,7 @@ describe('CardDetails', () => {
     const mockOnClick = vi.fn();
     renderCardDetails({ details: mockCharacter, mockOnClick });
 
-    const closeButton = screen.getByText('×');
+    const closeButton = screen.getByTestId('button-close-card-details');
     expect(closeButton).toBeInTheDocument();
 
     fireEvent.click(closeButton);

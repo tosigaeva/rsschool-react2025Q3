@@ -1,9 +1,8 @@
-import { render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
-import { MemoryRouter } from 'react-router';
-import { Card } from '#/pages/search/components/card';
-import userEvent from '@testing-library/user-event';
 import type { Character } from '#/types';
+
+import { render, screen } from '@testing-library/react';
+import { Card } from '#/pages/search/components/card';
+import { MemoryRouter } from 'react-router';
 
 type RenderCardProps = {
   character?: Character;
@@ -11,11 +10,11 @@ type RenderCardProps = {
 };
 
 const renderCard = (props: RenderCardProps = {}) => {
-  const { character = mockCharacter, mockOnClick = vi.fn() } = props;
+  const { character = mockCharacter } = props;
 
   return render(
     <MemoryRouter>
-      <Card character={character} onClick={mockOnClick} />
+      <Card id="1" character={character} />
     </MemoryRouter>
   );
 };
@@ -57,19 +56,6 @@ describe('Card', () => {
 
       const emptyTextNodes = screen.getAllByText((content) => content === '');
       expect(emptyTextNodes.length).toBeGreaterThanOrEqual(2);
-    });
-
-    it('handles onClick callback', async () => {
-      const user = userEvent.setup();
-      const mockOnClick = vi.fn();
-
-      renderCard({ mockOnClick });
-
-      const linkElement = screen.getByRole('link');
-
-      await user.click(linkElement);
-
-      expect(mockOnClick).toHaveBeenCalled();
     });
   });
 });

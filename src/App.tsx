@@ -1,11 +1,12 @@
-import './App.css';
-import { Route, Routes } from 'react-router';
-import { SearchPage } from '#/pages/search';
-import { NotFoundPage } from '#/pages/not-found';
-import { DetailsPage } from '#/pages/details-page';
-import { AboutPage } from '#/pages/about';
-import { Flyout } from '#/pages/search/components/flyout';
+import {
+  AboutPage,
+  DetailsPage,
+  Flyout,
+  NotFoundPage,
+  SearchPage,
+} from '#/pages';
 import { Header } from '#/widgets/header';
+import { Route, Routes } from 'react-router';
 
 function App() {
   return (

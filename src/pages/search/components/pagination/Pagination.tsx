@@ -1,4 +1,3 @@
-import '#/App.css';
 import type { PaginationProps } from '#/types/props';
 
 export function Pagination({

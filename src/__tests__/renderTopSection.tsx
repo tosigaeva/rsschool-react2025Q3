@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
-import { BrowserRouter } from 'react-router';
 import { SearchPanelSection } from '#/pages/search/components/search-panel';
+import { BrowserRouter } from 'react-router';
+import { vi } from 'vitest';
 
 type RenderTopSectionOptions = {
   localStorageTerm?: string;

@@ -1,6 +1,9 @@
-import { useEffect, useState } from 'react';
 import type { PropsWithChildren } from 'react';
+
+import { useEffect, useState } from 'react';
+
 import type { Theme } from './context';
+
 import { ThemeContext } from './context';
 
 export const ThemeProvider = ({ children }: PropsWithChildren) => {

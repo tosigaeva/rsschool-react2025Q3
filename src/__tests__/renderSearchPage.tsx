@@ -1,13 +1,17 @@
-import { render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
-import { MemoryRouter } from 'react-router';
-import { SearchPage } from '#/pages/search/SearchPage';
 import type { Character } from '#/types';
-import * as useClient from '#/shared/api/useClient';
-import * as useSearchTermStorage from '#/shared/hooks/useSearchTermStorage';
 
-vi.mock('#/shared/api/useClient.ts', () => ({
-  useFetchAll: vi.fn(),
+import { render, screen } from '@testing-library/react';
+import { SearchPage } from '#/pages/search/SearchPage';
+import * as useSearchTermStorage from '#/shared/hooks/useSearchTermStorage';
+import { MemoryRouter } from 'react-router';
+import { vi } from 'vitest';
+
+const mockUseCharactersQuery = vi.fn();
+const mockUseInvalidateCharacters = vi.fn();
+
+vi.mock('#/shared/api/useQueries.ts', () => ({
+  useCharactersQuery: () => mockUseCharactersQuery(),
+  useInvalidateCharacters: () => mockUseInvalidateCharacters(),
 }));
 
 vi.mock('#/shared/hooks/useSearchTermStorage.ts', () => ({
@@ -29,7 +33,7 @@ vi.mock('react-router', async () => {
 
 type RenderSearchPageOptions = {
   searchTerm?: string;
-  results?: Character[];
+  results?: { results: Character[]; totalPages: number };
   isLoading?: boolean;
   hasBeenSearched?: boolean;
   error?: Error | null;
@@ -44,10 +48,9 @@ export const renderSearchPage = (options: RenderSearchPageOptions = {}) => {
   const {
     searchTerm = '',
     results = [],
-    isLoading = false,
+    isLoading = true,
     hasBeenSearched = false,
     error = null,
-    totalPages = 0,
     searchParams = new URLSearchParams(),
     outlet = null,
     mockLoadData = vi.fn().mockResolvedValue(undefined),
@@ -58,16 +61,17 @@ export const renderSearchPage = (options: RenderSearchPageOptions = {}) => {
     vi.fn(),
   ]);
 
-  const mockUseFetchAll = vi.fn().mockReturnValue({
-    loadData: mockLoadData,
-    isLoading,
-    results,
-    totalPages,
-    hasBeenSearched,
+  mockUseCharactersQuery.mockReturnValue({
+    data: results,
+    isLoading: isLoading,
+    error,
+    isFetched: hasBeenSearched,
+  });
+  mockUseInvalidateCharacters.mockReturnValue({
+    data: results,
+    isLoading: isLoading,
     error,
   });
-
-  vi.mocked(useClient.useFetchAll).mockImplementation(mockUseFetchAll);
 
   mockUseSearchParams.mockReturnValue(searchParams);
 

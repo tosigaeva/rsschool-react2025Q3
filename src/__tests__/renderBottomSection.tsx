@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
 import type { Character } from '#/types';
+
+import { render, screen } from '@testing-library/react';
 import { SearchResultSection } from '#/pages/search/components/search-result';
+import { MemoryRouter } from 'react-router';
 
 type RenderBottomSectionOptions = {
   results?: Character[];
@@ -34,9 +35,6 @@ export const renderBottomSection = (
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={function (): void {
-          throw new Error('Function not implemented.');
-        }}
-        onSelectCharacter={function (): void {
           throw new Error('Function not implemented.');
         }}
       />

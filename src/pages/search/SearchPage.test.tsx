@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { renderSearchPage, mockCharacters } from '#/__tests__/renderSearchPage';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 describe('SearchPage', () => {
   beforeEach(() => {
@@ -12,56 +12,19 @@ describe('SearchPage', () => {
     expect(getSearchPanel()).toBeInTheDocument();
   });
 
+  it('renders loading section', () => {
+    const { getLoading } = renderSearchPage();
+    expect(getLoading()).toBeInTheDocument();
+  });
+
   it('renders search results section', () => {
-    const { getSearchResults } = renderSearchPage();
+    const { getSearchResults } = renderSearchPage({ isLoading: false });
     expect(getSearchResults()).toBeInTheDocument();
   });
 
   it('renders throw error button', () => {
     const { getThrowErrorButton } = renderSearchPage();
     expect(getThrowErrorButton()).toBeInTheDocument();
-  });
-
-  it('calls loadData with search term and current page on mount', async () => {
-    const mockLoadData = vi.fn().mockResolvedValue(undefined);
-    const searchTerm = 'Luke';
-
-    renderSearchPage({
-      searchTerm,
-      mockLoadData,
-    });
-
-    await waitFor(() => {
-      expect(mockLoadData).toHaveBeenCalledWith(searchTerm, 1);
-    });
-  });
-
-  it('calls loadData when search term changes', async () => {
-    const mockLoadData = vi.fn().mockResolvedValue(undefined);
-    const searchTerm = 'Leia';
-
-    renderSearchPage({
-      searchTerm,
-      mockLoadData,
-    });
-
-    await waitFor(() => {
-      expect(mockLoadData).toHaveBeenCalledWith(searchTerm, 1);
-    });
-  });
-
-  it('calls loadData when page changes', async () => {
-    const mockLoadData = vi.fn().mockResolvedValue(undefined);
-    const searchParams = new URLSearchParams('page=2');
-
-    renderSearchPage({
-      searchParams,
-      mockLoadData,
-    });
-
-    await waitFor(() => {
-      expect(mockLoadData).toHaveBeenCalledWith('', 2);
-    });
   });
 
   it('displays loading state when isLoading is true', () => {
@@ -116,7 +79,7 @@ describe('SearchPage', () => {
 
   it('handles pagination when results are present', () => {
     const { mockSetSearchParams } = renderSearchPage({
-      results: mockCharacters,
+      results: { results: mockCharacters, totalPages: mockCharacters.length },
       totalPages: 5,
       hasBeenSearched: true,
       currentPage: 1,
@@ -141,20 +104,19 @@ describe('SearchPage', () => {
   });
 
   it('passes correct props to SearchResultSection', () => {
-    const results = mockCharacters;
+    const results = {
+      results: mockCharacters,
+      totalPages: 0,
+    };
     const error = null;
     const hasBeenSearched = true;
     const isLoading = false;
-    const currentPage = 2;
-    const totalPages = 5;
 
     const { getSearchResults } = renderSearchPage({
       results,
       error,
       hasBeenSearched,
       isLoading,
-      currentPage,
-      totalPages,
     });
 
     expect(getSearchResults()).toBeInTheDocument();
@@ -162,7 +124,10 @@ describe('SearchPage', () => {
 
   it('handles empty results correctly', () => {
     renderSearchPage({
-      results: [],
+      results: {
+        results: [],
+        totalPages: 0,
+      },
       hasBeenSearched: true,
     });
 

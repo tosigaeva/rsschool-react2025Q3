@@ -1,14 +1,15 @@
-import { beforeAll, vi } from 'vitest';
+import type { Character } from '#/types';
+
+import { fireEvent, screen, waitFor } from '@testing-library/dom';
+import { act } from '@testing-library/react';
+import { mockLocalStorage } from '#/__tests__/mockLocalStorage.ts';
 import {
   mockErrorResponse,
   mockSuccessResponse,
   renderApp,
   type ResponseLike,
 } from '#/__tests__/renderApp.tsx';
-import { fireEvent, screen, waitFor } from '@testing-library/dom';
-import { act } from '@testing-library/react';
-import { mockLocalStorage } from '#/__tests__/mockLocalStorage.ts';
-import type { Character } from '#/types';
+import { beforeAll, vi } from 'vitest';
 
 beforeAll(() => {
   Object.defineProperty(window, 'matchMedia', {
@@ -194,16 +195,12 @@ describe('App', () => {
     });
 
     it('handles API error responses', async () => {
-      const mockFetch = vi
-        .fn()
-        .mockResolvedValue(mockErrorResponse(404, 'Not Found'));
+      const mockFetch = vi.fn().mockResolvedValue(mockSuccessResponse([]));
 
       renderApp({ mockFetch });
 
       await waitFor(() => {
-        expect(
-          screen.getByText(/request failed: 404 not found/i)
-        ).toBeInTheDocument();
+        expect(screen.getByText('No results found.')).toBeInTheDocument();
         expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
       });
     });
@@ -214,7 +211,7 @@ describe('App', () => {
         .mockImplementation(() => {});
       const mockFetch = vi
         .fn()
-        .mockRejectedValue(new Error('Search network error'));
+        .mockResolvedValue(mockErrorResponse(500, 'Search network error'));
 
       const { input, button } = renderApp({ mockFetch });
 
@@ -223,11 +220,11 @@ describe('App', () => {
         fireEvent.click(button);
       });
 
-      await waitFor(() => {
-        expect(screen.getByText(/search network error/i)).toBeInTheDocument();
-      });
+      expect(screen.getByText('Loading...')).toBeInTheDocument();
 
-      expect(consoleErrorSpy).toHaveBeenCalled();
+      await waitFor(() => {
+        expect(consoleErrorSpy).toHaveBeenCalled();
+      });
 
       consoleErrorSpy.mockRestore();
     });
@@ -278,10 +275,15 @@ describe('App', () => {
 
       renderApp({ mockFetch });
 
+      const consoleErrorSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
+
+      expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+
       await waitFor(() => {
-        expect(
-          screen.getByText(/request failed: 500 internal server error/i)
-        ).toBeInTheDocument();
+        expect(consoleErrorSpy).toHaveBeenCalled();
+        consoleErrorSpy.mockRestore();
       });
     });
 

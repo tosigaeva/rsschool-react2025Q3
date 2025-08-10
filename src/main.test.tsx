@@ -1,5 +1,6 @@
-import { vi } from 'vitest';
 import type { MockedFunction } from 'vitest';
+
+import { vi } from 'vitest';
 
 vi.mock('react-dom/client', async () => {
   const actual =
