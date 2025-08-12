@@ -57,7 +57,9 @@ describe('Flyout', () => {
   it('does not render if no items are selected', () => {
     renderWithSelection([]);
 
-    expect(screen.queryByText(/items are selected/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/item(s)? (is|are) selected/i)
+    ).not.toBeInTheDocument();
   });
 
   it('renders when items are selected', () => {
@@ -70,7 +72,7 @@ describe('Flyout', () => {
       },
     ]);
 
-    expect(screen.getByText(/1 items are selected/i)).toBeInTheDocument();
+    expect(screen.getByText(/1 item is selected/i)).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: /unselect all/i })
     ).toBeInTheDocument();
