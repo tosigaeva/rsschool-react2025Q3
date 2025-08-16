@@ -1,5 +1,7 @@
-import '@/ui/global.css';
 import type { Metadata } from 'next';
+
+import '@/ui/global.css';
+import { orbitron } from '@/ui/fonts';
 
 export const metadata: Metadata = {
   title: 'Star Wars Character Finder',
@@ -14,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`${orbitron.className} antialiased`}>{children}</body>
     </html>
   );
 }
