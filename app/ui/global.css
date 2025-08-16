@@ -58,7 +58,8 @@
     @apply my-4 font-bold;
   }
 
-  button {
+  button,
+  .pagination-link {
     @apply border-primary-500 font-orbitron mr-2.5 w-40 cursor-pointer rounded-3xl border bg-transparent px-0 py-2.5 text-sm text-black uppercase transition-all duration-200 ease-in-out dark:text-white;
   }
   button:hover {
@@ -74,6 +75,14 @@
 }
 
 @layer components {
+  .pagination-link {
+    @apply bg-primary-500 hover:bg-primary-400 hover:border-primary-400 w-10 text-center;
+  }
+
+  .pagination-link.active {
+    @apply dark:bg-disabled-bg dark:border-primary-800 border-primary-500 text-primary-800 cursor-default opacity-50;
+  }
+
   .card {
     @apply relative w-80 cursor-pointer rounded-lg bg-white p-5;
     box-shadow: 0 0 14px hsl(54, 100%, 56%);

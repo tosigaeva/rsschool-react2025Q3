@@ -1,5 +1,6 @@
 import { fetchCharacters } from '@/lib/data';
 import Card from '@/ui/card';
+import { Pagination } from '@/ui/pagination';
 
 import type { Character } from '../../src/types';
 
@@ -25,6 +26,7 @@ export default async function SearchResult({
           return <Card key={id} id={id} character={item} />;
         })}
       </div>
+      <Pagination totalPages={totalPages} />
     </div>
   );
 }
