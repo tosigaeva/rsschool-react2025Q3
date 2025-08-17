@@ -1,15 +1,21 @@
+'use client';
+
 import type { CardDetailsProps } from '#/types';
 
-export function CardDetails({ details, onClick }: CardDetailsProps) {
+import { useNavigation } from '#/hooks/useNavigation';
+
+export function CardDetails({ details }: CardDetailsProps) {
   const entries = Object.entries(details);
+
+  const { goToSearchPage } = useNavigation();
 
   return (
     <div className="card-details">
-      <div className="break-all text-start">
+      <div className="text-start break-all">
         <button
           data-testid="button-close-card-details"
-          className="absolute right-2.5 top-2.5 w-10 bg-transparent px-0 py-1.5 text-xl font-thin"
-          onClick={onClick}
+          className="absolute top-2.5 right-2.5 w-10 bg-transparent px-0 py-1.5 text-xl font-thin"
+          onClick={goToSearchPage}
         >
           ×
         </button>

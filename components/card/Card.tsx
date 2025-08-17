@@ -2,22 +2,19 @@
 
 import type { CardProps } from '#/types';
 
+import { useNavigation } from '#/hooks/useNavigation';
 import { useSelectionStore } from '#/lib/store/useSelectionStore';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 
 export function Card({ id, character }: CardProps) {
   const selected = useSelectionStore((state) => state.selected);
   const toggleSelection = useSelectionStore((state) => state.toggleSelection);
-  const searchParams = useSearchParams();
-  const search = searchParams?.toString() ? `?${searchParams.toString()}` : '';
+
+  const { generateDetailsLink } = useNavigation();
 
   return (
     <div className="card">
-      <Link
-        href={{ pathname: `details/${id}`, search }}
-        className="no-underline"
-      >
+      <Link href={generateDetailsLink(id)} className="no-underline">
         <h3>{character.name}</h3>
         <p className="mx-0 my-2 flex justify-start gap-x-2.5 text-lg">
           <span className="text-text-label">Year of birth: </span>

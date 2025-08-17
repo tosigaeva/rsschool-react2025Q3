@@ -2,8 +2,6 @@
 
 export async function generateCSV() {
   try {
-    // This would typically get data from the store or database
-    // For now, we'll create a sample CSV
     const csvContent = `Name,Status,Species,Gender,Origin,Location
 Rick Sanchez,Alive,Human,Male,Earth (C-137),Earth (C-137)
 Morty Smith,Alive,Human,Male,Earth (C-137),Earth (C-137)

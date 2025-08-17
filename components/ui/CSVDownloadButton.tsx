@@ -9,7 +9,6 @@ export function CSVDownloadButton() {
       const result = await generateCSV();
 
       if (result.success && result.data) {
-        // Create blob and download
         const blob = new Blob([result.data], { type: 'text/csv' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');

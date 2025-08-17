@@ -1,7 +1,5 @@
-
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-
-import { ApiResponse, Character } from '../../types';
+import { ApiResponse, Character } from '#/types';
 
 const ITEMS_PER_PAGE = 10;
 const BASE_URL = 'https://swapi.py4e.com/api/people';

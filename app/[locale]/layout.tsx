@@ -18,6 +18,7 @@ export default function LocaleLayout({
       <QueryClientProvider client={queryClient}>
         <ThemeProvider>
           <Header />
+          asd
           <main>{children}</main>
           <Flyout />
         </ThemeProvider>

@@ -30,7 +30,7 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={releway.className} inmaintabuse="1">
         <NextIntlClientProvider messages={messages}>
-          <div id="root">{children}</div>
+          <div id="root">qwe{children}</div>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -2,6 +2,7 @@ import { fetchCharacters } from '#/lib/api/useQueries';
 import { SearchPanelSection } from 'components/search-panel';
 import { SearchResultSection } from 'components/search-result';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 
 const validLocales = ['en', 'ru'];
 
