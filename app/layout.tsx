@@ -1,25 +1,37 @@
-import type { Metadata } from 'next';
+// import type { Metadata } from 'next';
 
-import '@/ui/global.css';
-import { orbitron } from '@/ui/fonts';
-import Header from '@/ui/header';
+import { locales } from '#/i18n';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+import '#/app/global.css';
+import { Raleway } from 'next/font/google';
 
-export const metadata: Metadata = {
-  title: 'Star Wars Character Finder',
-  description:
-    'Search and explore detailed information about Star Wars characters using the SWAPI (Star Wars API). Built with Next.js for a fast and responsive experience.',
-};
+const releway = Raleway({ subsets: ['latin', 'cyrillic'] });
 
-export default function RootLayout({
+// export const metadata: Metadata = {
+//   title: 'Rick and Morty Character Search',
+//   description: 'Search and explore characters from the Rick and Morty universe',
+// };
+//
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+export default async function RootLayout({
   children,
+  params: { locale },
 }: {
   children: React.ReactNode;
+  params: { locale: string };
 }) {
+  const messages = await getMessages();
+
   return (
-    <html lang="en">
-      <body className={`${orbitron.className} antialiased`}>
-        <Header />
-        {children}
+    <html lang={locale}>
+      <body className={releway.className} inmaintabuse="1">
+        <NextIntlClientProvider messages={messages}>
+          <div id="root">{children}</div>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
