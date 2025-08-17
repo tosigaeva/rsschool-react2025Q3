@@ -1,1 +1,1 @@
-export { SearchPanelSection } from '#/components/search-panel/SearchPanelSection';
+export { SearchPanelSection } from "#/components/search-panel/SearchPanelSection";

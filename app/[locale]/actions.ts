@@ -1,23 +1,25 @@
-'use server';
+"use server";
 
-export async function generateCSV() {
+import type { Character } from "#/types";
+
+export async function generateCSV(
+  headers: (keyof Character)[],
+  rows: Character[],
+) {
   try {
-    const csvContent = `Name,Status,Species,Gender,Origin,Location
-Rick Sanchez,Alive,Human,Male,Earth (C-137),Earth (C-137)
-Morty Smith,Alive,Human,Male,Earth (C-137),Earth (C-137)
-Summer Smith,Alive,Human,Female,Earth (C-137),Earth (C-137)
-Beth Smith,Alive,Human,Female,Earth (C-137),Earth (C-137)
-Jerry Smith,Alive,Human,Male,Earth (C-137),Earth (C-137)`;
+    const rowLines = rows.map((row) => headers.map((head) => row[head]));
+    const csvContent = [headers.join(","), ...rowLines].join("\n");
 
     return {
       success: true,
-      data: csvContent,
-      filename: 'rick-and-morty-characters.csv',
+      data: new Blob([csvContent], { type: "text/csv;charset=utf-8;" }),
+      filename: "star-wars-characters.csv",
     };
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error occurred',
+      data: new Blob([], { type: "text/csv;charset=utf-8;" }),
+      error: error instanceof Error ? error.message : "Unknown error occurred",
     };
   }
 }

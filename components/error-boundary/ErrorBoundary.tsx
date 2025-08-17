@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
-import React from 'react';
+import React from "react";
 
 interface Props {
   children: ReactNode;
@@ -20,11 +20,12 @@ export class ErrorBoundary extends React.Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: React.ErrorInfo) {
-    console.error('Caught by ErrorBoundary:', error, info);
+    console.error("Caught by ErrorBoundary:", error, info);
   }
 
   handleReload = () => {
     this.setState({ hasError: false });
+    window.location.href = `/`;
   };
 
   render() {

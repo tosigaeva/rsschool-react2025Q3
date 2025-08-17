@@ -1,1 +1,1 @@
-export { SearchResultSection } from '#/components/search-result/SearchResultSection';
+export { SearchResultSection } from "#/components/search-result/SearchResultSection";

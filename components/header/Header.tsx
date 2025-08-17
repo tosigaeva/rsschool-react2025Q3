@@ -1,44 +1,51 @@
-'use client';
+"use client";
 
-import { ThemeToggle } from '#/components/theme/toggle';
-import { locales } from '#/i18n/request';
-import { useTranslations } from 'next-intl';
-import { useLocale } from 'next-intl';
-import { createNavigation } from 'next-intl/navigation';
+import { ThemeToggle } from "#/components/theme/toggle";
+import { useNavigation } from "#/hooks/useNavigation";
+import { routing } from "#/i18n/routing";
+import { useTranslations, useLocale } from "next-intl";
+import { createNavigation } from "next-intl/navigation";
+import { useSearchParams } from "next/navigation";
 
-const { Link } = createNavigation();
+const { Link, usePathname } = createNavigation();
 
 export function Header() {
   const t = useTranslations();
   const locale = useLocale();
-
-  const switchLocale = (newLocale: string) => {
-    window.location.href = `/${newLocale}${window.location.pathname.replace(/^\/[a-z]{2}/, '')}`;
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { refreshLocale } = useNavigation();
+  const switchLocale = (locale: string) => {
+    const params = new URLSearchParams(searchParams ?? []);
+    params.set("locale", locale);
+    refreshLocale(`/${locale}${pathname}?${params.toString()}`);
   };
 
   return (
     <header className="border-b-divider mb-12 flex justify-between border-b px-5">
-      <h1 className="mb-3.5 text-3xl">Star Wars Character Finder</h1>
+      <h1 className="mb-3.5 text-3xl">{t("search.title")}</h1>
       <div className="flex items-end gap-9">
         <nav className="flex items-end gap-2">
           <Link href="/" className="nav-link">
-            {t('navigation.search')}
+            {t("navigation.search")}
           </Link>
           <Link href="/about" className="nav-link">
-            {t('navigation.about')}
+            {t("navigation.about")}
           </Link>
         </nav>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            {locales.map((l) => (
+            {routing.locales.map((l) => (
               <button
                 key={l}
                 onClick={() => switchLocale(l)}
-                className={`rounded px-2 py-1 ${
-                  locale === l ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                className={`w-10 rounded px-2 py-1 text-black ${
+                  locale === l
+                    ? "bg-primary-500 hover:bg-primary-400 hover:border-primary-400"
+                    : "bg-primary-100"
                 }`}
               >
-                {t(`language.${l}`)}
+                {l}
               </button>
             ))}
           </div>

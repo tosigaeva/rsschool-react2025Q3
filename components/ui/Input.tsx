@@ -1,4 +1,4 @@
-import type { InputProps } from '#/shared/ui/props/inputProps.ts';
+import type { InputProps } from "#/shared/ui/props/inputProps.ts";
 
 export function Input({ value, onChange, placeholder }: InputProps) {
   return (

@@ -1,1 +1,1 @@
-export { AboutPage } from '#/components/about/AboutPage';
+export { AboutPage } from "#/components/about/AboutPage";

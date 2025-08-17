@@ -1,9 +1,9 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-orbitron: 'Orbitron', 'Tahoma', sans-serif;
+  --font-orbitron: "Orbitron", "Tahoma", sans-serif;
 
   --color-primary-100: hsl(50, 95%, 95%);
   --color-primary-200: hsl(50, 95%, 85%);
@@ -108,7 +108,7 @@
   .checkbox {
     @apply relative flex cursor-pointer items-center justify-end gap-2 text-base select-none;
   }
-  .checkbox input[type='checkbox'] {
+  .checkbox input[type="checkbox"] {
     @apply pointer-events-none absolute opacity-0;
   }
   .checkbox .checkmark {

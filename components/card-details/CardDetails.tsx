@@ -1,10 +1,13 @@
-'use client';
+"use client";
 
-import type { CardDetailsProps } from '#/types';
+import type { CardDetailsProps } from "#/types";
 
-import { useNavigation } from '#/hooks/useNavigation';
+import { useNavigation } from "#/hooks/useNavigation";
+import { useTranslations } from "next-intl";
 
 export function CardDetails({ details }: CardDetailsProps) {
+  const t = useTranslations();
+
   const entries = Object.entries(details);
 
   const { goToSearchPage } = useNavigation();
@@ -21,7 +24,7 @@ export function CardDetails({ details }: CardDetailsProps) {
         </button>
         {entries.map(([key, value]) => (
           <p key={key}>
-            <span className="text-text-label">{key}: </span>
+            <span className="text-text-label">{t(`character.${key}`)}: </span>
             <span>{value}</span>
           </p>
         ))}

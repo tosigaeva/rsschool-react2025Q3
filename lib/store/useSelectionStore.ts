@@ -1,13 +1,13 @@
-import type { SelectionStore } from '#/types';
+import type { SelectionStore } from "#/types";
 
-import { create } from 'zustand';
+import { create } from "zustand";
 
 export const useSelectionStore = create<SelectionStore>((set) => ({
   selected: [],
   toggleSelection: (character) =>
     set((state) => {
       const isSelected = state.selected.some(
-        (item) => item.url === character.url
+        (item) => item.url === character.url,
       );
       return {
         selected: isSelected

@@ -1,9 +1,8 @@
-'use client';
+"use client";
 
-import { usePagination } from '../../hooks/useNavigation';
+import { usePagination } from "#/hooks/useNavigation";
 
 export function Pagination({ totalPages }: { totalPages: number }) {
-  // const t = useTranslations();
   const { onClick, currentPage } = usePagination();
 
   return (
@@ -18,7 +17,7 @@ export function Pagination({ totalPages }: { totalPages: number }) {
           >
             {page}
           </button>
-        )
+        ),
       )}
     </div>
   );

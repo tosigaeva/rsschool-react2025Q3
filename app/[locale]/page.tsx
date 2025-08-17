@@ -1,25 +1,24 @@
-import { fetchCharacters } from '#/lib/api/useQueries';
-import { SearchPanelSection } from 'components/search-panel';
-import { SearchResultSection } from 'components/search-result';
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
+import { fetchCharacters } from "#/lib/api/useQueries";
+import { SearchPanelSection } from "components/search-panel";
+import { SearchResultSection } from "components/search-result";
+import { notFound } from "next/navigation";
 
-const validLocales = ['en', 'ru'];
+const validLocales = ["en", "ru"];
 
 export default async function HomePage(props: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
   searchParams?: Promise<{
     query?: string;
     page?: string;
   }>;
 }) {
-  const locale = props.params.locale;
+  const { locale } = await props.params;
   if (!validLocales.includes(locale)) {
     notFound();
   }
 
   const searchParams = await props.searchParams;
-  const query = searchParams?.query || '';
+  const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
   const { results, totalPages } = await fetchCharacters(query, currentPage);
 

@@ -1,5 +1,9 @@
+import { useTranslations } from "next-intl";
+
 const Loading = () => {
-  return <div>Loading...</div>;
+  const t = useTranslations();
+
+  return <div>{t("loading")}</div>;
 };
 
 export default Loading;

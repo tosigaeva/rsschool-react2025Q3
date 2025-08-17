@@ -1,4 +1,4 @@
-import { ButtonProps } from '#/components/ui/props/buttonProps';
+import { ButtonProps } from "#/components/ui/props/buttonProps";
 
 export function Button({ onClick, children }: ButtonProps) {
   return (

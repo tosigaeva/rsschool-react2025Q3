@@ -1,0 +1,79 @@
+{
+  "loading": "Loading...",
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "search": "Search",
+    "details": "Details"
+  },
+  "search": {
+    "title": "Star Wars Character Search",
+    "searchPlaceholder": "Search characters...",
+    "searchButton": "Search",
+    "clearButton": "Clear",
+    "noResults": "No characters found",
+    "loading": "Loading characters...",
+    "error": "Error loading characters"
+  },
+  "character": {
+    "name": "Name",
+    "status": "Status",
+    "species": "Species",
+    "gender": "Gender",
+    "birthYear": "Year of birth",
+    "height": "Height",
+    "mass": "Mass",
+    "hairColor": "Hair Color",
+    "skinColor": "Skin Color",
+    "eyeColor": "Eye Color",
+    "homeworld": "Homeworld",
+    "films": "Films",
+    "vehicles": "Vehicles",
+    "starships": "Starships",
+    "edited": "Edited",
+    "url": "URL",
+    "hair_color": "Hair Color",
+    "skin_color": "Skin Color",
+    "eye_color": "Eye Color",
+    "birth_year": "Birth Year",
+    "origin": "Origin",
+    "location": "Location",
+    "episodes": "Episodes",
+    "created": "Created",
+    "alive": "Alive",
+    "dead": "Dead",
+    "unknown": "Unknown",
+    "male": "Male",
+    "female": "Female",
+    "genderless": "Genderless",
+    "n/a": "n/a"
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "of": "of"
+  },
+  "about": {
+    "title": "About Star Wars Character Finder",
+    "description": "This application allows you to search and explore characters from the Star Wars universe. Use the search functionality to find specific characters or browse through the available list."
+  },
+  "notFound": {
+    "title": "404 - Page Not Found",
+    "description": "The page you are looking for does not exist.",
+    "backHome": "Back to Home"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "language": {
+    "en": "English",
+    "ru": "Русский"
+  },
+  "csv": {
+    "download": "Download",
+    "unselect_all": "Unselect all",
+    "items_are_selected": "items are selected"
+  }
+}

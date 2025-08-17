@@ -1,75 +1,71 @@
-'use client';
+"use client";
 
-import type { Character } from '#/types';
+import type { Character } from "#/types";
 
-import { useSelectionStore } from '#/lib/store/useSelectionStore';
-import { useEffect, useRef, useState } from 'react';
+import { generateCSV } from "#/app/[locale]/actions";
+import { useSelectionStore } from "#/lib/store/useSelectionStore";
+import { useTranslations } from "next-intl";
+import { useEffect, useRef, useState } from "react";
 
 export function Flyout() {
+  const t = useTranslations();
   const selected = useSelectionStore((state) => state.selected);
   const clearSelection = useSelectionStore((state) => state.clearSelection);
 
   const downloadRef = useRef<HTMLAnchorElement | null>(null);
-  const [downloadUrl, setDownloadUrl] = useState('');
+  const [downloadUrl, setDownloadUrl] = useState("");
 
-  const generateCsvContent = (
-    headers: (keyof Character)[],
-    rows: Character[]
-  ): string => {
-    const rowLines = rows.map((row) => headers.map((head) => row[head]));
-    return [headers.join(','), ...rowLines].join('\n');
-  };
-
-  const handleDownload = () => {
+  const handleDownload = async () => {
     const headers: (keyof Character)[] = [
-      'name',
-      'birth_year',
-      'gender',
-      'url',
+      "name",
+      "birth_year",
+      "gender",
+      "url",
     ];
-    const csvContent = generateCsvContent(headers, selected);
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    setDownloadUrl(url);
+    const response = await generateCSV(headers, selected);
+    if (response.success) {
+      const url = URL.createObjectURL(response.data);
+      setDownloadUrl(url);
+    }
   };
 
   useEffect(() => {
     if (downloadUrl && downloadRef.current) {
       downloadRef.current.click();
       URL.revokeObjectURL(downloadUrl);
-      setDownloadUrl('');
+      setDownloadUrl("");
     }
   }, [downloadUrl]);
 
   if (selected.length === 0) return null;
 
   return (
-    <div className="bg-secondary-300 border-secondary-300 secondary-shadow-md z-2 fixed bottom-5 right-5 w-fit rounded-lg border-2 px-6 py-4">
+    <div className="bg-secondary-300 border-secondary-300 secondary-shadow-md fixed right-5 bottom-5 z-2 w-fit rounded-lg border-2 px-6 py-4">
       <span className="mb-5 inline-block text-black">
-        {selected.length} items are selected
+        {selected.length} {t("csv.items_are_selected")}
       </span>
       <div>
         <button
-          className="hover:border-secondary-400 hover:bg-secondary-400 border-black normal-case text-black"
+          className="hover:border-secondary-400 hover:bg-secondary-400 border-black text-black normal-case"
           onClick={clearSelection}
         >
-          Unselect all
+          {t("csv.unselect_all")}
         </button>
         <button
-          className="hover:border-secondary-400 hover:bg-secondary-400 border-black normal-case text-black"
+          className="hover:border-secondary-400 hover:bg-secondary-400 border-black text-black normal-case"
           onClick={handleDownload}
         >
-          Download
+          {t("csv.download")}
         </button>
       </div>
       <a
         ref={downloadRef}
         href={downloadUrl}
         download={`${selected.length}_items.csv`}
-        style={{ display: 'none' }}
+        style={{ display: "none" }}
       >
-        Download
+        {t("csv.download")}
       </a>
     </div>
   );

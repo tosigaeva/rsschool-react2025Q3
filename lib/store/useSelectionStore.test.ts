@@ -1,38 +1,38 @@
-import type { Character } from '#/types';
+import type { Character } from "#/types";
 
-import { renderHook, act } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { renderHook, act } from "@testing-library/react";
+import { describe, it, expect } from "vitest";
 
-import { useSelectionStore } from './useSelectionStore';
+import { useSelectionStore } from "./useSelectionStore";
 
 const mockCharacter1: Character = {
-  name: 'Luke Skywalker',
-  birth_year: '19BBY',
-  gender: 'male',
-  url: 'https://swapi.dev/api/people/1/',
+  name: "Luke Skywalker",
+  birth_year: "19BBY",
+  gender: "male",
+  url: "https://swapi.dev/api/people/1/",
 };
 
 const mockCharacter2: Character = {
-  name: 'Leia Organa',
-  birth_year: '19BBY',
-  gender: 'female',
-  url: 'https://swapi.dev/api/people/5/',
+  name: "Leia Organa",
+  birth_year: "19BBY",
+  gender: "female",
+  url: "https://swapi.dev/api/people/5/",
 };
 
-describe('useSelectionStore', () => {
+describe("useSelectionStore", () => {
   beforeEach(() => {
     act(() => {
       useSelectionStore.getState().clearSelection();
     });
   });
 
-  it('should have empty selected array as initial state', () => {
+  it("should have empty selected array as initial state", () => {
     const { result } = renderHook(() => useSelectionStore());
 
     expect(result.current.selected).toEqual([]);
   });
 
-  it('should toggle character selection correctly', () => {
+  it("should toggle character selection correctly", () => {
     const { result } = renderHook(() => useSelectionStore());
 
     expect(result.current.selected).toEqual([]);
@@ -60,7 +60,7 @@ describe('useSelectionStore', () => {
     expect(result.current.selected[0]).toEqual(mockCharacter2);
   });
 
-  it('should clear all selections when clearSelection is called', () => {
+  it("should clear all selections when clearSelection is called", () => {
     const { result } = renderHook(() => useSelectionStore());
 
     act(() => {

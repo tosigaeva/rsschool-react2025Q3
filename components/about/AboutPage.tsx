@@ -17,19 +17,19 @@ export const AboutPage = () => (
       <h2>Skills</h2>
       <ul>
         <li className="pb-2.5">
-          <span className={'label'}>Web development: </span>
+          <span className={"label"}>Web development: </span>
           HTML, CSS, JavaScript
         </li>
         <li className="pb-2.5">
-          <span className={'label'}>Frameworks and libraries: </span>
+          <span className={"label"}>Frameworks and libraries: </span>
           Vue.js, Express, Jest
         </li>
         <li className="pb-2.5">
-          <span className={'label'}>Version control: </span>
+          <span className={"label"}>Version control: </span>
           GIT, GitHub
         </li>
         <li className="pb-2.5">
-          <span className={'label'}>Graphics: </span>
+          <span className={"label"}>Graphics: </span>
           Figma
         </li>
       </ul>
