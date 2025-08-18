@@ -1,4 +1,4 @@
-import {InputProps} from "#/components/ui/props/inputProps";
+import { InputProps } from "#/components/ui/props/inputProps";
 
 export function Input({ value, onChange, placeholder }: InputProps) {
   return (
