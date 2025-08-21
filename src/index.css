@@ -1,1 +1,40 @@
 @import 'tailwindcss';
+
+@theme {
+  /* ---------------- Серый ---------------- */
+  --color-gray-50: #f9fafb; /* фон страницы */
+  --color-gray-100: #dddddd; /* бордер / светлый элемент */
+  --color-gray-200: #e0e0e0; /* дополнительные границы */
+  --color-gray-300: #c4c4c4; /* light hover border */
+  --color-gray-400: #999999; /* вспомогательный текст */
+  --color-gray-500: #666666; /* вторичный текст / подсказки */
+  --color-gray-600: #444444; /* активный текст / hover */
+  --color-gray-700: #333333; /* основной текст */
+  --color-gray-800: #222222; /* deep text / header */
+  --color-gray-900: #111111; /* для контрастного текста */
+
+  /* ---------------- Розовый ---------------- */
+  --color-pink-50: #fce7f3; /* бейдж / лёгкий фон */
+  --color-pink-100: #f9a8d4; /* бордер / плитка */
+  --color-pink-200: #f687b3; /* hover бордер */
+  --color-pink-300: #f472b6; /* плитка hover */
+  --color-pink-400: #ec4899; /* кнопка основной */
+  --color-pink-500: #db2777; /* кнопка hover */
+  --color-pink-600: #be185d; /* текст на ярком фоне */
+  --color-pink-700: #9d174d; /* dark accent / focus */
+
+  /* ---------------- Зелёный ---------------- */
+  --color-green-50: #d1fae5; /* бейдж / лёгкий фон */
+  --color-green-100: #6ee7b7; /* бордер / плитка */
+  --color-green-200: #34d399; /* hover бордер */
+  --color-green-300: #10b981; /* кнопка основной */
+  --color-green-400: #059669; /* кнопка hover */
+  --color-green-500: #065f46; /* текст на ярком фоне */
+  --color-green-600: #044f38; /* dark accent / focus */
+}
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-700;
+  }
+}
