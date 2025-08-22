@@ -21,7 +21,7 @@ export function ModalButtons({ setModalType }: Props) {
       <Button
         className="bg-green-300"
         onClick={openHookForm}
-        text={'Open Hook Form'}
+        text={'Open React Hook Form'}
       />
     </div>
   );
