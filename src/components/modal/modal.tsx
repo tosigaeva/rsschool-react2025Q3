@@ -10,8 +10,13 @@ export function Modal({ children, onClose, open }: Props) {
   return (
     <Portal>
       <div className="fixed inset-0 z-10 bg-gray-900/80" />
-      <div className="fixed top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 bg-white p-10">
-        <button onClick={onClose}>x</button>
+      <div className="fixed top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-10">
+        <button
+          className="absolute top-2 right-2 cursor-pointer text-lg"
+          onClick={onClose}
+        >
+          ✖
+        </button>
         {children}
       </div>
     </Portal>

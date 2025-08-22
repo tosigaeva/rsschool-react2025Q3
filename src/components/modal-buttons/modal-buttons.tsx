@@ -1,20 +1,15 @@
 import { Button } from '@/components/ui';
 
 type Props = {
-  setIsOpen: (open: boolean) => void;
-  setModalContent: (content: React.ReactNode) => void;
+  setModalType: (type: 'hook' | 'uncontrolled') => void;
 };
-export function ModalButtons({ setIsOpen, setModalContent }: Props) {
+export function ModalButtons({ setModalType }: Props) {
   function openUncontrolledForm() {
-    console.log('uncontrolled form');
-    setModalContent(<div>Uncontrolled Form Content</div>);
-    setIsOpen(true);
+    setModalType('uncontrolled');
   }
 
   function openHookForm() {
-    console.log('hook form');
-    setModalContent(<div>Hook Form Content</div>);
-    setIsOpen(true);
+    setModalType('hook');
   }
   return (
     <div className="mb-8 flex gap-4">
