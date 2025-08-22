@@ -43,7 +43,7 @@ export function Modal({ children, onClose, open }: Props) {
     <Portal>
       <div className="fixed inset-0 z-10 bg-gray-900/80" />
       <div
-        className="fixed top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-10"
+        className="fixed top-1/2 left-1/2 z-10 w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-5"
         ref={modalRef}
       >
         <button

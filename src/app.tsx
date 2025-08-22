@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { HookForm } from '@/components/forms';
 import { Header } from '@/components/header';
 import { Modal } from '@/components/modal';
 import { ModalButtons } from '@/components/modal-buttons';
@@ -15,7 +16,7 @@ function App() {
         <ModalButtons setModalType={setModalType} />
         <Modal onClose={() => setModalType(null)} open={modalType !== null}>
           {modalType === 'uncontrolled' && <div>Uncontrolled modal</div>}
-          {modalType === 'hook' && <div>Hook modal</div>}
+          {modalType === 'hook' && <HookForm />}
         </Modal>
       </main>
     </>
