@@ -30,10 +30,12 @@ export function Modal({ children, onClose, open }: Props) {
 
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('mousedown', handleOutsideClick);
+    document.body.style.overflow = 'hidden';
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('mousedown', handleOutsideClick);
+      document.body.style.overflow = '';
     };
   });
   if (!open) return null;
