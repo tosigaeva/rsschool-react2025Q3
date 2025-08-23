@@ -3,9 +3,15 @@ import { useForm } from 'react-hook-form';
 
 import { FormField } from '@/components/forms';
 import { Button, Checkbox, Input, Select } from '@/components/ui';
+import { useFormStore } from '@/shared/store';
 import { type FormData, schema } from '@/shared/validation-schema';
 
-export function HookForm() {
+type Props = {
+  onClose: () => void;
+};
+export function HookForm({ onClose }: Props) {
+  const addEntry = useFormStore((state) => state.addEntry);
+
   const {
     formState: { errors, isValid },
     handleSubmit,
@@ -16,7 +22,8 @@ export function HookForm() {
   });
 
   const submitData = (data: FormData) => {
-    console.log('Form data:', data);
+    addEntry({ data, formType: 'hook' });
+    onClose();
   };
   return (
     <>
