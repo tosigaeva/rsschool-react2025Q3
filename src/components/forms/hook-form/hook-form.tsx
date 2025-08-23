@@ -7,7 +7,7 @@ import { type FormData, schema } from '@/shared/validation-schema';
 
 export function HookForm() {
   const {
-    formState: { errors },
+    formState: { errors, isValid },
     handleSubmit,
     register,
   } = useForm<FormData>({
@@ -93,7 +93,8 @@ export function HookForm() {
         </FormField>
 
         <Button
-          className="mt-6 w-full bg-green-300"
+          className="mt-6 w-full bg-green-300 disabled:cursor-default disabled:opacity-30"
+          disabled={!isValid}
           text="Submit"
           type="submit"
         />
