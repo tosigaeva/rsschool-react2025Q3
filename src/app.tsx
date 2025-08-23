@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { FormEntries } from '@/components/form-entries';
 import { HookForm, UncontrolledForm } from '@/components/forms';
 import { Header } from '@/components/header';
 import { Modal } from '@/components/modal';
@@ -16,8 +17,11 @@ function App() {
         <ModalButtons setModalType={setModalType} />
         <Modal onClose={() => setModalType(null)} open={modalType !== null}>
           {modalType === 'uncontrolled' && <UncontrolledForm />}
-          {modalType === 'hook' && <HookForm />}
+          {modalType === 'hook' && (
+            <HookForm onClose={() => setModalType(null)} />
+          )}
         </Modal>
+        <FormEntries />
       </main>
     </>
   );
