@@ -13,7 +13,9 @@ export function FormField({ children, error, id, label }: Props) {
         {label}
       </label>
       {children}
-      {error && <span className="min-h-4 text-xs text-red-600">{error}</span>}
+      <div className="min-h-6">
+        {error && <span className="text-xs text-red-600">{error}</span>}
+      </div>
     </div>
   );
 }
