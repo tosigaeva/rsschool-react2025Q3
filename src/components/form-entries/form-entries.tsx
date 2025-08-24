@@ -16,7 +16,7 @@ export function FormEntries() {
     <section className="mt-8">
       <h2 className="mb-4 text-xl font-bold">Form Submissions</h2>
       <div className="grid grid-cols-3 gap-4">
-        {entries.map((entry) => (
+        {[...entries].reverse().map((entry) => (
           <FormEntryTile entry={entry} key={entry.id} />
         ))}
       </div>
