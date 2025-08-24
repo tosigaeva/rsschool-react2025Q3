@@ -3,7 +3,12 @@ import { useState } from 'react';
 import { CountryAutocomplete, FormField } from '@/components/forms';
 import { Button, Checkbox, Input, Select } from '@/components/ui';
 import { useFormStore } from '@/shared/store';
-import { type FormData, schema } from '@/shared/validation-schema';
+import { fileToBase64 } from '@/shared/utils';
+import {
+  type FormData,
+  schema,
+  type StoreFormData,
+} from '@/shared/validation-schema';
 
 type FormErrors = {
   [K in keyof FormData]?: string;
@@ -17,7 +22,7 @@ export function UncontrolledForm({ onClose }: Props) {
   const addEntry = useFormStore((state) => state.addEntry);
   const [errors, setErrors] = useState<FormErrors>({});
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form = event.currentTarget;
@@ -48,7 +53,15 @@ export function UncontrolledForm({ onClose }: Props) {
       setErrors(formErrors);
       return;
     }
-    addEntry({ data: parsed.data, formType: 'uncontrolled' });
+    const file = parsed.data.picture[0];
+    const base64 = await fileToBase64(file);
+
+    const storeData: StoreFormData = {
+      ...parsed.data,
+      picture: base64,
+    };
+
+    addEntry({ data: storeData, formType: 'uncontrolled' });
     onClose();
   };
 

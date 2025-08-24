@@ -50,7 +50,7 @@ export function FormEntryTile({ entry }: Props) {
           <img
             alt="Uploaded picture"
             className="mt-1 h-40 w-40 rounded-md object-cover shadow-md"
-            src={URL.createObjectURL(pictureFile)}
+            src={entry.data.picture}
           />
         </div>
       )}

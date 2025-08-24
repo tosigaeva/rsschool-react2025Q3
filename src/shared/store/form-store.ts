@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 
-import type { FormData } from '@/shared/validation-schema';
+import type { StoreFormData } from '@/shared/validation-schema';
 
 export type FormEntry = {
-  data: FormData;
+  data: StoreFormData;
   formType: 'hook' | 'uncontrolled';
   id: number;
   isNew?: boolean;

@@ -72,3 +72,7 @@ export const schema = z
   });
 
 export type FormData = z.infer<typeof schema>;
+
+export type StoreFormData = Omit<FormData, 'picture'> & {
+  picture: string;
+};

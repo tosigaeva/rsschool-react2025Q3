@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { CountryAutocomplete, FormField } from '@/components/forms';
 import { Button, Checkbox, Input, Select } from '@/components/ui';
 import { useFormStore } from '@/shared/store';
+import { fileToBase64 } from '@/shared/utils';
 import { type FormData, schema } from '@/shared/validation-schema';
 
 type Props = {
@@ -23,8 +24,16 @@ export function HookForm({ onClose }: Props) {
     resolver: zodResolver(schema),
   });
 
-  const submitData = (data: FormData) => {
-    addEntry({ data, formType: 'hook' });
+  const submitData = async (data: FormData) => {
+    const file = data.picture[0];
+    const base64 = await fileToBase64(file);
+    addEntry({
+      data: {
+        ...data,
+        picture: base64,
+      },
+      formType: 'hook',
+    });
     onClose();
   };
   return (
