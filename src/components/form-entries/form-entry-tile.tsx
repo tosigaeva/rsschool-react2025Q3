@@ -14,7 +14,7 @@ export function FormEntryTile({ entry }: Props) {
         }
       : {
           bg: 'bg-pink-50',
-          border: 'border-green-100',
+          border: 'border-pink-100',
           text: 'text-pink-600',
         };
   const pictureFile = entry.data.picture?.[0];

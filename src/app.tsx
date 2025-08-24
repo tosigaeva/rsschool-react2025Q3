@@ -16,7 +16,9 @@ function App() {
       <main className="mx-auto max-w-4xl p-8">
         <ModalButtons setModalType={setModalType} />
         <Modal onClose={() => setModalType(null)} open={modalType !== null}>
-          {modalType === 'uncontrolled' && <UncontrolledForm />}
+          {modalType === 'uncontrolled' && (
+            <UncontrolledForm onClose={() => setModalType(null)} />
+          )}
           {modalType === 'hook' && (
             <HookForm onClose={() => setModalType(null)} />
           )}
