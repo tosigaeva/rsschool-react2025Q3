@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+import { useCountriesStore } from '@/shared/store';
+
+const allowedCountries = useCountriesStore.getState().countryNames();
+
 export const schema = z
   .object({
     age: z
@@ -9,7 +13,12 @@ export const schema = z
 
     confirmPassword: z.string(),
 
-    country: z.string().min(1, 'Please select a country'),
+    country: z
+      .string()
+      .min(1, 'Please select a country')
+      .refine((val) => allowedCountries.includes(val), {
+        message: 'Please select a valid country from the list',
+      }),
 
     email: z.email('Invalid email address'),
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { FormField } from '@/components/forms';
+import { CountryAutocomplete, FormField } from '@/components/forms';
 import { Button, Checkbox, Input, Select } from '@/components/ui';
 import { useFormStore } from '@/shared/store';
 import { type FormData, schema } from '@/shared/validation-schema';
@@ -107,7 +107,17 @@ export function UncontrolledForm({ onClose }: Props) {
         </FormField>
 
         <FormField error={errors.country} id="country" label="Country">
-          <Input id="country" name="country" />
+          <CountryAutocomplete
+            name="country-autocomplete"
+            onChange={(value) => {
+              const hiddenInput = document.querySelector<HTMLInputElement>(
+                'input[name="country"]'
+              );
+              if (hiddenInput) hiddenInput.value = value;
+            }}
+            value=""
+          />
+          <input name="country" type="hidden" />
         </FormField>
 
         <Button

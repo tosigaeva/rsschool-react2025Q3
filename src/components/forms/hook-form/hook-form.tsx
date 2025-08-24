@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import { FormField } from '@/components/forms';
+import { CountryAutocomplete, FormField } from '@/components/forms';
 import { Button, Checkbox, Input, Select } from '@/components/ui';
 import { useFormStore } from '@/shared/store';
 import { type FormData, schema } from '@/shared/validation-schema';
@@ -16,6 +16,8 @@ export function HookForm({ onClose }: Props) {
     formState: { errors, isValid },
     handleSubmit,
     register,
+    setValue,
+    watch,
   } = useForm<FormData>({
     mode: 'onChange',
     resolver: zodResolver(schema),
@@ -96,7 +98,13 @@ export function HookForm({ onClose }: Props) {
         </FormField>
 
         <FormField error={errors.country?.message} id="country" label="Country">
-          <Input id="country" {...register('country')} />
+          <CountryAutocomplete
+            name="country"
+            onChange={(val) =>
+              setValue('country', val, { shouldValidate: true })
+            }
+            value={watch('country')}
+          />
         </FormField>
 
         <Button
