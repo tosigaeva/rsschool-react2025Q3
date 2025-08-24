@@ -1,7 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import { CountryAutocomplete, FormField } from '@/components/forms';
+import {
+  CountryAutocomplete,
+  FormField,
+  PasswordStrength,
+} from '@/components/forms';
 import { Button, Checkbox, Input, Select } from '@/components/ui';
 import { useFormStore } from '@/shared/store';
 import { fileToBase64 } from '@/shared/utils';
@@ -36,6 +40,9 @@ export function HookForm({ onClose }: Props) {
     });
     onClose();
   };
+
+  const password = watch('password');
+
   return (
     <>
       <h2 className="mb-6 text-center font-bold">React Hook Form</h2>
@@ -62,6 +69,7 @@ export function HookForm({ onClose }: Props) {
           label="Password"
         >
           <Input id="password" type="password" {...register('password')} />
+          <PasswordStrength password={password} />
         </FormField>
 
         <FormField

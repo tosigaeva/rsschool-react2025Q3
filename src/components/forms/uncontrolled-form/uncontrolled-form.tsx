@@ -1,6 +1,10 @@
 import { useState } from 'react';
 
-import { CountryAutocomplete, FormField } from '@/components/forms';
+import {
+  CountryAutocomplete,
+  FormField,
+  PasswordStrength,
+} from '@/components/forms';
 import { Button, Checkbox, Input, Select } from '@/components/ui';
 import { useFormStore } from '@/shared/store';
 import { fileToBase64 } from '@/shared/utils';
@@ -21,6 +25,7 @@ type Props = {
 export function UncontrolledForm({ onClose }: Props) {
   const addEntry = useFormStore((state) => state.addEntry);
   const [errors, setErrors] = useState<FormErrors>({});
+  const [password, setPassword] = useState('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -82,7 +87,13 @@ export function UncontrolledForm({ onClose }: Props) {
         </FormField>
 
         <FormField error={errors.password} id="password" label="Password">
-          <Input id="password" name="password" type="password" />
+          <Input
+            id="password"
+            name="password"
+            onChange={(event) => setPassword(event.target.value)}
+            type="password"
+          />
+          <PasswordStrength password={password} />
         </FormField>
 
         <FormField
